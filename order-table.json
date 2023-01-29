@@ -1,0 +1,41 @@
+[
+    {
+        "tr-name": "pantolon",
+        "ro-name": "pantaloni",
+        "en-name": "pants",
+        "item-code": "75209",
+        "gtip-code": "4329",
+        "weight": "0.6",
+        "link": "https://example.com",
+        "value": "1000",
+        "count": "3",
+        "mensei": "tr",
+        "warning": true
+    },
+    {
+        "tr-name": "Spor ayakabi",
+        "ro-name": "adidasi",
+        "en-name": "sneakers",
+        "item-code": "75209",
+        "gtip-code": "4329",
+        "weight": "0.6",
+        "link": "https://example.com",
+        "value": "1000",
+        "count": "3",
+        "mensei": "tr",
+        "warning": true
+    },
+    {
+        "tr-name": "tişört",
+        "ro-name": "tricou",
+        "en-name": "t-shirt",
+        "item-code": "75209",
+        "gtip-code": "4329",
+        "weight": "0.6",
+        "link": "https://example.com",
+        "value": "1000",
+        "count": "3",
+        "mensei": "tr",
+        "warning": true
+    }
+]
