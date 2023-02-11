@@ -1,11 +1,11 @@
-import tableDataUploading from "./order-table-data-uploading"
-import sendingEditPopupForm from "./order-table-edit-popup-sending"
-import newItemPopupScript from "./order-new-item-popup"
+import { editDatalistChangeHandling } from "./edit/datalist-changing"
+import sendingEditPopupForm from "./edit/order-table-edit-popup-sending"
+import newItemPopupScript from "./new/order-new-item-popup"
+import { tableDataUploading } from "./order-table-data-uploading"
 
-const orderTableScript = () => {
+export const orderTableScript = () => {
     newItemPopupScript()
     tableDataUploading()
     sendingEditPopupForm()
+    editDatalistChangeHandling()
 }
-
-export default orderTableScript

@@ -2,7 +2,7 @@ package models
 
 type ProductType struct {
 	// gorm.Model
-	ID int `json:"-"`
+	ID int `json:"id"`
 
 	EnName   string  `gorm:"type:VARCHAR(255) NOT NULL" json:"en-name" validate:"required,min=2,max=30"`
 	RoName   string  `gorm:"type:VARCHAR(255) NOT NULL" json:"ro-name" validate:"required,min=2,max=30"`
@@ -49,7 +49,7 @@ type Sender struct {
 	CountryID     int     `gorm:"type:BIGINT" json:"-"`
 	Country       Country `json:"country" validate:"required"`
 	CityID        int     `gorm:"type:BIGINT" json:"-"`
-	City          City    `json:"city" validate:"required"`
+	City          City    `json:"city" validate:"required,number"`
 }
 
 type Receiver struct {

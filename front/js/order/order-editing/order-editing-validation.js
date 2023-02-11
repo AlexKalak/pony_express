@@ -1,53 +1,54 @@
 import { AddValidationForInput, HasOnlyDigitsAndSpacesValidator, HasOnlyLettersAndSpacesValidator, IsEmailValidator, LengthValidator, NotEmptyValidator, validate } from "../../validation"
+import { SELECTORS } from "./selectors"
 
 const EditShipmentInputs = {
     "sender-name": {
-        selector: "#edit-shipment-sender-name-input",
+        selector: SELECTORS.senderName,
     },
     "sender-address": {
-        selector: "#edit-shipment-sender-address-input",
+        selector: SELECTORS.senderAddress,
     },
     "sender-phone-number": {
-        selector: "#edit-shipment-sender-phone-number",
+        selector: SELECTORS.senderPhoneNumber,
     },
     "sender-email": {
-        selector: "#edit-shipment-sender-email",
+        selector: SELECTORS.senderEmail,
     },
     "sender-country": {
-        selector: "#edit-shipment-sender-country",
+        selector: SELECTORS.senderCountry,
     },
     "sender-city": {
-        selector: "#edit-shipment-sender-city",
+        selector: SELECTORS.senderCity,
     },
     "sender-receiving-office": {
-        selector: "#edit-shipment-receiving-office",
+        selector: SELECTORS.senderReceivingOffice,
     },
     "sender-ikamet-id": {
-        selector: "#edit-shipment-ikamet-id",
+        selector: SELECTORS.senderIkametId,
     },
     "receiver-company": {
-        selector: "#edit-shipment-receiver-company",
+        selector: SELECTORS.receiverCompany,
     },
     "receiver-name": {
-        selector: "#edit-shipment-receiver-name",
+        selector: SELECTORS.receiverName,
     },
     "receiver-address": {
-        selector: "#edit-shipment-receiver-address",
+        selector: SELECTORS.receiverAddress,
     },
     "receiver-phone-number": {
-        selector: "#edit-shipment-receiver-phone-number",
+        selector: SELECTORS.receiverPhoneNumber,
     },
     "receiver-email": {
-        selector: "#edit-shipment-receiver-email",
+        selector: SELECTORS.receiverEmail,
     },
     "receiver-country": {
-        selector: "#edit-shipment-receiver-country",
+        selector: SELECTORS.receiverCountry,
     },
     "receiver-city": {
-        selector: "#edit-shipment-receiver-city",
+        selector: SELECTORS.receiverCity,
     },
     "description": {
-        selector: "#edit-shipment-description",
+        selector: SELECTORS.receiverDescription,
     },
 }
 
@@ -113,7 +114,7 @@ export function addValidations() {
     //Receiver-Company
     AddValidationForInput(EditShipmentInputs["receiver-company"], 
         [
-            LengthValidator.bind(EditShipmentInputs["sender-name"], 10, Infinity),
+            LengthValidator.bind(EditShipmentInputs["receiver-company"], 10, Infinity),
         ]
     )
     //Receiver-Name

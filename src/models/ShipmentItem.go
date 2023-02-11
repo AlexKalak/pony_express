@@ -1,6 +1,10 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"math"
+
+	"gorm.io/gorm"
+)
 
 type ShipmentItem struct {
 	gorm.Model
@@ -19,7 +23,7 @@ type ShipmentItem struct {
 	Count       int     `gorm:"type:INT NOT NULL" json:"count" validate:"required,gte=1"`
 	Warning     bool    `gorm:"type:bool NOT NULL" json:"warning" validate:"boolean"`
 
-	TotalPriceTL  int `json:"total-price-TL"`
+	TotalPriceTRY int `json:"total-price-TRY"`
 	TotalPriceUSD int `json:"total-price-USD"`
 
 	CountryCodeID int         `json:"-"`
@@ -40,7 +44,7 @@ func (s *ShipmentItem) Serialize() *SerializedShipmentItem {
 		ValueForOne:   float64(s.ValueForOne) / 100,
 		Count:         s.Count,
 		Warning:       s.Warning,
-		TotalPriceTL:  float64(s.TotalPriceTL) / 100,
+		TotalPriceTRY: float64(s.TotalPriceTRY) / 100,
 		TotalPriceUSD: float64(s.TotalPriceUSD) / 100,
 		CountryCode:   s.CountryCode,
 	}
@@ -63,8 +67,28 @@ type SerializedShipmentItem struct {
 	Count       int     `json:"count"`
 	Warning     bool    `json:"warning"`
 
-	TotalPriceTL  float64 `json:"total-price-TL"`
+	TotalPriceTRY float64 `json:"total-price-TRY"`
 	TotalPriceUSD float64 `json:"total-price-USD"`
 
 	CountryCode CountryCode `json:"country-code"`
+}
+
+func (s *SerializedShipmentItem) Deserialize() *ShipmentItem {
+	return &ShipmentItem{
+		ID:            s.ID,
+		ShipmentID:    s.ShipmentID,
+		EnName:        s.EnName,
+		RoName:        s.RoName,
+		TrName:        s.TrName,
+		GtipCode:      s.GtipCode,
+		ItemCode:      s.ItemCode,
+		Weight:        s.Weight,
+		Link:          s.Link,
+		ValueForOne:   int(math.Round(s.ValueForOne * 100)),
+		Count:         s.Count,
+		Warning:       s.Warning,
+		TotalPriceTRY: int(math.Round(s.TotalPriceTRY * 100)),
+		TotalPriceUSD: int(math.Round(s.TotalPriceUSD * 100)),
+		CountryCode:   s.CountryCode,
+	}
 }

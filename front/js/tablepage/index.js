@@ -1,6 +1,4 @@
-import '../../css/table.css'
-import '../../css/tablepage.css'
-import '../../css/buttons.css'
+import '../../sass/pages/tablepage/tablepage.scss'
 
 import { enableSelectingAllInputs, selectAllInputs } from "./select-all-inputs";
 import { uploadData } from "./uploading-table-data";

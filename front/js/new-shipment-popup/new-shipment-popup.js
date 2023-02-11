@@ -122,7 +122,8 @@ const handleValidationErrors = (validErrors) => {
     scrollSmoothly($POPUP, scrollTop - 100)
 }
 
-const newShipmentPopupScript = () => {
+//////////////////////////////////////////
+export const newShipmentPopupScript = () => {
     addPopupOpening()
     addCrossDownHandling()
     
@@ -135,6 +136,8 @@ const newShipmentPopupScript = () => {
             
             if(valid){
                 sendRequest()
+            } else {
+                return
             }
         }
     
@@ -143,7 +146,7 @@ const newShipmentPopupScript = () => {
             if(valid){
                 currentSectionNum++
             } else {
-                
+                return
             }
         }
     
@@ -155,5 +158,3 @@ const newShipmentPopupScript = () => {
         changeButtons(currentSectionNum);
     });
 }
-
-export default newShipmentPopupScript

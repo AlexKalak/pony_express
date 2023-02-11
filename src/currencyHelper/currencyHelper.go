@@ -9,20 +9,21 @@ import (
 	"time"
 )
 
-type Currency string
+type Currency struct {
+	Code  string  `json:"code"`
+	Value float64 `json:"value"`
+}
 
-type Quotes struct {
-	TRY float64 `json:"USDTRY"`
+type Data struct {
+	TRY Currency `json:"TRY"`
 }
 
 type ApiResponse struct {
-	Success        bool     `json:"success"`
-	SourceCurrency Currency `json:"source"`
-	Quotes         Quotes   `json:"quotes"`
+	Data Data `json:"data"`
 }
 
 const (
-	apiCurrencyFloating = 100_000
+	apiCurrencyFloating = 1_000_000
 )
 
 var TRYPrice int
@@ -31,11 +32,11 @@ func StartGettingCurrencies(delay time.Duration) {
 	for {
 		client := &http.Client{}
 
-		url := "https://api.apilayer.com/currency_data/live?source=USD&currencies=TRY"
-		access_key := "YTGixYk5pbYK9DgLfSYA7oPcXa614vUx"
+		access_key := "3UvsTADx0A39OXkbiDTx5aigVSxrE0w9xGaVOfYK"
+
+		url := fmt.Sprintf("https://api.currencyapi.com/v3/latest/?apikey=%s&currencies=TRY", access_key)
 
 		req, _ := http.NewRequest("GET", url, nil)
-		req.Header.Set("apikey", access_key)
 
 		resp, err := client.Do(req)
 		if err != nil {
@@ -55,14 +56,16 @@ func StartGettingCurrencies(delay time.Duration) {
 			panic(err)
 		}
 
-		TRYPrice = int(currencyInf.Quotes.TRY * apiCurrencyFloating)
-
+		TRYPrice = int(currencyInf.Data.TRY.Value * apiCurrencyFloating)
+		fmt.Println(TRYPrice)
 		time.Sleep(delay)
 	}
 }
 
 func ConvertTRYtoUSD(tryCount int) int {
 	f_price := float64(tryCount) / (float64(TRYPrice) / apiCurrencyFloating)
+	fmt.Println("f_price:	", f_price)
 	i_price := int(math.Round(f_price))
+	fmt.Println("i_price:	", i_price)
 	return i_price
 }

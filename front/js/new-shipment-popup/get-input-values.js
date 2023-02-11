@@ -1,33 +1,38 @@
-const getData = (selector) => $(selector).val()
+import { getValue } from "../get-value-functions"
+import { SELECTORS } from "./selectors"
+
 
 export const getDataFromInputs = () => {
     let data = {
         sender:{
-            "full-name": getData("#new-shipment-sender-name-input"),
-            "full-address": getData("#new-shipment-sender-address-input"),
-            "phone-number": getData("#new-shipment-sender-phone-number"),
-            "email": getData("#new-shipment-sender-email"),
-            "receive-office": getData("#new-shipment-receiving-office"),
-            "ikamet-id": getData("#new-shipment-ikamet-id"),
+            "full-name": getValue(SELECTORS.senderName),
+            "full-address": getValue(SELECTORS.senderAddress),
+            "phone-number": getValue(SELECTORS.senderPhoneNumber),
+            "email": getValue(SELECTORS.senderEmail),
+            "receive-office": getValue(SELECTORS.senderReceivingOffice),
+            "ikamet-id": getValue(SELECTORS.senderIkametId),
             "country": {
-                "name": getData("#new-shipment-sender-country")
+                "name": getValue(SELECTORS.senderCountry)
             },
             "city": {
-                "name": getData("#new-shipment-sender-city")
-            }
+                "name": getValue(SELECTORS.senderCity)
+            },
+        },
+        "delivery-type": {
+            "name": getValue(SELECTORS.deliveryType)
         },
         "receiver": {
-            "company": getData("#new-shipment-receiver-company"),
-            "full-name": getData("#new-shipment-receiver-name"),
-            "full-address": getData("#new-shipment-receiver-address"),
-            "phone-number": getData("#new-shipment-receiver-phone-number"),
-            "email": getData("#new-shipment-receiver-email"),
-            "description": getData("#new-shipment-description"),
+            "company": getValue(SELECTORS.receiverCompany),
+            "full-name": getValue(SELECTORS.receiverName),
+            "full-address": getValue(SELECTORS.receiverAddress),
+            "phone-number": getValue(SELECTORS.receiverPhoneNumber),
+            "email": getValue(SELECTORS.receiverEmail),
+            "description": getValue(SELECTORS.receiverDescription),
             "country": {
-                "name": getData("#new-shipment-receiver-country")
+                "name": getValue(SELECTORS.receiverCountry)
             },
             "city": {
-                "name": getData("#new-shipment-receiver-city")
+                "name": getValue(SELECTORS.receiverCity)
             }
         }
     }

@@ -6,6 +6,8 @@ module.exports = {
     entry: {
         order: path.resolve(__dirname, 'front/js/order/index.js'),
         tablepage: path.resolve(__dirname, 'front/js/tablepage/index.js'),
+        typespage: path.resolve(__dirname, 'front/js/typespage/index.js'),
+        calculator: path.resolve(__dirname, 'front/js/calculator/index.js'),
     },
     output: {
         path: path.resolve(__dirname, 'dist/static/js'),
@@ -35,7 +37,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             inject: false,
             title: 'order',
-            filename: '../../templates/index.html',
+            filename: '../../templates/order.html',
             template: 'front/order/index.html'
         }),
         new HtmlWebpackPlugin({
@@ -43,6 +45,18 @@ module.exports = {
             title: 'tablepage',
             filename: '../../templates/tablepage.html',
             template: 'front/tablepage/index.html'
+        }),
+        new HtmlWebpackPlugin({
+            inject: false,
+            title: 'typespage',
+            filename: '../../templates/typespage.html',
+            template: 'front/typespage/index.html'
+        }),
+        new HtmlWebpackPlugin({
+            inject: false,
+            title: 'calculator',
+            filename: '../../templates/calculator.html',
+            template: 'front/calculator/index.html'
         })
     ],
     devServer: {

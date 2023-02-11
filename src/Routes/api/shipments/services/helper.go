@@ -124,21 +124,21 @@ func UpdateShipmentPrice(shipmentId int) (int, int, error) {
 	}
 
 	price := struct {
-		TL  int
+		TRY int
 		USD int
 	}{}
 
-	database.Model(&models.ShipmentItem{}).Select("sum(total_price_tl) as tl, sum(total_price_usd) as usd").Where("shipment_id = ?", shipmentId).Find(&price)
+	database.Model(&models.ShipmentItem{}).Select("sum(total_price_try) as try, sum(total_price_usd) as usd").Where("shipment_id = ?", shipmentId).Find(&price)
 
 	fmt.Println(price)
 
 	shipment.PriceUSD = price.USD
-	shipment.PriceTL = price.TL
+	shipment.PriceTRY = price.TRY
 
 	res := database.Save(shipment)
 	if res.Error != nil {
 		return 0, 0, res.Error
 	}
 
-	return price.TL, price.USD, nil
+	return price.TRY, price.USD, nil
 }

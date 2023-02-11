@@ -1,14 +1,18 @@
-{
-    let types = null;
+export let types
+
+export const typesPageTableDataUploading = () => {
+    types = null;
     (async function() {
-        types = await fetch("/types.json").then(response => response.json())
+        types = await fetch("/api/product-types").then(response => response.json())
         console.log(types)
-        $tbody = $(".table tbody")
+        let $tbody = $(".table tbody")
         if(types){
-            for(let type of Object.values(types)) {
+            for(let type of types) {
                 $tbody.append(
-                    `<tr>
-                        <td prefix="Tr-name">${type["tr-name"]}</td>
+                    `<tr data-id="${type["id"]}">
+                        <td prefix="Tr-name">
+                            <span class="link type-link">${type["tr-name"]}</span>
+                        </td>
                         <td prefix="En-name">${type["en-name"]}</td>
                         <td prefix="Ro-name">${type["ro-name"]}</td>
                         <td prefix="Gtip code">${type["gtip-code"]}</td>

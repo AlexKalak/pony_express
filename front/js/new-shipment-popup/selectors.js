@@ -7,6 +7,7 @@ export const SELECTORS = {
     senderCity: "#new-shipment-sender-city",
     senderReceivingOffice: "#new-shipment-receiving-office",
     senderIkametId: "#new-shipment-ikamet-id",
+    deliveryType: "#new-shipment-delivery-type",
     
     receiverCompany: "#new-shipment-receiver-company",
     receiverName: "#new-shipment-receiver-name",

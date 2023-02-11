@@ -1,0 +1,126 @@
+@import '../../vendor/variables.scss';
+@import '../../vendor/mixins.scss';
+
+@import '../../global/inputs.scss';
+@import '../../global/buttons.scss';
+.header-headline {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    @include text-responsive(2rem, 1.8rem, 1.5rem, 1.3rem)
+}
+
+input[type="text"] {
+    width: 100%;
+}
+
+wrapper {
+    max-width: 1440px;
+}
+
+main {
+    padding: 20px;
+}
+
+.upper-inputs-block {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    
+    &::after {
+        content: '';
+        display: block;
+        height: 2px;
+        width: 100%;
+        background-color: $blue;
+    }
+
+    .input-block-column {
+        margin-bottom: 10px;
+        max-width: 90%;
+    }
+
+    @media (min-width: 720px) {
+        flex-direction: row;
+        gap: 30px;
+
+        &::after {
+            display: none;
+        }
+    }
+}
+
+.central-inputs-block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    gap: 20px;
+
+    &::after {
+        content: '';
+        display: block;
+        height: 2px;
+        width: 100%;
+        background-color: $blue;
+    }
+}
+
+.downer-input-blocks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    gap: 10px;
+
+    .downer-block-column {
+        width: fit-content;
+        display: grid;
+        align-items: center;
+        grid-template-columns: 8fr 2fr;
+        gap: 0;
+
+        .input-block-row {
+            display: contents;
+        }
+    }   
+}
+
+.input-block-column {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+}
+
+.input-block-row {
+    text-align: center;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    max-width: 300px;
+}
+
+.input-label {
+    font-family: Arial, Helvetica, sans-serif;
+    @include text-responsive(1.2rem, 1.1rem, 1rem, 0.9rem)
+}
+
+#cost-in-dollars {
+    text-align: center;
+}
+
+.calculate-button-block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0 10px;
+    min-width: 50%;
+}
+
+.calculate-button {
+    min-width: 50%;
+}

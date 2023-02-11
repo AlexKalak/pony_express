@@ -47,6 +47,7 @@ func GetAllShipments(c *fiber.Ctx) error {
 }
 
 func GetShipmentById(c *fiber.Ctx) error {
+	fmt.Println("In contr")
 	shipment, err := shipmentService.GetShipmentById(c)
 	if err != nil {
 		switch {
@@ -119,16 +120,26 @@ func GetShipmentItems(c *fiber.Ctx) error {
 	shipmentItems, err := shipmentService.GetShipmentItems(c)
 	if err != nil {
 		c.SendStatus(http.StatusInternalServerError)
-		c.JSON(fiber.Map{
+		return c.JSON(fiber.Map{
 			"ok":  false,
 			"msg": "internal server error",
 		})
 	}
-	return c.JSON(shipmentItems)
+
+	serializedShipmentItems := make([]*models.SerializedShipmentItem, 0, len(*shipmentItems))
+
+	for _, shipmentItem := range *shipmentItems {
+		serializedShipmentItems = append(serializedShipmentItems, shipmentItem.Serialize())
+	}
+
+	return c.JSON(fiber.Map{
+		"ok":            true,
+		"shipmentItems": serializedShipmentItems,
+	})
 }
 
 func CreateShipmentItem(c *fiber.Ctx) error {
-	shipmentItem, validationErrors, err := shipmentService.CreateShipmentItem(c)
+	_, validationErrors, err := shipmentService.CreateShipmentItem(c)
 	if err != nil {
 		fmt.Println(err)
 		c.SendStatus(http.StatusInternalServerError)
@@ -147,15 +158,12 @@ func CreateShipmentItem(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.JSON(fiber.Map{
-		"ok":            true,
-		"shipment-item": shipmentItem.Serialize(),
-	})
+	return c.Redirect(c.Request().URI().String())
 }
 
 func UpdateShipmentItem(c *fiber.Ctx) error {
 	fmt.Println("In controllers")
-	shipmentItem, validationErrors, err := shipmentService.UpdateShipmentItem(c)
+	_, validationErrors, err := shipmentService.UpdateShipmentItem(c)
 	if err != nil {
 		fmt.Println(err)
 		c.SendStatus(http.StatusInternalServerError)
@@ -174,8 +182,8 @@ func UpdateShipmentItem(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.JSON(fiber.Map{
-		"ok":            true,
-		"shipment-item": shipmentItem.Serialize(),
-	})
+	shipmentId := c.Params("shipmentId")
+	url := fmt.Sprintf("/web/shipment/%s", shipmentId)
+
+	return c.Redirect(url)
 }

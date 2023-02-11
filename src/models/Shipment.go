@@ -1,6 +1,10 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Shipment struct {
 	gorm.Model
@@ -11,7 +15,7 @@ type Shipment struct {
 	DeliveryType   DeliveryType `json:"delivery-type"`
 
 	PriceUSD int `json:"price-USD"`
-	PriceTL  int `json:"price-TL"`
+	PriceTRY int `json:"price-TRY"`
 
 	SenderID   int      `gorm:"type:BIGINT" json:"-"`
 	Sender     Sender   `json:"sender" validate:"required"`
@@ -25,7 +29,9 @@ func (s *Shipment) Serialize() *SerializedShipment {
 		Trc:          s.Trc,
 		DeliveryType: s.DeliveryType,
 		PriceUSD:     float64(s.PriceUSD) / 100,
-		PriceTL:      float64(s.PriceTL) / 100,
+		PriceTRY:     float64(s.PriceTRY) / 100,
+		CreatedTime:  s.CreatedAt,
+		UpdatedTime:  s.UpdatedAt,
 		Sender:       s.Sender,
 		Receiver:     s.Receiver,
 	}
@@ -33,10 +39,12 @@ func (s *Shipment) Serialize() *SerializedShipment {
 
 type SerializedShipment struct {
 	ID           int          `json:"id"`
+	CreatedTime  time.Time    `json:"created-time"`
+	UpdatedTime  time.Time    `json:"updated-time"`
 	Trc          string       `json:"trc"`
 	DeliveryType DeliveryType `json:"delivery-type"`
 	PriceUSD     float64      `json:"price-USD"`
-	PriceTL      float64      `json:"price-TL"`
+	PriceTRY     float64      `json:"price-TRY"`
 	Sender       Sender       `json:"sender"`
 	Receiver     Receiver     `json:"receiver"`
 }

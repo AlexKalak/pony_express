@@ -1,6 +1,25 @@
 import { AddErrorDeletingOnInputOnKeyUp } from "../../errorHelper";
 import { scrollSmoothly } from "../../smoothlyScroll";
+import { getPageShipmentID } from "../get-page-shipment-id";
+import { getEditShipmentInputValues } from "./get-values";
 import { addValidations, getValidationResults } from "./order-editing-validation";
+
+const sendRequest = async () => {
+    let data = JSON.stringify(getEditShipmentInputValues())
+    let id = getPageShipmentID()
+    let resp = await fetch(`/api/shipments/${id}`, {
+        method: 'PUT',
+        body: data,
+        headers: {
+            'Content-type': "application/json"
+        },
+        redirect: 'follow',
+    })
+
+    if(resp.redirected) {
+        window.location.reload()
+    }
+}
 
 const orderEditingScript = () => {
     addValidations()
@@ -44,28 +63,9 @@ const orderEditingScript = () => {
             return
         }
         
-        // let data = {}
-        // $(".order input").each(function() {
-        //     let name = $(this).attr("name")
-        //     let value = $(this).val()
-        //     if(name) {
-        //         data[name] = value
-        //     }
-        // })
-        // console.log(data)
-        
+        sendRequest();
         disableEditButton();
         disableInputs();
-
-        // let body = new URLSearchParams(Object.entries(data))
-
-        // let a = await fetch("http://localhost:9999/ponyexpress/create-new-item", {
-        //     method: "POST",
-        //     headers: {
-        //         'Content-Type': 'application/x-www-form-urlencoded',
-        //     },
-        //     body: body.toString(),
-        // })
 
         return;
     });

@@ -1,18 +1,24 @@
-const resizeInputs = () => {
-    $(".resizable-input").each(function() {
-        let height = $(this)[0].scrollHeight
-        $(this).css({"height": height})
-    })
+export const resizeInputs = (...selectors) => {
+    for(let selector of selectors) {
+        $(selector).each(function() {
+            let height = $(this)[0].scrollHeight
+            $(this).css({"height": height})
+        })
+    }
 }
-resizeInputs()
 
-$(window).resize(function() {
-    resizeInputs()
-})
+export const textareaScript = (...selectors) => {
+    resizeInputs(...selectors)
 
+    $(window).resize(function() {
+        resizeInputs(...selectors)
+    })
 
-$(".resizable-input").keyup(function() {
-    let textarea = $(this)[0]
-    textarea.style.height = "auto"
-    textarea.style.height = textarea.scrollHeight + "px"
-})
+    for(let selector of selectors) {
+        $(selector).keyup(function() {
+            let textarea = $(this)[0]
+            textarea.style.height = "auto"
+            textarea.style.height = textarea.scrollHeight + "px"
+        })
+    }
+}

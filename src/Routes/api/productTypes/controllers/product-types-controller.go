@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 
 	productTypeErrors "github.com/alexkalak/pony_express/src/Routes/api/productTypes/errors"
@@ -14,6 +15,7 @@ var TypesService = services.New()
 func ProductTypesController(router fiber.Router) {
 	router.Get("/", GetAllTypesHandler)
 	router.Post("/", SaveType)
+	router.Put("/:id<int>", UpdateType)
 	router.Delete("/:id<int>", DeleteType)
 }
 
@@ -43,6 +45,34 @@ func SaveType(c *fiber.Ctx) error {
 		})
 	}
 
+	fmt.Println("redirect")
+	c.Redirect("/web/types")
+	return c.JSON(fiber.Map{
+		"ok":           true,
+		"product-type": productType,
+	})
+}
+
+func UpdateType(c *fiber.Ctx) error {
+	productType, validationErrors, err := TypesService.UpdateProductType(c)
+	if err != nil {
+		fmt.Print(err)
+		c.SendStatus(http.StatusInternalServerError)
+		return c.JSON(fiber.Map{
+			"ok":    "false",
+			"error": "An internal server error occured",
+		})
+	}
+
+	if len(validationErrors) > 0 {
+		c.SendStatus(http.StatusBadRequest)
+		return c.JSON(fiber.Map{
+			"ok":              "false",
+			"validationErros": validationErrors,
+		})
+	}
+
+	c.Redirect("/web/types")
 	return c.JSON(fiber.Map{
 		"ok":           true,
 		"product-type": productType,

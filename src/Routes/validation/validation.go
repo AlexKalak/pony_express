@@ -1,7 +1,7 @@
 package validation
 
 import (
-	"unicode"
+	"regexp"
 
 	"github.com/alexkalak/pony_express/src/types"
 	"github.com/go-playground/validator/v10"
@@ -35,11 +35,7 @@ func Validate(structure interface{}) []*types.ErrorResponse {
 }
 
 func ValidateOnlyLettersAndSpaces(fl validator.FieldLevel) bool {
-	str := fl.Field().String()
-	for _, c := range str {
-		if !unicode.IsLetter(c) && c != ' ' {
-			return false
-		}
-	}
-	return true
+	valid, _ := regexp.MatchString(`^[A-Za-zА-Яа-яÇĞIİÖŞÜçğii̇öşü\s]+$`, fl.Field().String())
+
+	return valid
 }

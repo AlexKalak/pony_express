@@ -1,15 +1,16 @@
-import '../../css/popup.css'
-import '../../css/order.css'
-import '../../css/table.css'
-import '../../css/buttons.css'
-import '../../css/inputs.css'
+import '../../sass/pages/shipment/shipment.scss'
 
-import newShipmentPopupScript from "../new-shipment-popup/new-shipment-popup";
-import orderEditingScript from "./order-editing/order-editing";
-import orderInfoPositioning from './order-info-positioning'
-import orderTableScript from './order-table/order-table-script'
+import orderEditingScript from './order-editing/order-editing'
+import { shipmentInfoUploading } from './order-editing/shipment-info-uploading'
+import orderInfoPositioning from './order-editing/order-info-positioning'
+import { orderTableScript } from './order-table/order-table-script'
+import { newShipmentPopupScript } from '../new-shipment-popup/new-shipment-popup'
+import { uploadTypesForDataList } from './order-table/datalist'
+
+uploadTypesForDataList()
 
 newShipmentPopupScript()
 orderEditingScript()
+shipmentInfoUploading()
 orderInfoPositioning()
 orderTableScript()

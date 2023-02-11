@@ -58,10 +58,9 @@ const NewShipmentInputs = {
 }
 
 export function validateSection(sectionNum) {
-    console.log(NewShipmentInputs[sectionNum])
     const [valid, scroll] = validate(NewShipmentInputs[sectionNum])
     if(!valid) {
-        scrollSmoothly(".create-new-post-modal-window", scroll.top-100)
+        scrollSmoothly(".create-new-post-modal-window", scroll.top-200)
         return false
     }
     return true
@@ -72,7 +71,7 @@ export function addValidations() {
     AddValidationForInput(NewShipmentInputs[1]["sender-name"], 
         [
             LengthValidator.bind(NewShipmentInputs[1]["sender-name"], 10, Infinity),
-            HasOnlyLettersAndSpacesValidator.bind(NewShipmentInputs["sender-name"])    
+            HasOnlyLettersAndSpacesValidator.bind(NewShipmentInputs[1]["sender-name"])    
         ]
     )
     //Sender-Address

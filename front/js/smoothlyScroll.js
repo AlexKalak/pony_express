@@ -1,6 +1,5 @@
-
-export const scrollSmoothly = (selector, scrollTop) => {
+export function scrollSmoothly (selector, scrollTop) {
     $(selector).animate({
         scrollTop: scrollTop
-    }, 500)
+    }, 400)
 }

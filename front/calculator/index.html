@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous">
+    </script>
+</head>
+<body>
+    <wrapper>
+        <header>
+            <h1 class="header-headline">Рассчитать стоимость доставки</h1>
+        </header>
+        <main>
+            <div class="upper-inputs-block">
+                <div class="input-block-column">
+                    <span class="input-label">Откуда</span>
+                    <input id="sender-country" type="text">
+                </div>
+                <div>=></div>
+                <div class="input-block-column">
+                    <span class="input-label">Куда</span>
+                    <input id="receiver-country" type="text">
+                </div>
+            </div>
+
+            <div class="central-inputs-block">
+                <div class="input-block-column">
+                    <span class="input-label">Вес</span>
+                    <input id="weight" type="text">
+                </div>
+                <div class="input-block-column">
+                    <span class="input-label">Длина</span>
+                    <input id="length" type="text">
+                </div>
+                <div class="input-block-column">
+                    <span class="input-label">Ширина</span>
+                    <input id="width" type="text">
+                </div>
+                <div class="input-block-column">
+                    <span class="input-label">Высота</span>
+                    <input id="height" type="text">
+                </div>
+            </div>
+
+            <div class="downer-input-blocks">
+                <div class="downer-block-column">
+                    <div class="input-block-row">
+                        <span class="input-label">Почта России</span>
+                        <input id="russian-post" type="checkbox">
+                    </div>
+                    <div class="input-block-row">
+                        <span class="input-label">Пони экспресс</span>
+                        <input id="pony-express" type="checkbox">
+                    </div>
+                </div>
+
+                <div class="downer-block-column">
+                    <select name="" id="delivery-type">
+                        <option class="input-label" value="store-store">склад-склад</span>
+                        <option class="input-label" value="store-door">склад-дверь</span>
+                        <option class="input-label" value="door-door">дверь-дверь</span>
+                    </select>
+                </div>
+
+                <div class="" id="cost-in-dollars">
+                    <div class="input-block-column">
+                        <span class="input-label">Объявленная стоимость в долларах[$]</span>
+                        <input id="cost" type="text">
+                    </div>
+                </div>
+            </div>
+
+            <div class="calculate-button-block">
+                <button class="calculate-button btn btn-primary">Рассчитать</button>
+            </div>
+        </main>
+    </wrapper>
+    <script src="/static/js/calculator.js"></script>
+</body>
+</html>

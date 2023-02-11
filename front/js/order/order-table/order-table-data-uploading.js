@@ -1,7 +1,8 @@
 import { openPopup } from "../../popup";
+import { selectPropOfSelectElement } from "../../select-prop-of-select-element";
 import { getPageShipmentID } from "../get-page-shipment-id";
 
-const tableDataUploading = () => {
+export const tableDataUploading = () => {
     let tableData = null
     const $TABLE_BODY = $(".table-first tbody");
 
@@ -10,31 +11,36 @@ const tableDataUploading = () => {
         tableData = await fetch(`/api/shipments/${id}/items`).then(response => response.json())
         console.log(id)
         console.log(tableData)
-        let rowNum = 0
-        for(let i in tableData) {
+        let shipmentItems = tableData.shipmentItems
+        console.log(shipmentItems)
+
+        if (!shipmentItems) {
+            return
+        }
+
+        for(let i in shipmentItems) {
             $TABLE_BODY.append(`
-                <tr data-rownum=${rowNum}>
+                <tr data-rownum=${i}>
                     <td prefix="Name">
-                        <span class="link table-id" href="#">${tableData[i]["tr-name"]}</span>
+                        <span class="link table-id" href="#">${shipmentItems[i]["tr-name"]}</span>
                     </td>
                     <td prefix="Value">
-                        <span class="breakable">${tableData[i]["value-for-one"]}</span>
+                        <span class="breakable">${shipmentItems[i]["value-for-one"]}</span>
                     </td>
                     <td prefix="Count">
-                        <span>${tableData[i]["count"]}</span>
+                        <span>${shipmentItems[i]["count"]}</span>
                     </td>
                     <td prefix="Weight">
-                        <span>${tableData[i]["weight"]}</span>
+                        <span>${shipmentItems[i]["weight"]}</span>
                     </td>
                     <td prefix="link" class="" prefix="key">
-                        <a target="_blank" class="link" href="${tableData[i]["link"]}">${tableData[i]["link"]}</a>
+                        <a target="_blank" class="link" href="${shipmentItems[i]["link"]}">${shipmentItems[i]["link"]}</a>
                     </td>
                     <td prefix="requiere msds" class="" prefix="key">
-                        <span>${tableData[i]["warning"] ? "❗" : ""}</span>
+                        <span>${shipmentItems[i]["warning"] ? "❗" : ""}</span>
                     </td>
                 </tr>
             `)
-            rowNum++
         }
 
         $(".table-first").click(function(event) {
@@ -49,18 +55,20 @@ const tableDataUploading = () => {
             if(isNaN(+rowNum)) 
                 return
             console.log("not none")
-            fillPopup(tableData[+rowNum])
+            fillPopup(tableData.shipmentItems[+rowNum])
 
             openPopup($("#edit-item-modal-window"));
         })
     })()
 
     function fillPopup(data) {
+        const $FORM = $("#edit-item-form")
+        $FORM.data("id", data["id"])
         
-        let select = document.querySelector("#edit-item-mensei")
+        let select = document.querySelector("#edit-item-country-code")
         $(select).children('.deletable').remove()
 
-        const $POPUP = $("#edit-item-modal-window")
+
         $("#edit-item-tr-name").val(data["tr-name"])
         $("#edit-item-ro-name").val(data["ro-name"])
         $("#edit-item-en-name").val(data["en-name"])
@@ -70,19 +78,7 @@ const tableDataUploading = () => {
         $("#edit-item-link").val(data["link"])
         $("#edit-item-value").val(data["value-for-one"])
         $("#edit-item-count").val(data["count"])
-        // $("#edit-item-mensei").val(data["country-code"]["code"])
-        
-        const newOption = document.createElement('option');
-        const optionText = document.createTextNode(data["country-code"]["code"])
-        newOption.appendChild(optionText);
-        newOption.setAttribute('value', data["country-code"]["code"])
-        newOption.setAttribute('class', 'deletable')
-
-        select.appendChild(newOption)
-        $(newOption).attr('selected', 'selected')
-
+        selectPropOfSelectElement("#edit-item-country-code", data["country-code"]["code"])
         $("#edit-item-warning").prop("checked", data["warning"])
     }
 }
-
-export default tableDataUploading

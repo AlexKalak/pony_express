@@ -12,12 +12,13 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous">
     </script>
+    <script src="/static/js/order.js" defer></script>
     <title>Document</title>
 </head>
 <darking style="display: none;"></darking>
 <modal-window class="create-new-post-modal-window" style="display:none;">
     <span class="cross"></span>
-    <form action="#" method="POST">
+    <form class="form" action="#" method="POST">
         <div class="form-section" section-num="1">
     
             <h3 class="form-section-title"> Отправитель</h3>
@@ -75,6 +76,15 @@
             <div class="input-block">
                 <label>Ikamet ID(9***):</label>
                 <input id="new-shipment-ikamet-id" name="sender-ikamet-id" type="text">
+            </div>
+
+            <div class="input-block">
+                <label>Тип доставки:</label>
+                <select id="new-shipment-delivery-type" name="delivery-type">
+                    <option value="B2C">B2C</option>
+                    <option value="B2B">B2B</option>
+                    <option value="C2C">C2C</option>
+                </select>
             </div>
         </div>
         <!-- =============================================== -->
@@ -154,12 +164,12 @@
 
 <modal-window class="create-new-item-modal-window" style="display: none;">
     <span class="cross"></span>
-    <form action="#">
+    <form class="form" action="#">
         <h3 class="form-section-title"> Отправитель</h3>
 
         <div class="input-block">
             <label>Item Name</label>
-            <input class="item-datalist-input"" list="new-item-datalist" id="new-item-datalist-input" type="text" placeholder="Начните вводить название товара">
+            <input class="new-item-datalist-input"" list="new-item-datalist" id="new-item-datalist-input" type="text" placeholder="Начните вводить название товара">
             <datalist class="item-datalist" id="new-item-datalist">
             </datalist>
         </div>
@@ -210,11 +220,12 @@
         </div>
 
         <div class="input-block" style="max-width: 100px">
-            <label>Mensei:</label>
-            <select name="mensei" id="new-item-mensei">
-                <option value="tr">tr</option>
-                <option value="other value">other value</option>
-                <option value="other value">other value</option>
+            <label>Country code:</label>
+            <select name="country-code" id="new-item-country-code">
+                <option value="TR">TR</option>
+                <option value="RO">RO</option>
+                <option value="RU">RU</option>
+                <option value="MD">MD</option>
             </select>
         </div>
 
@@ -237,7 +248,7 @@
 
         <div class="input-block">
             <label>Item Name</label>
-            <input class="item-datalist-input" list="edit-item-datalist" id="edit-item-datalist-input" type="text" placeholder="Начните вводить название товара">
+            <input class="edit-item-datalist-input" list="edit-item-datalist" id="edit-item-datalist-input" type="text" placeholder="Начните вводить название товара">
             <datalist class="item-datalist" id="edit-item-datalist">
             </datalist>
         </div>
@@ -288,11 +299,12 @@
         </div>
 
         <div class="input-block" style="max-width: 200px">
-            <label>Mensei:</label>
-            <select name="mensei" id="edit-item-mensei">
-                <option value="tr">tr</option>
-                <option value="other value">other value</option>
-                <option value="other value">other value</option>
+            <label>Country code:</label>
+            <select name="country-code" id="edit-item-country-code">
+                <option value="TR">TR</option>
+                <option value="RO">RO</option>
+                <option value="RU">RU</option>
+                <option value="MD">MD</option>
             </select>
         </div>
 
@@ -301,7 +313,7 @@
             <input name="warning" id="edit-item-warning" type="checkbox" style="width: 18px; height:18px" />
         </div>
     </form>
-    <button id="edit-item-send-form-button" class="btn form-button create" style="">
+    <button id="edit-item-send-form-button" class="btn form-button create">
         Создать
     </button>
 </modal-window>
@@ -316,7 +328,7 @@
             </section>
             <section class="buttons-section">
                 <button class="btn btn-primary create-new-post-btn">Создать новый пост</button>
-                <a href="/tablepage/" class="btn btn-danger">Вернуться к списку постов</a>
+                <a href="/web/shipments/" class="btn btn-danger">Вернуться к списку постов</a>
             </section>
         </header>
         <main class="main">
@@ -374,33 +386,29 @@
                                 </div>
                                 <div class="order-field-content">
                                     <select  id="edit-shipment-sender-country" name="sender-country" class="order-input">
-                                        <option value="Country 1">Страна 1</option>
-                                        <option value="Country 2">Страна 2</option>
-                                        <option value="Country 3">Страна 3</option>
-                                        <option value="Country 4">Страна 4</option>
-                                        <option value="Country 5">Страна 5</option>
-                                        <option value="Country 6">Страна 6</option>
-                                        <option value="Country 7">Страна 7</option>
-                                        <option value="Country 8">Страна 8</option>
-                                        <option value="Country 9">Страна 9</option>
+                                        <option value="Turkey">Turkey</option>
+                                        <option value="Russia">Russia</option>
+                                        <option value="Moldova">Moldova</option>
+                                        <option value="Romania">Romania</option>
                                     </select>
                                 </div>
                             </div>
+                            
                             <div class="order-field-block">
                                 <div class="order-field-name">
                                     Город
                                 </div>
                                 <div class="order-field-content">
                                     <select id="edit-shipment-sender-city" name="sender-city" class="order-input">
-                                        <option value="City 1">Город 1</option>
-                                        <option value="City 2">Город 2</option>
-                                        <option value="City 3">Город 3</option>
-                                        <option value="City 4">Город 4</option>
-                                        <option value="City 5">Город 5</option>
-                                        <option value="City 6">Город 6</option>
-                                        <option value="City 7">Город 7</option>
-                                        <option value="City 8">Город 8</option>
-                                        <option value="City 9">Город 9</option>
+                                        <option value="Istanbul">Istanbul</option>
+                                        <option value="Istanbul">Istanbul</option>
+                                        <option value="Istanbul">Istanbul</option>
+                                        <option value="Istanbul">Istanbul</option>
+                                        <option value="Istanbul">Istanbul</option>
+                                        <option value="Istanbul">Istanbul</option>
+                                        <option value="Istanbul">Istanbul</option>
+                                        <option value="Istanbul">Istanbul</option>
+                                        <option value="Istanbul">Istanbul</option>
                                     </select>
                                 </div>
                             </div>
@@ -418,6 +426,18 @@
                                 </div>
                                 <div class="order-field-content">
                                     <input id="edit-shipment-ikamet-id" name="sender-ikamet-id" type="text"class="order-input" value="938 234 645 12 32" />
+                                </div>
+                            </div>
+                            <div class="order-field-block">
+                                <div class="order-field-name">
+                                    Тип доставки
+                                </div>
+                                <div class="order-field-content">
+                                    <select id="edit-shipment-delivery-type" name="delivery-type" class="order-input">
+                                        <option value="B2C">B2C</option>
+                                        <option value="B2B">B2B</option>
+                                        <option value="C2C">C2C</option>
+                                    </select>
                                 </div>
                             </div>
                         </main>
@@ -477,15 +497,10 @@
                                 </div>
                                 <div class="order-field-content">
                                     <select id="edit-shipment-receiver-country" name="receiver-country" class="order-input">
-                                        <option value="Country 1">Страна 1</option>
-                                        <option value="Country 2">Страна 2</option>
-                                        <option value="Country 3">Страна 3</option>
-                                        <option value="Country 4">Страна 4</option>
-                                        <option value="Country 5">Страна 5</option>
-                                        <option value="Country 6">Страна 6</option>
-                                        <option value="Country 7">Страна 7</option>
-                                        <option value="Country 8">Страна 8</option>
-                                        <option value="Country 9">Страна 9</option>
+                                        <option value="Turkey">Turkey</option>
+                                        <option value="Russia">Russia</option>
+                                        <option value="Moldova">Moldova</option>
+                                        <option value="Romania">Romania</option>
                                     </select>
                                 </div>
                             </div>
@@ -495,15 +510,15 @@
                                 </div>
                                 <div class="order-field-content">
                                     <select id="edit-shipment-receiver-city" name="receiver-city" class="order-input">
-                                        <option value="City 1">Город 1</option>
-                                        <option value="City 2">Город 2</option>
-                                        <option value="City 3">Город 3</option>
-                                        <option value="City 4">Город 4</option>
-                                        <option value="City 5">Город 5</option>
-                                        <option value="City 6">Город 6</option>
-                                        <option value="City 7">Город 7</option>
-                                        <option value="City 8">Город 8</option>
-                                        <option value="City 9">Город 9</option>
+                                        <option value="Istanbul">Istanbul</option>
+                                        <option value="Istanbul">Istanbul</option>
+                                        <option value="Istanbul">Istanbul</option>
+                                        <option value="Istanbul">Istanbul</option>
+                                        <option value="Istanbul">Istanbul</option>
+                                        <option value="Istanbul">Istanbul</option>
+                                        <option value="Istanbul">Istanbul</option>
+                                        <option value="Istanbul">Istanbul</option>
+                                        <option value="Istanbul">Istanbul</option>
                                     </select>
                                 </div>
                             </div>
@@ -512,7 +527,7 @@
                                     Описание для курьера:
                                 </div>
                                 <div class="order-field-content">
-                                    <textarea id="edit-shipment-description" name="description" type="text" class="order-input resizable-input" value="kuyukjkjlkdsf@gmail.com">Какое-то очень длинное описание для курьера Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque dignissimos labore debitis officia repudiandae, omnis expedita illum neque dicta eligendi cum quod beatae suscipit iure praesentium exercitationem. Ratione, magnam similique.</textarea>
+                                    <textarea id="edit-shipment-description" name="description" type="text" class="order-input resizable-input" value="kuyukjkjlkdsf@gmail.com"></textarea>
                                 </div>
                             </div>
                         </main>
@@ -655,6 +670,6 @@
             </table>
         </main>
     </content>
-    <script src="/static/js/order.js"></script>
+    <smthng></smthng>
 </body>
 </html>

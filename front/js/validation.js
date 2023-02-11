@@ -56,7 +56,7 @@ export function HasOnlyLettersAndSpacesValidator() {
     if (!this || !this.selector) return null
 
     //Regex contains only lettes and spaces
-    const NameRegex = /^[A-Za-z\s]*$/
+    const NameRegex = /^[A-Za-zА-Яа-яÇĞIİÖŞÜçğii̇öşü\s]*$/
     let value = $(this.selector).val()
 
     if(!NameRegex.test(value))

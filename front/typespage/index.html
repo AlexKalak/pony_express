@@ -38,7 +38,7 @@
             
             <div class="input-block">
                 <label for="">Gtip code</label>
-                <input type="text" name="gtip-code" id="new-type-gtip">
+                <input type="text" name="gtip-code" id="new-type-gtip-code">
             </div>
             
             <div class="input-block">
@@ -50,11 +50,58 @@
                 <label for="">Near weight</label>
                 <input type="text" name="near-weight" id="new-type-near-weight">
             </div>
+            <div class="input-block row">
+                <label for="">Warning</label>
+                <input type="checkbox" name="near-weight" id="new-type-warning" class="checkbox">
+            </div>
         </section>
-        <div class="form-buttons">
-            <button type="submit" class="btn btn-green-light">Создать</button>
+    </form>
+    <div class="form-buttons">
+        <button type="submit" id="new-type-submit" class="btn btn-green-light">Создать</button>
+    </div>
+</modal-window>
+<modal-window id="edit-type-popup" style="display:none">
+    <span class="cross"></span>
+    <form class="form" id="edit-type-form" action="" method="POST">
+        <div class="form-section-title">Редактировать новый тип</div>
+        <div class="input-block">
+            <label for="">En-name</label>
+            <input type="text" name="en-name" id="edit-type-en-name">
+        </div>
+
+        <div class="input-block">
+            <label for="">Tr-name</label>
+            <input type="text" name="tr-name" id="edit-type-tr-name">
+        </div>
+
+        
+        <div class="input-block">
+            <label for="">Ro-name</label>
+            <input type="text" name="ro-name" id="edit-type-ro-name">
+        </div>
+        
+        <div class="input-block">
+            <label for="">Gtip code</label>
+            <input type="text" name="gtip-code" id="edit-type-gtip-code">
+        </div>
+        
+        <div class="input-block">
+            <label for="">Item code</label>
+            <input type="text" name="item-code" id="edit-type-item-code">
+        </div>
+
+        <div class="input-block">
+            <label for="">Near weight</label>
+            <input type="text" name="near-weight" id="edit-type-near-weight">
+        </div>
+        <div class="input-block row">
+            <label for="">Warning</label>
+            <input class="checkbox" type="checkbox" name="near-weight" id="edit-type-warning">
         </div>
     </form>
+    <div class="form-buttons">
+        <button type="submit" id="edit-type-submit" class="btn btn-green-light">Сохранить</button>
+    </div>
 </modal-window>
 <body>
     <content>
@@ -84,6 +131,8 @@
             </div>
         </section>
     </content>
+
+    <script src="/static/js/typespage.js" defer></script>
     <script src="../js/popup.js" defer></script>
     <script src="../js/typespage/typespage-popup.js" defer></script>
     <script src="../js/typespage/types-uploading.js" defer></script>

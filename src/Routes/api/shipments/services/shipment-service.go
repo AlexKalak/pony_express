@@ -1,7 +1,6 @@
 package services
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"strconv"
@@ -47,8 +46,8 @@ func (t *shipmentsService) GetAllShipments(c *fiber.Ctx) (*[]models.Shipment, er
 		return nil, l_custom_errors.ErrShipmentNotFound
 	}
 	//Printing in console shipment struct
-	str, _ := json.MarshalIndent(shipments, "", "\t")
-	fmt.Println(string(str))
+	// str, _ := json.MarshalIndent(shipments, "", "\t")
+	// fmt.Println(string(str))
 
 	return &shipments, nil
 }
@@ -64,8 +63,8 @@ func (t *shipmentsService) GetShipmentById(c *fiber.Ctx) (*models.Shipment, erro
 		return nil, err
 	}
 	//Printing in console shipment struct
-	str, _ := json.MarshalIndent(shipment, "", "\t")
-	fmt.Println(string(str))
+	// str, _ := json.MarshalIndent(shipment, "", "\t")
+	// fmt.Println(string(str))
 
 	return shipment, nil
 }
@@ -128,7 +127,7 @@ func (t *shipmentsService) CreateShipment(c *fiber.Ctx) (*models.Shipment, []*ty
 	}
 
 	NewShipment.PriceUSD = 0
-	NewShipment.PriceTL = 0
+	NewShipment.PriceTRY = 0
 
 	res := database.Create(&NewShipment)
 	if res.Error != nil {
@@ -137,8 +136,7 @@ func (t *shipmentsService) CreateShipment(c *fiber.Ctx) (*models.Shipment, []*ty
 	}
 
 	if res.RowsAffected < 1 {
-		fmt.Println(err)
-		return nil, nil, res.Error
+		return nil, nil, errors.New("error no rows affected")
 	}
 
 	return &NewShipment, nil, nil
@@ -152,28 +150,57 @@ func (t *shipmentsService) UpdateShipment(c *fiber.Ctx) (*models.Shipment, []*ty
 		return nil, nil, err
 	}
 
-	NewShipment, err := GetShipmentFromDB(id)
+	p_Shipment, err := GetShipmentFromDB(id)
+
 	if err != nil {
 		return nil, nil, err
 	}
 
 	//Parsing Sender
-	err = c.BodyParser(&NewShipment)
+
+	err = c.BodyParser(p_Shipment)
 	if err != nil {
 		fmt.Println(err)
 		return nil, nil, err
 	}
 
-	validationErros := validation.Validate(NewShipment)
+	// str, _ := json.MarshalIndent(p_Shipment, "", "\t")
+	// fmt.Println(string(str))
+
+	validationErros := validation.Validate(p_Shipment)
 	if len(validationErros) > 0 {
 		return nil, validationErros, nil
 	}
 
-	Sender := &NewShipment.Sender
-	Receiver := &NewShipment.Receiver
+	p_Shipment.DeliveryType.ID, err = GetDeliveryTypeName(p_Shipment.DeliveryType.Name)
+	if err != nil {
+		if errors.Is(err, l_custom_errors.ErrDeliveryTypeNotFound) {
+			valError := types.ErrorResponse{
+				FailedField: "DeliveryType.Name",
+				Tag:         "Not found",
+				Value:       "",
+			}
 
-	//Saving sender
-	res := database.Save(&Sender)
+			validationErros = append(validationErros, &valError)
+			return nil, validationErros, nil
+		}
+
+		return nil, nil, err
+	}
+
+	Sender := p_Shipment.Sender
+	Receiver := p_Shipment.Receiver
+
+	// str, _ := json.MarshalIndent(p_Shipment, "", "\t")
+	// fmt.Println(string(str))
+
+	res := database.Save(&p_Shipment)
+	if res.Error != nil {
+		return nil, nil, res.Error
+	}
+
+	// Saving sender
+	res = database.Save(&Sender)
 	if res.Error != nil {
 		return nil, nil, res.Error
 	}
@@ -184,7 +211,7 @@ func (t *shipmentsService) UpdateShipment(c *fiber.Ctx) (*models.Shipment, []*ty
 		return nil, nil, res.Error
 	}
 
-	return NewShipment, nil, nil
+	return p_Shipment, nil, nil
 }
 
 func (t *shipmentsService) GetShipmentItems(c *fiber.Ctx) (*[]models.ShipmentItem, error) {
@@ -206,7 +233,6 @@ func (t *shipmentsService) GetShipmentItems(c *fiber.Ctx) (*[]models.ShipmentIte
 	}
 
 	if res.RowsAffected < 1 {
-		fmt.Println("No rows affected")
 		return nil, l_custom_errors.ErrShipmentNotFound
 	}
 	//Printing in console shipment struct
@@ -224,33 +250,35 @@ func (t *shipmentsService) CreateShipmentItem(c *fiber.Ctx) (*models.ShipmentIte
 		return nil, nil, err
 	}
 
-	var NewShipmentItem models.ShipmentItem
+	var NewShipmentItemInput models.SerializedShipmentItem
 
-	//Parsing Sender
-	err = c.BodyParser(&NewShipmentItem)
+	err = c.BodyParser(&NewShipmentItemInput)
 	if err != nil {
 		fmt.Println(err)
 		return nil, nil, err
 	}
 
-	validationErros := validation.Validate(&NewShipmentItem)
+	p_NewShipmentItem := NewShipmentItemInput.Deserialize()
+
+	validationErros := validation.Validate(&NewShipmentItemInput)
 	if len(validationErros) > 0 {
 		return nil, validationErros, nil
 	}
 
-	countryCodeId, err := GetCoutryCodeId(NewShipmentItem.CountryCode.Code)
+	countryCodeId, err := GetCoutryCodeId(NewShipmentItemInput.CountryCode.Code)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	NewShipmentItem.ShipmentID = shipmentId
-	NewShipmentItem.CountryCode.ID = countryCodeId
+	//Deserializing input in ShipmentInput
 
-	NewShipmentItem.ValueForOne *= 100
-	NewShipmentItem.TotalPriceTL = NewShipmentItem.ValueForOne * NewShipmentItem.Count
-	NewShipmentItem.TotalPriceUSD = currencyhelper.ConvertTRYtoUSD(NewShipmentItem.TotalPriceTL)
+	p_NewShipmentItem.ShipmentID = shipmentId
+	p_NewShipmentItem.CountryCode.ID = countryCodeId
 
-	res := database.Create(&NewShipmentItem)
+	p_NewShipmentItem.TotalPriceTRY = p_NewShipmentItem.ValueForOne * p_NewShipmentItem.Count
+	p_NewShipmentItem.TotalPriceUSD = currencyhelper.ConvertTRYtoUSD(p_NewShipmentItem.TotalPriceTRY)
+
+	res := database.Create(p_NewShipmentItem)
 	if res.Error != nil {
 		fmt.Println(err)
 		return nil, nil, res.Error
@@ -266,39 +294,57 @@ func (t *shipmentsService) CreateShipmentItem(c *fiber.Ctx) (*models.ShipmentIte
 		return nil, nil, err
 	}
 
-	return &NewShipmentItem, nil, nil
+	return p_NewShipmentItem, nil, nil
 }
 
 func (t *shipmentsService) UpdateShipmentItem(c *fiber.Ctx) (*models.ShipmentItem, []*types.ErrorResponse, error) {
 	database := db.GetDB()
+
+	shipmentId, err := strconv.Atoi(c.Params("shipmentId"))
+	if err != nil {
+		return nil, nil, err
+	}
 
 	shipmentItemId, err := strconv.Atoi(c.Params("shipmentItemId"))
 	if err != nil {
 		return nil, nil, err
 	}
 
-	// shipmentId, err := strconv.Atoi(c.Params("shipmentId"))
-	// if err != nil {
-	// 	return nil, nil, err
-	// }
-
-	ShipmentItem, err := GetShipmentItemFromDB(shipmentItemId)
+	p_ShipmentItem, err := GetShipmentItemFromDB(shipmentItemId)
 	if err != nil {
 		return nil, nil, err
 	}
-	fmt.Printf("Shipment: %#v", ShipmentItem)
 
-	c.BodyParser(ShipmentItem)
+	p_SerializedShipmentItem := p_ShipmentItem.Serialize()
 
-	validationErros := validation.Validate(ShipmentItem)
+	err = c.BodyParser(p_SerializedShipmentItem)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	validationErros := validation.Validate(p_SerializedShipmentItem)
 	if len(validationErros) > 0 {
 		return nil, validationErros, nil
 	}
 
-	res := database.Save(ShipmentItem)
+	p_ShipmentItem = p_SerializedShipmentItem.Deserialize()
+
+	countryCodeId, err := GetCoutryCodeId(p_SerializedShipmentItem.CountryCode.Code)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	//Deserializing input in ShipmentInput
+	p_ShipmentItem.ShipmentID = shipmentId
+	p_ShipmentItem.CountryCode.ID = countryCodeId
+
+	p_ShipmentItem.TotalPriceTRY = p_ShipmentItem.ValueForOne * p_ShipmentItem.Count
+	p_ShipmentItem.TotalPriceUSD = currencyhelper.ConvertTRYtoUSD(p_ShipmentItem.TotalPriceTRY)
+
+	res := database.Save(p_ShipmentItem)
 	if res.Error != nil {
 		return nil, nil, res.Error
 	}
 
-	return ShipmentItem, nil, nil
+	return p_ShipmentItem, nil, nil
 }

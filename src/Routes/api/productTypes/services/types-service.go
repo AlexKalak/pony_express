@@ -15,6 +15,7 @@ import (
 type TypesService interface {
 	GetAllProductTypes() (*[]models.ProductType, error)
 	SaveProductType(c *fiber.Ctx) (*models.ProductType, []*types.ErrorResponse, error)
+	UpdateProductType(c *fiber.Ctx) (*models.ProductType, []*types.ErrorResponse, error)
 	DeleteProductType(c *fiber.Ctx) (int, error)
 }
 
@@ -62,6 +63,42 @@ func (t *typesService) SaveProductType(c *fiber.Ctx) (*models.ProductType, []*ty
 	}
 
 	return &NewType, nil, nil
+}
+
+func (t *typesService) UpdateProductType(c *fiber.Ctx) (*models.ProductType, []*types.ErrorResponse, error) {
+
+	database := db.GetDB()
+
+	typeId, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return nil, nil, err
+	}
+
+	p_TypeFromDB, err := GetTypeFromDb(typeId)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	err = c.BodyParser(p_TypeFromDB)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	validationErrors := validation.Validate(p_TypeFromDB)
+	if len(validationErrors) > 0 {
+		return nil, validationErrors, nil
+	}
+
+	res := database.Save(p_TypeFromDB)
+	if res.Error != nil {
+		return nil, nil, res.Error
+	}
+
+	if res.RowsAffected < 1 {
+		return nil, nil, res.Error
+	}
+
+	return p_TypeFromDB, nil, nil
 }
 
 func (t *typesService) DeleteProductType(c *fiber.Ctx) (int, error) {
