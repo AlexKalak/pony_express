@@ -15,7 +15,7 @@
             <h1 class="header-headline">Рассчитать стоимость доставки</h1>
         </header>
         <main>
-            <div class="upper-inputs-block">
+            <section class="upper-inputs-block">
                 <div class="input-block-column">
                     <span class="input-label">Откуда</span>
                     <input id="sender-country" type="text">
@@ -25,28 +25,35 @@
                     <span class="input-label">Куда</span>
                     <input id="receiver-country" type="text">
                 </div>
-            </div>
+            </section>
 
-            <div class="central-inputs-block">
-                <div class="input-block-column">
-                    <span class="input-label">Вес</span>
-                    <input id="weight" type="text">
+            <section class="central-inputs-block">
+                <div class="places-block">
+                    <div class="place-block" id="place-block-1">
+                        <div class="input-block-column">
+                            <span class="input-label">Вес</span>
+                            <input id="weight" type="text">
+                        </div>
+                        <div class="input-block-column">
+                            <span class="input-label">Длина</span>
+                            <input id="length" type="text">
+                        </div>
+                        <div class="input-block-column">
+                            <span class="input-label">Ширина</span>
+                            <input id="width" type="text">
+                        </div>
+                        <div class="input-block-column">
+                            <span class="input-label">Высота</span>
+                            <input id="height" type="text">
+                        </div>
+                    </div>
                 </div>
-                <div class="input-block-column">
-                    <span class="input-label">Длина</span>
-                    <input id="length" type="text">
-                </div>
-                <div class="input-block-column">
-                    <span class="input-label">Ширина</span>
-                    <input id="width" type="text">
-                </div>
-                <div class="input-block-column">
-                    <span class="input-label">Высота</span>
-                    <input id="height" type="text">
-                </div>
-            </div>
 
-            <div class="downer-input-blocks">
+                <button id="new-place-button" class="btn btn-green-light">добавить место</button>
+            </section>
+
+
+            <section class="downer-input-blocks">
                 <div class="downer-block-column">
                     <div class="input-block-row">
                         <span class="input-label">Почта России</span>
@@ -72,7 +79,7 @@
                         <input id="cost" type="text">
                     </div>
                 </div>
-            </div>
+            </section>
 
             <div class="calculate-button-block">
                 <button class="calculate-button btn btn-primary">Рассчитать</button>

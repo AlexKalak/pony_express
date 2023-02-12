@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 import { SELECTORS } from "./selectors"
 import { types } from "../types-uploading"
 import { openPopup } from "../../popup"
@@ -24,7 +26,7 @@ export const addHandlingTypeLinkPress = (e) => {
 function fillPopup(data) {
     const $FORM = $("#edit-type-form")
     $FORM.data("id", data["id"])
-
+    
     $(SELECTORS.trName).val(data["tr-name"])
     $(SELECTORS.roName).val(data["ro-name"])
     $(SELECTORS.enName).val(data["en-name"])

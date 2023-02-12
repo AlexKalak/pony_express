@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 import { showError, deleteError } from "./errorHelper"
 
 export const AddValidationForInput  = (inputObj, validators) => {
@@ -97,7 +99,9 @@ export const validate = (inputs) => {
     let scrollSetted = false
 
     for(let key in inputs){
-        let selector = inputs[key].selector 
+        let selector = inputs[key].selector
+        console.log(selector)
+
         deleteError(selector)
         for (let validator of inputs[key].validators ?? []) {
             let error = validator()

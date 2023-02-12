@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 export let types
 
 export const typesPageTableDataUploading = () => {

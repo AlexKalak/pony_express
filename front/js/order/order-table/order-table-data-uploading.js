@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 import { openPopup } from "../../popup";
 import { selectPropOfSelectElement } from "../../select-prop-of-select-element";
 import { getPageShipmentID } from "../get-page-shipment-id";

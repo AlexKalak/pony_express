@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 import { SELECTORS } from "./selectors"
 import { types } from "../datalist"
 

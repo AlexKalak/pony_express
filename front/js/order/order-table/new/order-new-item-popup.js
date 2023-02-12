@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 //Create new post popup logic
 
 import { openPopup } from "../../../popup";

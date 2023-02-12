@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 import { addCrossDownHandling, openPopup } from "../../popup"
 import { scrollSmoothly } from "../../smoothlyScroll"
 import { getValues } from "./get-values"

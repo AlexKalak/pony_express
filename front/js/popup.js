@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 export const openPopup = ($popup) => {
     $("content").addClass("dark");
     $("darking").show();

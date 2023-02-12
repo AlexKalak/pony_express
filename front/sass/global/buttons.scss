@@ -8,6 +8,13 @@
     font-size: 0.60rem;
     text-decoration: none;
     text-align: center;
+
+    @media (min-width: 720px) {
+        font-size: 0.85rem;
+    }
+    @media (min-width: 1366px) {
+        font-size: 1rem;
+    }
 }
 
 .btn-small {
@@ -35,7 +42,7 @@
 }
 
 .text-responsive {
-    font-size: 0.85rem;
+    font-size: 1rem;
 }
 
 @media (max-width: 768px) {

@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 import { scrollSmoothly } from "../../../smoothlyScroll"
 import { getPageShipmentID } from "../../get-page-shipment-id"
 import { getEditTableValues } from "./get-values"

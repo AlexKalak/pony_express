@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 export const selectAllTableRows = () => {
     $("#table-select-button").click(function() {
         const selected = $(this).data("selected")

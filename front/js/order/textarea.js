@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 export const resizeInputs = (...selectors) => {
     for(let selector of selectors) {
         $(selector).each(function() {

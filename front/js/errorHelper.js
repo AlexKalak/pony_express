@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 export const showError = (selector, msg) => {
     if (!selector) return
     

@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 export const enableSelectingAllInputs = () => {
     $("#table-select-button").click(function() {
         console.log(123)

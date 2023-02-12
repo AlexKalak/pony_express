@@ -52,14 +52,9 @@ main {
     }
 }
 
-.central-inputs-block {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-    gap: 20px;
 
+.central-inputs-block {
+    margin-bottom: 10px;
     &::after {
         content: '';
         display: block;
@@ -67,6 +62,30 @@ main {
         width: 100%;
         background-color: $blue;
     }
+}
+
+.places-block {
+    display: flex;
+    flex-direction: column;
+    @media (min-width: 650px) {
+        gap: 50px;
+    }
+}
+
+.place-block {    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+#new-place-button {
+    display: block;
+    margin: 20px auto 10px;
+}
+.delete-place-button {
+    min-width: 300px;
 }
 
 .downer-input-blocks {

@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 import { AddErrorDeletingOnInputOnKeyUp } from "../../errorHelper";
 import { scrollSmoothly } from "../../smoothlyScroll";
 import { getPageShipmentID } from "../get-page-shipment-id";

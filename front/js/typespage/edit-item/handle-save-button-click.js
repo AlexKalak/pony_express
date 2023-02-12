@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 import { getEditTypeInputsValues } from "./get-values"
 
 const sendRequest = async () =>{

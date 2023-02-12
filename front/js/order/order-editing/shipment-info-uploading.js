@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 import { getPageShipmentID } from "../get-page-shipment-id"
 import { SELECTORS } from "./selectors"
 import { resizeInputs } from "../textarea"

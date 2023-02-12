@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 export const selectPropOfSelectElement = (selector, value) => {
     let option = null
 

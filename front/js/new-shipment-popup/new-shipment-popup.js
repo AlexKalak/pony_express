@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 import { addValidations, validateSection } from "./new-shipment-validation";
 import addPopupOpening from "./add-popup-opening";
 import { addCrossDownHandling } from "../popup";
