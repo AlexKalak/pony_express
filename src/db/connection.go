@@ -29,6 +29,7 @@ func Init() *gorm.DB {
 		&models.Shipment{},
 		&models.ShipmentItem{},
 		&models.DeliveryType{},
+		&models.Region{},
 	)
 	return db
 }

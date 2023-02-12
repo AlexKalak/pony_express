@@ -26,11 +26,20 @@ type Country struct {
 	CountryCode   CountryCode `json:"-"`
 }
 
+type Region struct {
+	ID        int     `json:"id"`
+	Name      string  `json:"name"`
+	Country   Country `json:"-"`
+	CountryID int     `gorm:"type:BIGINT" json:"-"`
+}
+
 type City struct {
 	ID        int     `gorm:"type:BIGINT" json:"-"`
 	Name      string  `gorm:"type:VARCHAR(255) NOT NULL" json:"name"`
-	CountryID int     `gorm:"type:BIGINT NOT NULL" json:"-"`
-	Country   Country `json:"-"`
+	Region    Region  `json:"region"`
+	RegionID  int     `json:"-"`
+	Country   Country `json:"country"`
+	CountryID int     `gorm:"type:BIGINT" json:"-"`
 }
 
 type DeliveryType struct {
