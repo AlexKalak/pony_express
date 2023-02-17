@@ -38,6 +38,7 @@ func GetCityId(cityName string) (int, error) {
 	}
 
 	if city.ID == 0 {
+		fmt.Println(cityName)
 		return 0, errors.New("city not found")
 	}
 	return city.ID, nil

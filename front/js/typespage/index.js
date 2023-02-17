@@ -1,4 +1,5 @@
 import '../../sass/pages/typespage/typespage.scss'
+import '../../sass/vendor/fonts.scss'
 
 import { typesPageTableDataUploading } from './types-uploading'
 import { typespageNewTypePopup } from './new-item/new-item-popup'

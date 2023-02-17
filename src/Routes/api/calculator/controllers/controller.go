@@ -14,12 +14,12 @@ func CalculatorController(router fiber.Router) {
 }
 
 func calculate(c *fiber.Ctx) error {
-	result, validationErrors, err := CalculatorService.Calculate()
+	result, validationErrors, err := CalculatorService.Calculate(c)
 	if err != nil {
 		c.SendStatus(http.StatusInternalServerError)
 		return c.JSON(fiber.Map{
 			"ok":  false,
-			"err": err,
+			"err": err.Error(),
 		})
 	}
 

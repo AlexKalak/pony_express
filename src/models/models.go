@@ -24,13 +24,11 @@ type Country struct {
 	Name          string      `gorm:"type:VARCHAR(255) NOT NULL" json:"name"`
 	CountryCodeID int         `gorm:"type:BIGINT NOT NULL" json:"-"`
 	CountryCode   CountryCode `json:"-"`
+	Cities        []City      `json:"cities"`
 }
 
 type Region struct {
-	ID        int     `json:"id"`
-	Name      string  `json:"name"`
-	Country   Country `json:"-"`
-	CountryID int     `gorm:"type:BIGINT" json:"-"`
+	ID int `json:"id"`
 }
 
 type City struct {
@@ -42,9 +40,30 @@ type City struct {
 	CountryID int     `gorm:"type:BIGINT" json:"-"`
 }
 
+type Weight struct {
+	ID     int     `json:""`
+	Weight float64 `json:"weight"`
+}
+
+type PackageType struct {
+	ID   int    `json:"-"`
+	Name string `json:"name"`
+}
+
 type DeliveryType struct {
 	ID   int    `gorm:"type:BIGINT" json:"-"`
 	Name string `json:"name" validate:"required,min=3"`
+}
+
+type Price struct {
+	ID            int         `json:"-"`
+	WeightID      int         `json:"-"`
+	Weight        Weight      `json:"weight"`
+	RegionID      int         `json:"-"`
+	Region        Region      `json:"region"`
+	PackageTypeID int         `json:"-"`
+	PackageType   PackageType `json:"package-type"`
+	Price         int         `json:"price"`
 }
 
 type Sender struct {

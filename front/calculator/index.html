@@ -9,81 +9,92 @@
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous">
     </script>
 </head>
+<datalist id="cities-list">
+</datalist>
 <body>
     <wrapper>
         <header>
             <h1 class="header-headline">Рассчитать стоимость доставки</h1>
         </header>
         <main>
-            <section class="upper-inputs-block">
-                <div class="input-block-column">
-                    <span class="input-label">Откуда</span>
-                    <input id="sender-country" type="text">
+            <div id="package-type-block">
+                <span class="headline">Тип отправки:</span> 
+                <div class="package-type-checkboxes">
+                    <div class="package-type-checkbox-block">
+                        <label for="package-type-standart">Товары из интернет магазинов</label>
+                        <input type="radio" name="package-type" value="standart" id="package-type-standart" checked="checked">
+                    </div>
+                    <div class="package-type-checkbox-block">
+                        <label for="package-type-documents">Документы</label>
+                        <input type="radio" name="package-type" value="documents" id="package-type-documents">
+                    </div>
+                    <div class="package-type-checkbox-block">
+                        <label for="package-type-B2B">B2B</label>
+                        <input type="radio" name="package-type" value="B2B" id="package-type-B2B">
+                    </div>
                 </div>
-                <div>=></div>
-                <div class="input-block-column">
-                    <span class="input-label">Куда</span>
-                    <input id="receiver-country" type="text">
+            </div>
+            <section class="upper-inputs-block">
+                <div class="input-block">
+                    <input list="cities-list" placeholder="Откуда" id="sender-country" type="text">
+                </div>
+                <div><img src="/static/right-arrow-svgrepo-com.svg" height="25px" width="25px" alt=""></div>
+                <div class="input-block">
+                    <input list="cities-list" placeholder="Куда" id="receiver-country" type="text">
                 </div>
             </section>
 
             <section class="central-inputs-block">
+
                 <div class="places-block">
                     <div class="place-block" id="place-block-1">
-                        <div class="input-block-column">
-                            <span class="input-label">Вес</span>
-                            <input id="weight" type="text">
-                        </div>
-                        <div class="input-block-column">
-                            <span class="input-label">Длина</span>
-                            <input id="length" type="text">
-                        </div>
-                        <div class="input-block-column">
-                            <span class="input-label">Ширина</span>
-                            <input id="width" type="text">
-                        </div>
-                        <div class="input-block-column">
-                            <span class="input-label">Высота</span>
-                            <input id="height" type="text">
+                        <div class="place-grid standart">
+                            <div class="weight-size">
+                                <input placeholder="Вес" class="weight" type="text">
+                            </div>
+                            <div class="package-sizes">
+                                <div class="size" >
+                                    <input placeholder="Длина" class="length" type="text">
+                                </div>
+                                <div class="size" >
+                                    <input placeholder="Ширина" class="width" type="text">
+                                </div>
+                                <div class="size" >
+                                    <input placeholder="Высота" class="height" type="text">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <button id="new-place-button" class="btn btn-green-light">добавить место</button>
             </section>
-
-
+            
+            
             <section class="downer-input-blocks">
-                <div class="downer-block-column">
-                    <div class="input-block-row">
-                        <span class="input-label">Почта России</span>
-                        <input id="russian-post" type="checkbox">
-                    </div>
-                    <div class="input-block-row">
-                        <span class="input-label">Пони экспресс</span>
-                        <input id="pony-express" type="checkbox">
-                    </div>
+                <button id="new-place-button" class="btn btn-primary">Добавить место</button>
+
+                <div class="" id="cost-in-dollars">
+                    <input placeholder="Объявленная стоимость в долларах" id="cost" type="text">
                 </div>
 
                 <div class="downer-block-column">
                     <select name="" id="delivery-type">
-                        <option class="input-label" value="store-store">склад-склад</span>
-                        <option class="input-label" value="store-door">склад-дверь</span>
-                        <option class="input-label" value="door-door">дверь-дверь</span>
+                        <option value="store-store">склад-склад</span>
+                        <option value="store-door">склад-дверь</span>
+                        <option value="door-door">дверь-дверь</span>
                     </select>
-                </div>
-
-                <div class="" id="cost-in-dollars">
-                    <div class="input-block-column">
-                        <span class="input-label">Объявленная стоимость в долларах[$]</span>
-                        <input id="cost" type="text">
-                    </div>
                 </div>
             </section>
 
             <div class="calculate-button-block">
-                <button class="calculate-button btn btn-primary">Рассчитать</button>
+                <button class="calculate-button btn btn-green">Рассчитать</button>
             </div>
+
+            <section class="price-section">
+                <span>5-8 рабочих дней=</span>
+                <span style="font-weight:700;">234$</span>
+                <button class="btn btn-green call-courier-button">Вызвать курьера</button>
+            </section>
         </main>
     </wrapper>
     <script src="/static/js/calculator.js"></script>

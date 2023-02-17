@@ -6,7 +6,7 @@
 .header-headline {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
-    @include text-responsive(2rem, 1.8rem, 1.5rem, 1.3rem)
+    @include text-responsive(1.6rem, 1.3rem, 1.2rem, 1rem)
 }
 
 input[type="text"] {
@@ -19,6 +19,65 @@ wrapper {
 
 main {
     padding: 20px;
+    max-width: 1024px;
+    margin: 0 auto;
+}
+
+#package-type-block {
+    font-family: $font-circe;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    margin-bottom: 30px;
+
+    .headline {
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+}
+
+.package-type-checkboxes {
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: flex-start;
+    
+    @media (min-width: 480px) {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        place-items: center;
+        gap: 30px;
+    }
+
+}
+
+.package-type-checkbox-block {
+    display: grid;
+    grid-template-columns: 8fr 1fr;
+    align-items: center;
+    width: 100%;
+
+    input {
+        margin: 0;
+        width: 15px;
+        height: 15px;
+        min-width: 15px;
+        min-height: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    @media (min-width: 480px) {
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        gap: 10px;
+    }
 }
 
 .upper-inputs-block {
@@ -28,18 +87,10 @@ main {
     justify-content: center;
     align-items: center;
     margin-bottom: 15px;
-    
-    &::after {
-        content: '';
-        display: block;
-        height: 2px;
-        width: 100%;
-        background-color: $blue;
-    }
 
-    .input-block-column {
+    .input-block {
         margin-bottom: 10px;
-        max-width: 90%;
+        width: 100%;
     }
 
     @media (min-width: 720px) {
@@ -55,81 +106,102 @@ main {
 
 .central-inputs-block {
     margin-bottom: 10px;
-    &::after {
-        content: '';
-        display: block;
-        height: 2px;
-        width: 100%;
-        background-color: $blue;
-    }
-}
-
-.places-block {
     display: flex;
     flex-direction: column;
-    @media (min-width: 650px) {
-        gap: 50px;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+
+.places-block {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    @media (min-width: 768px) {
+        gap: 25px;
     }
 }
 
-.place-block {    
+.place-block {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#place-block-1 {
+    margin-bottom: 20px;
+}
+
+.place-grid {    
+    display: grid;
+    grid-template-columns: 1fr;
+    place-items: center;
     gap: 20px;
+    width: 100%;
+    max-width: 500px;
+
+    .weight-size {
+        width: 100%;
+    }
+    
+    @media (min-width: 800px) {
+        max-width: none;
+        &.document {
+            grid-template-columns: 1fr;
+            
+            .weight-size {
+                width: 50%;
+            }
+        }
+
+        &.standart {
+            grid-template-columns: 1fr 1fr;
+            place-items: center;
+        }
+    }
+}
+
+.package-sizes {
+    display: flex;
+    justify-content: space-between;
+
+    .size {
+        max-width: 25%;
+        input{
+            @include text-responsive(0.9rem, 0.8rem, 0.7rem, 0.6rem);
+        }
+    }
+
+    .input-block {
+        max-width: 400px;
+    }
 }
 
 #new-place-button {
+    padding: 5px 20px;
     display: block;
-    margin: 20px auto 10px;
+    height: fit-content;
 }
 .delete-place-button {
-    min-width: 300px;
+    padding: 5px 10px;
+    min-width: 200px;
 }
 
 .downer-input-blocks {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
     gap: 10px;
-
-    .downer-block-column {
-        width: fit-content;
-        display: grid;
-        align-items: center;
-        grid-template-columns: 8fr 2fr;
-        gap: 0;
-
-        .input-block-row {
-            display: contents;
-        }
-    }   
-}
-
-.input-block-column {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    max-width: 300px;
-}
-
-.input-block-row {
-    text-align: center;
-    width: fit-content;
-    display: flex;
-    align-items: center;
-    max-width: 300px;
-}
-
-.input-label {
-    font-family: Arial, Helvetica, sans-serif;
-    @include text-responsive(1.2rem, 1.1rem, 1rem, 0.9rem)
 }
 
 #cost-in-dollars {
     text-align: center;
+    min-width: 250px;
 }
 
 .calculate-button-block {
@@ -142,4 +214,19 @@ main {
 
 .calculate-button {
     min-width: 50%;
+    width: 90%;
+    max-width: 600px;
+}
+
+.price-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    font-family: $font-circe;
+}
+
+.call-courier-button {
+    margin-left: 10px;
 }

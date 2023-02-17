@@ -5,6 +5,7 @@ import { scrollSmoothly } from "../../smoothlyScroll";
 import { getPageShipmentID } from "../get-page-shipment-id";
 import { getEditShipmentInputValues } from "./get-values";
 import { addValidations, getValidationResults } from "./order-editing-validation";
+import { SELECTORS } from './selectors';
 
 const sendRequest = async () => {
     let data = JSON.stringify(getEditShipmentInputValues())

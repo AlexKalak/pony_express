@@ -1,3 +1,5 @@
+@import '../vendor/variables.scss';
+
 *{
     font-family: Arial;
 }
@@ -55,7 +57,7 @@ td .link {
 }
 
 .table thead tr {
-    background-color: rgb(50, 123, 232);
+    background-color: $blue;
     color: #fff;
     text-align: center;
     font-weight: bald;
@@ -79,11 +81,11 @@ td .link {
 }
 
 .table tbody tr:last-of-type {
-    border-bottom: 2px solid rgb(50, 123, 232);
+    border-bottom: 2px solid $blue;
 }
 
 .table tbody tr.active-row {
-    color: rgb(50, 123, 232);
+    color: $blue;
 }
 
 @media (max-width: 768px) {

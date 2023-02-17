@@ -7,6 +7,7 @@ import (
 	"github.com/alexkalak/pony_express/src/Routes/api/productTypes/errors"
 	"github.com/alexkalak/pony_express/src/Routes/validation"
 	"github.com/alexkalak/pony_express/src/db"
+	"github.com/alexkalak/pony_express/src/helpers/product_types_helper"
 	"github.com/alexkalak/pony_express/src/models"
 	"github.com/alexkalak/pony_express/src/types"
 	"github.com/gofiber/fiber/v2"
@@ -74,7 +75,7 @@ func (t *typesService) UpdateProductType(c *fiber.Ctx) (*models.ProductType, []*
 		return nil, nil, err
 	}
 
-	p_TypeFromDB, err := GetTypeFromDb(typeId)
+	p_TypeFromDB, err := product_types_helper.GetTypeFromDb(typeId)
 	if err != nil {
 		return nil, nil, err
 	}

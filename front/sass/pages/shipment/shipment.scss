@@ -1,3 +1,4 @@
+@import '../../vendor/variables.scss';
 @import '../../global/popup.scss';
 @import '../../global/table.scss';
 @import '../../global/buttons.scss';
@@ -143,7 +144,7 @@ thead td .name-block {
 .table-upper-data {
     padding: 5px 10px;
     border-radius: 3px;
-    background-color: rgb(50, 123, 232);
+    background-color: $blue;
     color: white;
     margin-bottom: 5px;
 }

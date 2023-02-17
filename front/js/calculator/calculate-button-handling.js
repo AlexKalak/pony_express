@@ -1,14 +1,17 @@
 import $ from 'jquery'
+import { scrollSmoothly } from '../smoothlyScroll'
 
 import { getValues } from "./get-values"
-import { addValidations, getValidationResults } from "./validation"
+import { addPackageStandartValidations, addStandartValidations, getValidationResults } from "./validation"
 
 export const handleCalcButtonClick = () => {
-    addValidations()
+    addStandartValidations()
+    addPackageStandartValidations()
 
     $(".calculate-button").on('click', function() {
-        let [valid] = getValidationResults()
+        let [valid, scroll] = getValidationResults()
         if(!valid) {
+            scrollSmoothly("html", scroll.top - 100)
             return
         }
         let data = getValues()

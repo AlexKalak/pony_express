@@ -1,4 +1,4 @@
-package services
+package product_types_helper
 
 import (
 	"github.com/alexkalak/pony_express/src/Routes/api/productTypes/errors"
