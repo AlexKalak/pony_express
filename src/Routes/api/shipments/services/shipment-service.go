@@ -89,7 +89,7 @@ func (t *shipmentsService) CreateShipment(c *fiber.Ctx) (*models.Shipment, []*ty
 	if err != nil {
 		return nil, nil, err
 	}
-	NewShipment.DeliveryType.ID, err = GetDeliveryTypeName(NewShipment.DeliveryType.Name)
+	NewShipment.DeliveryType.ID, err = GetDeliveryTypeID(NewShipment.DeliveryType.Name)
 	if err != nil {
 		if errors.Is(err, l_custom_errors.ErrDeliveryTypeNotFound) {
 			valError := types.ErrorResponse{
@@ -172,7 +172,7 @@ func (t *shipmentsService) UpdateShipment(c *fiber.Ctx) (*models.Shipment, []*ty
 		return nil, validationErros, nil
 	}
 
-	p_Shipment.DeliveryType.ID, err = GetDeliveryTypeName(p_Shipment.DeliveryType.Name)
+	p_Shipment.DeliveryType.ID, err = GetDeliveryTypeID(p_Shipment.DeliveryType.Name)
 	if err != nil {
 		if errors.Is(err, l_custom_errors.ErrDeliveryTypeNotFound) {
 			valError := types.ErrorResponse{

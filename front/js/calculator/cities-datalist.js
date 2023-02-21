@@ -6,7 +6,7 @@ export const citiesDatalist = async () => {
     let a = await registrateCallback(uploadDatalist)
     a.map(opt => {
             console.log(opt)
-            $("<option>").val(opt).text(opt).appendTo("#cities-list")
+            $("<option>").val(opt.value).text(opt.value).attr("city", opt.city).appendTo("#cities-list")
         })
 }
 
@@ -18,7 +18,10 @@ let uploadDatalist = (countryData) => {
         for(let city in cities) {
             let currentCountry = countryData[country].name
             let currentCity = cities[city].name
-            list.push(currentCity + ", " + currentCountry)
+            list.push({
+                city: currentCity,
+                value: currentCity + ", " + currentCountry
+            })
         }
     }
 

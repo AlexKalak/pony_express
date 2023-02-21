@@ -52,8 +52,12 @@ modal-window {
     position: fixed;
     box-sizing: border-box;
     background: #fff;
-    height: 100vh;
-    max-height: 600px;
+
+    
+    height: fit-content;
+    min-height: 200px;
+    max-height: 80vh;
+
     width: 100vw;
     max-width: 500px;
     top: 0;

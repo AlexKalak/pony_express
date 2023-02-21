@@ -91,7 +91,7 @@ func GetShipmentItemFromDB(id int) (*models.ShipmentItem, error) {
 	return &shipmentItemFromDB, nil
 }
 
-func GetDeliveryTypeName(deliveryTypeName string) (int, error) {
+func GetDeliveryTypeID(deliveryTypeName string) (int, error) {
 	database := db.GetDB()
 
 	fmt.Println(deliveryTypeName)

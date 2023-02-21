@@ -30,7 +30,11 @@ module.exports = {
                     'style-loader',
                     'css-loader',
                 ]
-            }
+            },
+            {
+              test: /\.pug$/,
+              loader: '@webdiscus/pug-loader',
+            },
         ]
     },
     plugins: [
@@ -38,26 +42,26 @@ module.exports = {
             inject: false,
             title: 'order',
             filename: '../../templates/order.html',
-            template: 'front/order/index.html'
+            template: path.join(__dirname, 'front/templates/order/index.pug'),
         }),
         new HtmlWebpackPlugin({
             inject: false,
             title: 'tablepage',
             filename: '../../templates/tablepage.html',
-            template: 'front/tablepage/index.html'
+            template: path.join(__dirname, 'front/templates/tablepage/index.pug'),
         }),
         new HtmlWebpackPlugin({
             inject: false,
             title: 'typespage',
             filename: '../../templates/typespage.html',
-            template: 'front/typespage/index.html'
+            template: path.join(__dirname, 'front/templates/typespage/index.pug'),
         }),
         new HtmlWebpackPlugin({
             inject: false,
             title: 'calculator',
+            template: path.join(__dirname, 'front/templates/calculator/index.pug'),
             filename: '../../templates/calculator.html',
-            template: 'front/calculator/index.html'
-        })
+        }),
     ],
     devServer: {
         static: {

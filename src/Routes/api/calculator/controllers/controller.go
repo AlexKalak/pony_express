@@ -14,7 +14,7 @@ func CalculatorController(router fiber.Router) {
 }
 
 func calculate(c *fiber.Ctx) error {
-	result, validationErrors, err := CalculatorService.Calculate(c)
+	result, usedVolumeWeights, validationErrors, err := CalculatorService.Calculate(c)
 	if err != nil {
 		c.SendStatus(http.StatusInternalServerError)
 		return c.JSON(fiber.Map{
@@ -32,7 +32,8 @@ func calculate(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(fiber.Map{
-		"ok":     true,
-		"result": result,
+		"ok":                  true,
+		"used-volume-weights": usedVolumeWeights,
+		"result":              result,
 	})
 }

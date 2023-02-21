@@ -69,3 +69,7 @@ func ConvertTRYtoUSD(tryCount int) int {
 	fmt.Println("i_price:	", i_price)
 	return i_price
 }
+
+func ConvertIntValueToFloat(priceInt int) float64 {
+	return float64(priceInt) / 100
+}

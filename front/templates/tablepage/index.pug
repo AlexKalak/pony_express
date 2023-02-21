@@ -1,0 +1,91 @@
+doctype html
+html(lang='en')
+	head
+		meta(charset='UTF-8')
+		meta(http-equiv='X-UA-Compatible' content='IE=edge')
+		meta(name='viewport' content='width=device-width, initial-scale=1.0')
+		link(rel='stylesheet' href='../css/table.css')
+		link(rel='stylesheet' href='../css/tablepage.css')
+		link(rel='stylesheet' href='../css/buttons.css')
+		script(src='https://code.jquery.com/jquery-3.6.3.min.js' integrity='sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=' crossorigin='anonymous')
+		title Document
+	body
+		content
+			header
+				.header-inf.text-responsive
+					.select-date
+						span Gönderi Tarihi:
+						.date-block
+							input(type='date')
+							input(type='date')
+							button.btn-small.btn.btn-green-light Listele
+				.text-responsive.header-warning
+					| Durumu SEVK EDİLMEDİ olan gönderileri CAPITAL'e teslim ettiğinizde SEVK EDİLDİ olarak güncelleyiniz. SEVK EDİLMEDİ olarak kalan gönderiler CAPITAL sistemlerinde görünmez.
+			main
+				.content-upper.text-responsive
+					.content-upper-search
+						span Search
+						input(type='text')
+					.btn.btn-primary
+						span Seçili Satırları SEVK EDİLDİ Yap
+				table.table.table-first
+					thead
+						tr
+							td
+								.table-head-td-block
+									.svg-block
+										img(src='../svg/id-card-svgrepo-com.svg' alt='')
+									span id
+							td
+								.table-head-td-block
+									.svg-block
+										img(src='../svg/id-card-svgrepo-com.svg' alt='')
+									span track
+							td
+								.table-head-td-block
+									.svg-block
+										img(src='../svg/id-card-svgrepo-com.svg' alt='')
+									span key
+							td
+								.table-head-td-block
+									.svg-block
+										img(src='../svg/id-card-svgrepo-com.svg' alt='')
+									span key
+							td.hiddenable
+								.table-head-td-block
+									.svg-block
+										img(src='../svg/id-card-svgrepo-com.svg' alt='')
+									span key
+							td.table-head-checkbox
+								button#table-select-button.btn-green-light(data-selected='false') Select
+					tbody
+						tr
+							td.table-column
+								.shipment-id(href='#')
+									| 123123
+									.shipment-sender-name
+										| SenderName
+							td.table-column
+								a.shipment-trc.link(href='/shipments/0' style='width: fit-content;') TRC
+								.shipment-dleivery-type
+									| Delivery type
+							td.table-column
+								.shipment-price-usd
+									| price usd
+									.shipment-price-tl
+										| price tl
+							td.table-column
+								.shipment-receiver-coutry-code
+									| Receiver country
+									.shipment-receiver-city
+										| Receiver city
+										.shipment-receiver-name
+											| Receiver name
+							td.table-column.hiddenable
+								.shipment-created-time
+									| Created time
+									.shipment-updated-time
+										| Updated time
+							td.table-column
+								input.table-checkbox(type='checkbox')
+		script(src='/static/js/tablepage.js' defer='')

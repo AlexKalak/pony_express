@@ -14,17 +14,9 @@ td .link {
     word-break: break-all;
     max-height: 40px;
     overflow: hidden;
+    margin: 0 auto;
 }
 
-.link {
-    color:rgb(20, 131, 146);
-    width: fit-content;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-    cursor: pointer;
-}
 
 /* .link::after {
     content: "";

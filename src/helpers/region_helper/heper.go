@@ -9,7 +9,7 @@ import (
 func GetRegionByID(id int) (*models.Region, error) {
 	database := db.GetDB()
 	var region models.Region
-	res := database.Model(&models.City{}).Where("id = ?", id).First(&region)
+	res := database.First(&region, "id = ?", id)
 	if res.Error != nil {
 		return nil, res.Error
 	}

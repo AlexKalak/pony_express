@@ -1,15 +1,19 @@
+import $ from 'jquery'
+
 import { getValue } from "../get-value-functions"
 import { SELECTORS } from "./selectors"
 
 import { blocksNum, blockSelectorStart } from "./create-new-place-block"
 
 export const getValues = () => {
+    let receiverCityInputValue = getValue(SELECTORS.receiverCountry)
+    let selectedCity = $(`${SELECTORS.datalist} option[value="${receiverCityInputValue}"]`).attr("city")
+
     let data = {
-        "sender-country": getValue(SELECTORS.senderCountry),
-        "receiver-country": getValue(SELECTORS.receiverCountry),
+        "receiver-city": selectedCity,
         "delivery-type": getValue(SELECTORS.deliveryType),
         "package-type": getValue(SELECTORS.packageType),
-        "cost": getValue(SELECTORS.cost),
+        "cost": +getValue(SELECTORS.cost),
         "places": getPlacesValues()
     }
 
@@ -18,20 +22,18 @@ export const getValues = () => {
 
 function getPlacesValues() {
     let placesArray = []
-    for(let i = 1; i <= blocksNum; i++) {
-        let placeId = blockSelectorStart + i
-        let width = getValue(`${placeId} input[name="width"]`)
-        let length = getValue(`${placeId} input[name="length"]`)
-        let height = getValue(`${placeId} input[name="height"]`)
-        let weight = getValue(`${placeId} input[name="weight"]`)
-
+    $(".place-block").each(function() {
+        let width = +getValue($(this).find(".width"))
+        let length = +getValue($(this).find(".length"))
+        let height = +getValue($(this).find(".height"))
+        let weight = +getValue($(this).find(".weight"))
+        
         placesArray.push({
             width,
             length,
             height,
             weight
         })
-    }
-
+    })
     return placesArray
 }

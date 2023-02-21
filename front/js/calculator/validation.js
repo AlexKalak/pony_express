@@ -3,9 +3,6 @@ import { SELECTORS } from "./selectors"
 
 let counter = 0
 let Inputs = {
-    senderCountry: {
-        selector: SELECTORS.senderCountry
-    },
     receiverCountry: {
         selector: SELECTORS.receiverCountry
     },
@@ -31,15 +28,8 @@ export const getValidationResults = () => {
     return validate(Inputs)
 }
 
-
+//adding receiver-city and cost validation
 export function addStandartValidations() {
-    //Sender-Name
-    AddValidationForInput(Inputs.senderCountry, 
-        [
-            LengthValidator.bind(Inputs.senderCountry, 3, Infinity),
-        ]
-    )
-    
     AddValidationForInput(Inputs.receiverCountry, 
         [
             LengthValidator.bind(Inputs.receiverCountry, 3, Infinity), 
@@ -51,6 +41,7 @@ export function addStandartValidations() {
         ]
     )   
 }
+//adding weight, width, height and length to validations
 export function addPackageStandartValidations() {
     AddValidationForInput(Inputs.width, 
         [
@@ -75,6 +66,7 @@ export function addPackageStandartValidations() {
         ]
     ) 
 }
+//adding only weight to validations
 export function addPackageDocumentsValidations() {
     AddValidationForInput(Inputs.weight, 
         [
@@ -83,7 +75,7 @@ export function addPackageDocumentsValidations() {
     )
 }
 
-
+//add selectors of new place to standart package(weight, width, length, height)
 export function addNewPackageStandartSelectors(selectorsObj) {
     let newInputValues = {}
     let widthName = 'width'+counter
@@ -114,6 +106,7 @@ export function addNewPackageStandartSelectors(selectorsObj) {
     addNewPackageStandartValidations(widthName, lengthName, heightName, weightName)
     counter++
 }
+//add selectors of new place to documents package(only weight)
 export function addNewPackageDocumentsSelectors(selectorsObj) {
     let newInputValues = {}
     let weightName = 'weight'+counter
@@ -132,7 +125,7 @@ export function addNewPackageDocumentsSelectors(selectorsObj) {
     counter++
 }
 
-
+//adding validations to new place (weight, width, length, height)
 export function addNewPackageStandartValidations(width, length, height, weight) {
     AddValidationForInput(Inputs[width], 
         [
@@ -157,6 +150,7 @@ export function addNewPackageStandartValidations(width, length, height, weight) 
         ]
     )
 }
+//adding validations to new place (only weight)
 export function addNewPackageDocumentsValidations(weight) {
     AddValidationForInput(Inputs[weight], 
         [
@@ -165,12 +159,9 @@ export function addNewPackageDocumentsValidations(weight) {
     )
 }
 
-
+//clear all places and makes standart package inputs for standart package
 export function setToDefaultAllValidationsPackageStandart() {
     Inputs = {
-        senderCountry: {
-            selector: SELECTORS.senderCountry
-        },
         receiverCountry: {
             selector: SELECTORS.receiverCountry
         },
@@ -193,11 +184,9 @@ export function setToDefaultAllValidationsPackageStandart() {
     addStandartValidations()
     addPackageStandartValidations()
 }
+//clear all places and makes documents package inputs for standart package
 export function setToDefaultAllValidationsPackageDocuments() {
     Inputs = {
-        senderCountry: {
-            selector: SELECTORS.senderCountry
-        },
         receiverCountry: {
             selector: SELECTORS.receiverCountry
         },
@@ -212,7 +201,7 @@ export function setToDefaultAllValidationsPackageDocuments() {
     addPackageDocumentsValidations()
 } 
 
-
+//deleting validation for not existing inputs(if is not find in dom)
 export function deleteNotExistingInputs() {
     for(let key in Inputs) {
         if($(Inputs[key].selector).length == 0) {
