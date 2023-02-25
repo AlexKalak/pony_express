@@ -4,14 +4,16 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"math"
+	"sort"
 
 	"github.com/alexkalak/pony_express/src/Routes/validation"
 	currencyhelper "github.com/alexkalak/pony_express/src/currencyHelper"
+	"github.com/alexkalak/pony_express/src/db"
 	"github.com/alexkalak/pony_express/src/helpers/city_helper"
 	"github.com/alexkalak/pony_express/src/helpers/package_types_helper"
 	"github.com/alexkalak/pony_express/src/helpers/price_helper"
 	"github.com/alexkalak/pony_express/src/helpers/weights_helper"
+	"github.com/alexkalak/pony_express/src/models"
 	"github.com/alexkalak/pony_express/src/types"
 	"github.com/gofiber/fiber/v2"
 )
@@ -95,11 +97,13 @@ func (cs *calculatorService) Calculate(c *fiber.Ctx) (float64, bool, []*types.Er
 }
 
 func GetPrice(weight float64, regionID int, packageTypeID int, packageType string) (int, error) {
-	var maxWeight float64 = 20
-
-	if packageType == "documents" {
-		maxWeight = 2.5
+	allWeightsOfPackage, err := GetAllWeightsOfPackage(regionID, packageTypeID)
+	if err != nil {
+		return 0, err
 	}
+
+	maxWeight := GetMaxWeightFromArray(allWeightsOfPackage)
+	RoundUpWeight(&weight, allWeightsOfPackage, maxWeight)
 
 	numOfMaxWeights := int(weight / maxWeight)
 	reminder := weight - float64(numOfMaxWeights)*maxWeight
@@ -129,22 +133,23 @@ func GetPrice(weight float64, regionID int, packageTypeID int, packageType strin
 	return price, nil
 }
 
+// Get sum of weights of all places
 func GetWeight(places []Place, packageType string) (float64, bool, error) {
 	weights, usedVolumeWeights, err := GetWeights(places, packageType)
 	if err != nil {
 		return 0, false, err
 	}
 
-	RoundUpWeights(&weights)
-	fmt.Println(weights)
-
 	var sum float64
 	for _, weight := range weights {
 		sum += weight
 	}
+
+	fmt.Println(weights)
 	return sum, usedVolumeWeights, nil
 }
 
+// Get array of weights
 func GetWeights(places []Place, packageType string) ([]float64, bool, error) {
 	var err error
 	var weights = make([]float64, 0, len(places))
@@ -166,6 +171,7 @@ func GetWeights(places []Place, packageType string) ([]float64, bool, error) {
 	return weights, usedVolumeWeights, nil
 }
 
+// Checking volume weights
 func GetMaxWeights(places []Place) ([]float64, bool, error) {
 	maxWeights := make([]float64, 0, len(places))
 	usedVolumeWeights := false
@@ -189,14 +195,55 @@ func GetMaxWeights(places []Place) ([]float64, bool, error) {
 	return maxWeights, usedVolumeWeights, nil
 }
 
-func RoundUpWeights(weights *[]float64) {
-	for i := range *weights {
-		if (*weights)[i] < 10 {
-			(*weights)[i] = math.Round((*weights)[i]*2) / 2
-		} else {
-			(*weights)[i] = math.Round((*weights)[i])
+func RoundUpWeight(weight *float64, weights []float64, maxWeight float64) {
+	fmt.Println("Begore: ", weights)
+	sort.Float64s(weights)
+	fmt.Println("After: ", weights)
+
+	numOfMaxWeights := int(*weight / maxWeight)
+	reminder := *weight - float64(numOfMaxWeights)*maxWeight
+
+	fmt.Println("reminder in rounding: ", reminder)
+	if reminder == 0 {
+		return
+	}
+
+	for i := range weights {
+		if weights[i] >= reminder {
+			reminder = weights[i]
+			*weight = float64(numOfMaxWeights)*maxWeight + reminder
+			fmt.Println("Rounded weight: ", *weight)
+			return
 		}
 	}
+}
+
+func GetAllWeightsOfPackage(regionID int, packageTypeID int) ([]float64, error) {
+	database := db.GetDB()
+	var prices []models.Price
+	res := database.Preload("Weight").Find(&prices, "region_id = ? AND package_type_id = ?", regionID, packageTypeID)
+
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	weights := make([]float64, len(prices))
+	for i := range prices {
+		weights[i] = prices[i].Weight.Weight
+	}
+
+	return weights, nil
+}
+
+func GetMaxWeightFromArray(weights []float64) float64 {
+	max := weights[0]
+	for _, weight := range weights {
+		if weight > max {
+			max = weight
+		}
+	}
+	fmt.Println("Max:", max)
+	return max
 }
 
 func addReminderToPrice(price *int, reminder float64, regionID int, packageTypeID int) error {

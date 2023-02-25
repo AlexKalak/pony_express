@@ -9,12 +9,15 @@ html(lang='en')
 	body
 		datalist#cities-list
 
-		darking(style='display:none')
-		modal-window#volume-weight-modal-window(style='display:none')
-			span.cross
-			.popup-header Privet
-			.popup-main volume weight 
-				
+		modal-window#volume-weight-modal-window(style='display: none')
+			darking(style='')
+			content
+				span.cross
+				.popup-header Объемный вес
+				.popup-main  
+					span Объемный вес учитывается при рассчете стоимости доставки, если  
+					span(style='font-weight: 700') высота*ширина*длина/5000 
+					span  больше веса посылки
 		wrapper
 			header
 				h1.header-headline Рассчитать стоимость доставки
@@ -52,7 +55,7 @@ html(lang='en')
 									.size
 										input.height(placeholder='Высота' type='text')
 				section.downer-input-blocks
-					button#new-place-button.btn.btn-primary Добавить место
+					button#new-place-button.btn.btn-primary-light Добавить место
 					#cost-in-dollars
 						input#cost(placeholder='Объявленная стоимость в долларах' type='text')
 					.downer-block-column
@@ -65,7 +68,7 @@ html(lang='en')
 								| дверь-дверь
 
 				.calculate-button-block
-					button.calculate-button.btn.btn-green Рассчитать
+					button.calculate-button.btn.btn-green-light Рассчитать
 
 				section.price-section
 					.upper
@@ -75,5 +78,5 @@ html(lang='en')
 					.downer
 						span 5-8 рабочих дней=
 						span#price(style='font-weight:700;') 
-						button.btn.btn-green.call-courier-button Вызвать курьера
+						button.btn.btn-green-light.call-courier-button Вызвать курьера
 		script(src='/static/js/calculator.js')

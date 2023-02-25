@@ -7,10 +7,15 @@ import orderInfoPositioning from './order-editing/order-info-positioning'
 import { orderTableScript } from './order-table/order-table-script'
 import { newShipmentPopupScript } from '../new-shipment-popup/new-shipment-popup'
 import { uploadTypesForDataList } from './order-table/datalist'
+import { orderEventsScript } from './order-events'
 
 uploadTypesForDataList()
 newShipmentPopupScript()
-orderEditingScript()
+
 shipmentInfoUploading()
 orderInfoPositioning()
+
+orderEditingScript()
 orderTableScript()
+
+orderEventsScript()

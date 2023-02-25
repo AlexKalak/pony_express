@@ -28,6 +28,7 @@ func Init() *gorm.DB {
 		&models.Sender{},
 		&models.Shipment{},
 		&models.ShipmentItem{},
+		&models.ShipmentEvent{},
 		&models.DeliveryType{},
 		&models.Region{},
 		&models.PackageType{},

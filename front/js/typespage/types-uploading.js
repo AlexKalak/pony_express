@@ -6,7 +6,7 @@ export const typesPageTableDataUploading = () => {
     types = null;
     (async function() {
         types = await fetch("/api/product-types").then(response => response.json())
-        console.log(types)
+        // console.log(types)
         let $tbody = $(".table tbody")
         if(types){
             for(let type of types) {

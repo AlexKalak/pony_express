@@ -11,10 +11,10 @@ export const tableDataUploading = () => {
     (async function() {
         let id = getPageShipmentID()
         tableData = await fetch(`/api/shipments/${id}/items`).then(response => response.json())
-        console.log(id)
-        console.log(tableData)
+        // console.log(id)
+        // console.log(tableData)
         let shipmentItems = tableData.shipmentItems
-        console.log(shipmentItems)
+        // console.log(shipmentItems)
 
         if (!shipmentItems) {
             return
@@ -53,10 +53,10 @@ export const tableDataUploading = () => {
             const $LinkBtn = $(event.target.closest('.table-id'))
 
             let rowNum = $LinkBtn.parents("tr").data("rownum")
-            console.log(rowNum)
+            // console.log(rowNum)
             if(isNaN(+rowNum)) 
                 return
-            console.log("not none")
+            // console.log("not none")
             fillPopup(tableData.shipmentItems[+rowNum])
 
             openPopup($("#edit-item-modal-window"));

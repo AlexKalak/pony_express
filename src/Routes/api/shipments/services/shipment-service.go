@@ -24,16 +24,20 @@ type ShipmentsService interface {
 	GetShipmentItems(c *fiber.Ctx) (*[]models.ShipmentItem, error)
 	CreateShipmentItem(c *fiber.Ctx) (*models.ShipmentItem, []*types.ErrorResponse, error)
 	UpdateShipmentItem(c *fiber.Ctx) (*models.ShipmentItem, []*types.ErrorResponse, error)
+
+	GetAllShipmentEvents(c *fiber.Ctx) (*[]models.ShipmentEvent, error)
+	CreateShipmentEvent(c *fiber.Ctx) (*models.ShipmentEvent, []*types.ErrorResponse, error)
 }
 
 type shipmentsService struct {
+	Events ShipmentEvents
 }
 
 func New() ShipmentsService {
 	return &shipmentsService{}
 }
 
-func (t *shipmentsService) GetAllShipments(c *fiber.Ctx) (*[]models.Shipment, error) {
+func (s *shipmentsService) GetAllShipments(c *fiber.Ctx) (*[]models.Shipment, error) {
 	database := db.GetDB()
 
 	shipments := []models.Shipment{}
@@ -52,7 +56,7 @@ func (t *shipmentsService) GetAllShipments(c *fiber.Ctx) (*[]models.Shipment, er
 	return &shipments, nil
 }
 
-func (t *shipmentsService) GetShipmentById(c *fiber.Ctx) (*models.Shipment, error) {
+func (s *shipmentsService) GetShipmentById(c *fiber.Ctx) (*models.Shipment, error) {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return nil, err
@@ -68,7 +72,7 @@ func (t *shipmentsService) GetShipmentById(c *fiber.Ctx) (*models.Shipment, erro
 
 	return shipment, nil
 }
-func (t *shipmentsService) CreateShipment(c *fiber.Ctx) (*models.Shipment, []*types.ErrorResponse, error) {
+func (s *shipmentsService) CreateShipment(c *fiber.Ctx) (*models.Shipment, []*types.ErrorResponse, error) {
 	database := db.GetDB()
 
 	var NewShipment models.Shipment
@@ -142,7 +146,7 @@ func (t *shipmentsService) CreateShipment(c *fiber.Ctx) (*models.Shipment, []*ty
 	return &NewShipment, nil, nil
 }
 
-func (t *shipmentsService) UpdateShipment(c *fiber.Ctx) (*models.Shipment, []*types.ErrorResponse, error) {
+func (s *shipmentsService) UpdateShipment(c *fiber.Ctx) (*models.Shipment, []*types.ErrorResponse, error) {
 	database := db.GetDB()
 
 	id, err := strconv.Atoi(c.Params("id"))
@@ -214,7 +218,7 @@ func (t *shipmentsService) UpdateShipment(c *fiber.Ctx) (*models.Shipment, []*ty
 	return p_Shipment, nil, nil
 }
 
-func (t *shipmentsService) GetShipmentItems(c *fiber.Ctx) (*[]models.ShipmentItem, error) {
+func (s *shipmentsService) GetShipmentItems(c *fiber.Ctx) (*[]models.ShipmentItem, error) {
 	database := db.GetDB()
 
 	id, err := strconv.Atoi(c.Params("id"))
@@ -242,7 +246,7 @@ func (t *shipmentsService) GetShipmentItems(c *fiber.Ctx) (*[]models.ShipmentIte
 	return &shipmentItems, nil
 }
 
-func (t *shipmentsService) CreateShipmentItem(c *fiber.Ctx) (*models.ShipmentItem, []*types.ErrorResponse, error) {
+func (s *shipmentsService) CreateShipmentItem(c *fiber.Ctx) (*models.ShipmentItem, []*types.ErrorResponse, error) {
 	database := db.GetDB()
 
 	shipmentId, err := strconv.Atoi(c.Params("shipmentId"))
@@ -297,7 +301,7 @@ func (t *shipmentsService) CreateShipmentItem(c *fiber.Ctx) (*models.ShipmentIte
 	return p_NewShipmentItem, nil, nil
 }
 
-func (t *shipmentsService) UpdateShipmentItem(c *fiber.Ctx) (*models.ShipmentItem, []*types.ErrorResponse, error) {
+func (s *shipmentsService) UpdateShipmentItem(c *fiber.Ctx) (*models.ShipmentItem, []*types.ErrorResponse, error) {
 	database := db.GetDB()
 
 	shipmentId, err := strconv.Atoi(c.Params("shipmentId"))
@@ -310,31 +314,32 @@ func (t *shipmentsService) UpdateShipmentItem(c *fiber.Ctx) (*models.ShipmentIte
 		return nil, nil, err
 	}
 
-	p_ShipmentItem, err := GetShipmentItemFromDB(shipmentItemId)
+	var serializedShipmentItem models.SerializedShipmentItem
+
+	err = c.BodyParser(&serializedShipmentItem)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	p_SerializedShipmentItem := p_ShipmentItem.Serialize()
-
-	err = c.BodyParser(p_SerializedShipmentItem)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	validationErros := validation.Validate(p_SerializedShipmentItem)
+	validationErros := validation.Validate(serializedShipmentItem)
 	if len(validationErros) > 0 {
 		return nil, validationErros, nil
 	}
 
-	p_ShipmentItem = p_SerializedShipmentItem.Deserialize()
-
-	countryCodeId, err := GetCoutryCodeId(p_SerializedShipmentItem.CountryCode.Code)
+	countryCodeId, err := GetCoutryCodeId(serializedShipmentItem.CountryCode.Code)
 	if err != nil {
 		return nil, nil, err
 	}
 
 	//Deserializing input in ShipmentInput
+	p_ShipmentItem := serializedShipmentItem.Deserialize()
+	p_ShipmentItemFromDB, err := GetShipmentItemFromDB(shipmentItemId)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	p_ShipmentItem.ID = p_ShipmentItemFromDB.ID
+	p_ShipmentItem.CreatedAt = p_ShipmentItemFromDB.CreatedAt
 	p_ShipmentItem.ShipmentID = shipmentId
 	p_ShipmentItem.CountryCode.ID = countryCodeId
 
@@ -347,4 +352,11 @@ func (t *shipmentsService) UpdateShipmentItem(c *fiber.Ctx) (*models.ShipmentIte
 	}
 
 	return p_ShipmentItem, nil, nil
+}
+
+func (s *shipmentsService) GetAllShipmentEvents(c *fiber.Ctx) (*[]models.ShipmentEvent, error) {
+	return s.Events.GetAllEvents(c)
+}
+func (s *shipmentsService) CreateShipmentEvent(c *fiber.Ctx) (*models.ShipmentEvent, []*types.ErrorResponse, error) {
+	return s.Events.CreateEvent(c)
 }

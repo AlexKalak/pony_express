@@ -1,13 +1,10 @@
 @import '../../vendor/variables.scss';
+@import '../../global/standart-style.scss';
 @import '../../global/popup.scss';
 @import '../../global/table.scss';
 @import '../../global/link.scss';
 @import '../../global/buttons.scss';
 @import '../../global/inputs.scss';
-
-body{
-    font-family: Arial, Helvetica, sans-serif;
-}
 
 .textarea {
     box-sizing: border-box;
@@ -21,7 +18,6 @@ body{
 
 .main {
     padding: 20px;
-    background: rgb(239, 239, 239);
 }
 
 .header {

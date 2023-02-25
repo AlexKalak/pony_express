@@ -9,6 +9,7 @@ import (
 
 	l_custom_errors "github.com/alexkalak/pony_express/src/Routes/api/shipments/errors"
 	"github.com/alexkalak/pony_express/src/db"
+	"github.com/alexkalak/pony_express/src/helpers/city_helper"
 	"github.com/alexkalak/pony_express/src/models"
 	"gorm.io/gorm/clause"
 )
@@ -29,17 +30,9 @@ func GetCountryId(countryName string) (int, error) {
 }
 
 func GetCityId(cityName string) (int, error) {
-	database := db.GetDB()
-
-	var city models.City
-	res := database.Model(&models.City{}).Select("id").Where("name = ?", cityName).Find(&city)
-	if res.Error != nil {
-		return 0, res.Error
-	}
-
-	if city.ID == 0 {
-		fmt.Println(cityName)
-		return 0, errors.New("city not found")
+	city, err := city_helper.GetCityByName(cityName)
+	if err != nil {
+		return 0, err
 	}
 	return city.ID, nil
 }

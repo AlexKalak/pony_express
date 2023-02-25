@@ -1,429 +1,437 @@
 doctype html
 html(lang='en')
-  head
-    meta(charset='UTF-8')
-    meta(http-equiv='X-UA-Compatible' content='IE=edge')
-    meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    link(rel='stylesheet' href='../css/popup.css')
-    link(rel='stylesheet' href='../css/order.css')
-    link(rel='stylesheet' href='../css/table.css')
-    link(rel='stylesheet' href='../css/buttons.css')
-    link(rel='stylesheet' href='../css/inputs.css')
-    script(src='https://code.jquery.com/jquery-3.6.3.min.js' integrity='sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=' crossorigin='anonymous')
-    script(src='/static/js/order.js' defer='')
-    title Document
-  body
-    darking(style='display: none;')
-    modal-window.create-new-post-modal-window(style='display:none;')
-      span.cross
-      form.form(action='#' method='POST')
-        .form-section(section-num='1')
-          h3.form-section-title  Отправитель
-          .input-block
-            label Фамилия Имя:
-            input#new-shipment-sender-name-input(name='sender-name' type='text')
-          .input-block
-            label Полный адрес:
-            input#new-shipment-sender-address-input(name='sender-address' type='text')
-          .input-block
-            label Телефон:
-            input#new-shipment-sender-phone-number(name='sender-phone-number' type='text')
-          .input-block
-            label E-mail:
-            input#new-shipment-sender-email(name='sender-email' type='text')
-          .input-block
-            label Страна:
-            select#new-shipment-sender-country(name='sender-country')
-              option(value='Turkey') Turkey
-              option(value='Russia') Russia
-              option(value='Moldova') Moldova
-              option(value='Romania') Romania
-          .input-block
-            label Город:
-            select#new-shipment-sender-city(name='sender-city')
-              option(value='Istanbul') Istanbul
-              option(value='Istanbul') Istanbul
-              option(value='Istanbul') Istanbul
-              option(value='Istanbul') Istanbul
-              option(value='Istanbul') Istanbul
-              option(value='Istanbul') Istanbul
-              option(value='Istanbul') Istanbul
-              option(value='Istanbul') Istanbul
-              option(value='Istanbul') Istanbul
-          .input-block
-            label Офис приема:
-            input#new-shipment-receiving-office(name='sender-receiving-office' type='text')
-          .input-block
-            label Ikamet ID(9***):
-            input#new-shipment-ikamet-id(name='sender-ikamet-id' type='text')
-          .input-block
-            label Тип доставки:
-            select#new-shipment-delivery-type(name='delivery-type')
-              option(value='B2C') B2C
-              option(value='B2B') B2B
-              option(value='C2C') C2C
-        // ===============================================
-        .form-section(section-num='2')
-          h3.form-section-title  Получатель
-          .input-block
-            label Компания:
-            input#new-shipment-receiver-company(name='receiver-company' type='text')
-          .input-block
-            label Фамилия Имя:
-            input#new-shipment-receiver-name(name='receiver-name' type='text')
-          .input-block
-            label Полный адрес:
-            input#new-shipment-receiver-address(name='receiver-address' type='text')
-          .input-block
-            label Телефон:
-            input#new-shipment-receiver-phone-number(name='receiver-phone-number' type='text')
-          .input-block
-            label E-mail:
-            input#new-shipment-receiver-email(name='receiver-email' type='text')
-          .input-block
-            label Страна:
-            select#new-shipment-receiver-country(name='receiver-country')
-              option(value='Turkey') Turkey
-              option(value='Russia') Russia
-              option(value='Moldova') Moldova
-              option(value='Romania') Romania
-          .input-block
-            label Город:
-            select#new-shipment-receiver-city(name='receiver-city')
-              option(value='Istanbul') Istanbul
-              option(value='Istanbul') Istanbul
-              option(value='Istanbul') Istanbul
-              option(value='Istanbul') Istanbul
-              option(value='Istanbul') Istanbul
-              option(value='Istanbul') Istanbul
-              option(value='Istanbul') Istanbul
-              option(value='Istanbul') Istanbul
-              option(value='Istanbul') Istanbul
-          .input-block
-            label Описание для курьера:
-            textarea#new-shipment-description(name='description' cols='30' rows='5')
-      .form-buttons
-        button.btn.form-button.prev
-          | Назад
-        button.btn.form-button.next.active
-          | Дальше
-        button.btn.form-button.create(style='display:none;')
-          | Создать
-    modal-window.create-new-item-modal-window(style='display: none;')
-      span.cross
-      form.form(action='#')
-        h3.form-section-title  Отправитель
-        .input-block
-          label Item Name
-          input#new-item-datalist-input.new-item-datalist-input(='' list='new-item-datalist' type='text' placeholder='Начните вводить название товара')
-          datalist#new-item-datalist.item-datalist
-        .input-block
-          label Tr-name:
-          input#new-item-tr-name(name='tr-name' type='text' placeholder='Автозаполнение')
-        .input-block
-          label Ro-name:
-          input#new-item-ro-name(name='ro-name' type='text' placeholder='Автозаполнение')
-        .input-block
-          label En-name:
-          input#new-item-en-name(name='en-name' type='text' placeholder='Автозаполнение')
-        .input-block
-          label GTIP kod:
-          input#new-item-gtip(name='gtip-code' type='text' placeholder='Автозаполнение')
-        .input-block
-          label Item kod:
-          input#new-item-code(name='item-code' type='text')
-        .input-block
-          label Weight:
-          input#new-item-weight(name='weight' type='text' placeholder='Приблизительный вес товара')
-        .input-block
-          label Item Link:
-          input#new-item-link(name='link' type='text')
-        .input-block
-          label Value TL:
-          input#new-item-value(name='value' type='text' placeholder='Цена в лирах')
-        .input-block(style='max-width: 100px')
-          label Count:
-          input#new-item-count(name='count' type='number' value='1' placeholder='Количество')
-        .input-block(style='max-width: 100px')
-          label Country code:
-          select#new-item-country-code(name='country-code')
-            option(value='TR') TR
-            option(value='RO') RO
-            option(value='RU') RU
-            option(value='MD') MD
-        .input-block(style='flex-direction: row')
-          label Warning:
-          input#new-item-warning(name='warning' type='checkbox' style='width: 18px; height:18px')
-      .form-buttons
-        button#new-item-send-form-button.btn.form-button.create
-          | Создать
-    modal-window#edit-item-modal-window(style='display: none;')
-      span.cross
-      form#edit-item-form(action='#')
-        h3.form-section-title  Отправитель
-        .input-block
-          label Item Name
-          input#edit-item-datalist-input.edit-item-datalist-input(list='edit-item-datalist' type='text' placeholder='Начните вводить название товара')
-          datalist#edit-item-datalist.item-datalist
-        .input-block
-          label Tr-name:
-          input#edit-item-tr-name(name='tr-name' type='text' placeholder='Автозаполнение')
-        .input-block
-          label Ro-name:
-          input#edit-item-ro-name(name='ro-name' type='text' placeholder='Автозаполнение')
-        .input-block
-          label En-name:
-          input#edit-item-en-name(name='en-name' type='text' placeholder='Автозаполнение')
-        .input-block
-          label GTIP kod:
-          input#edit-item-gtip-code(name='gtip-code' type='text' placeholder='Автозаполнение')
-        .input-block
-          label Item kod:
-          input#edit-item-code(name='item-code' type='text')
-        .input-block
-          label Weight:
-          input#edit-item-weight(name='item' type='text' placeholder='Приблизительный вес товара')
-        .input-block
-          label Item Link:
-          input#edit-item-link(name='item-link' type='text')
-        .input-block
-          label Value TL:
-          input#edit-item-value(name='value' type='text' placeholder='Цена в лирах')
-        .input-block(style='max-width: 200px')
-          label Count:
-          input#edit-item-count(name='count' type='number' value='1' placeholder='Количество')
-        .input-block(style='max-width: 200px')
-          label Country code:
-          select#edit-item-country-code(name='country-code')
-            option(value='TR') TR
-            option(value='RO') RO
-            option(value='RU') RU
-            option(value='MD') MD
-        .input-block(style='flex-direction: row')
-          label Warning:
-          input#edit-item-warning(name='warning' type='checkbox' style='width: 18px; height:18px')
-      button#edit-item-send-form-button.btn.form-button.create
-        | Создать
-    content
-      header.header
-        section.header-inf-section
-          .header-inf-block
-            sapn.header-inf-title Pony express
-            span.header-inf-main Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe, repellat!
-        section.buttons-section
-          button.btn.btn-primary.create-new-post-btn Создать новый пост
-          a.btn.btn-danger(href='/web/shipments/') Вернуться к списку постов
-      main.main
-        section.main-upper-section
-          .track TRC2201902
-          button#edit-shipment-button.btn.btn-primary(data-enabled='false') Редактировать данный пост
-        section.orders
-          article.order
-            .order-part
-              header
-                h3.order-part-title
-                  img(src='../svg/8f9ca05567ef7fe72a25480f95fbcf90.svg' alt='')
-                  |                                 Отправитель
-              main(data-opened='false')
-                .order-field-block
-                  .order-field-name
-                    | Фамилия Имя:
-                  .order-field-content
-                    input#edit-shipment-sender-name-input.order-input(name='sender-name' type='text' value='Kuyujuklu Georgii')
-                .order-field-block
-                  .order-field-name
-                    | Полный адрес:
-                  .order-field-content
-                    input#edit-shipment-sender-address-input.order-input(name='sender-address' type='text' value='Gebizili mah. 1125 sokak. no 6 cinar apt. 1')
-                .order-field-block
-                  .order-field-name
-                    | Телефон:
-                  .order-field-content
-                    input#edit-shipment-sender-phone-number.order-input(name='sender-phone-number' type='text' value='+90 545 566 51 58')
-                .order-field-block
-                  .order-field-name
-                    | E-mail:
-                  .order-field-content
-                    input#edit-shipment-sender-email.order-input(name='sender-email' type='text' value='kuyukjkjlkdsf@gmail.com')
-                .order-field-block
-                  .order-field-name
-                    | Страна
-                  .order-field-content
-                    select#edit-shipment-sender-country.order-input(name='sender-country')
-                      option(value='Turkey') Turkey
-                      option(value='Russia') Russia
-                      option(value='Moldova') Moldova
-                      option(value='Romania') Romania
-                .order-field-block
-                  .order-field-name
-                    | Город
-                  .order-field-content
-                    select#edit-shipment-sender-city.order-input(name='sender-city')
-                      option(value='Istanbul') Istanbul
-                      option(value='Istanbul') Istanbul
-                      option(value='Istanbul') Istanbul
-                      option(value='Istanbul') Istanbul
-                      option(value='Istanbul') Istanbul
-                      option(value='Istanbul') Istanbul
-                      option(value='Istanbul') Istanbul
-                      option(value='Istanbul') Istanbul
-                      option(value='Istanbul') Istanbul
-                .order-field-block
-                  .order-field-name
-                    | Офис приема:
-                  .order-field-content
-                    input#edit-shipment-receiving-office.order-input(name='sender-receiving-office' type='text' value='Caybasi Antalya')
-                .order-field-block
-                  .order-field-name
-                    | Ikamet ID(9***):
-                  .order-field-content
-                    input#edit-shipment-ikamet-id.order-input(name='sender-ikamet-id' type='text' value='938 234 645 12 32')
-                .order-field-block
-                  .order-field-name
-                    | Тип доставки
-                  .order-field-content
-                    select#edit-shipment-delivery-type.order-input(name='delivery-type')
-                      option(value='B2C') B2C
-                      option(value='B2B') B2B
-                      option(value='C2C') C2C
-            .order-part
-              header
-                h3.order-part-title
-                  img(src='../svg/8f9ca05567ef7fe72a25480f95fbcf90.svg' alt='')
-                  |                                 Получатель
-              main(data-opened='false')
-                .order-field-block
-                  .order-field-name
-                    | Компания:
-                  .order-field-content
-                    input#edit-shipment-receiver-company.order-input(name='receiver-company' type='text' value='Gebizili mah. 1125 sokak. no 6 cinar apt. 1')
-                .order-field-block
-                  .order-field-name
-                    | Фамилия Имя:
-                  .order-field-content
-                    input#edit-shipment-receiver-name.order-input(name='receiver-name' type='text' value='Kuyujuklu Georgii')
-                .order-field-block
-                  .order-field-name
-                    | Полный адрес:
-                  .order-field-content
-                    input#edit-shipment-receiver-address.order-input(name='receiver-address' type='text' value='Gebizili mah. 1125 sokak. no 6 cinar apt. 1')
-                .order-field-block
-                  .order-field-name
-                    | Телефон:
-                  .order-field-content
-                    input#edit-shipment-receiver-phone-number.order-input(name='receiver-phone-number' type='text' value='+90 545 566 51 58')
-                .order-field-block
-                  .order-field-name
-                    | E-mail:
-                  .order-field-content
-                    input#edit-shipment-receiver-email.order-input(name='receiver-email' type='text' value='kuyukjkjlkdsf@gmail.com')
-                .order-field-block
-                  .order-field-name
-                    | Страна
-                  .order-field-content
-                    select#edit-shipment-receiver-country.order-input(name='receiver-country')
-                      option(value='Turkey') Turkey
-                      option(value='Russia') Russia
-                      option(value='Moldova') Moldova
-                      option(value='Romania') Romania
-                .order-field-block
-                  .order-field-name
-                    | Город
-                  .order-field-content
-                    select#edit-shipment-receiver-city.order-input(name='receiver-city')
-                      option(value='Istanbul') Istanbul
-                      option(value='Istanbul') Istanbul
-                      option(value='Istanbul') Istanbul
-                      option(value='Istanbul') Istanbul
-                      option(value='Istanbul') Istanbul
-                      option(value='Istanbul') Istanbul
-                      option(value='Istanbul') Istanbul
-                      option(value='Istanbul') Istanbul
-                      option(value='Istanbul') Istanbul
-                .order-field-block
-                  .order-field-name
-                    | Описание для курьера:
-                  .order-field-content
-                    textarea#edit-shipment-description.order-input.resizable-input(name='description' type='text' value='kuyukjkjlkdsf@gmail.com')
-        section.table-upper-section
-          div
-            .table-upper-data total-weight: 1234
-            .table-upper-data total-weight: 1234
-          button.create-new-item-btn.btn.btn-primary
-            | + Добавить товар
-        table.table.table-first
-          thead
-            tr
-              td
-                .table-head-td-block
-                  .svg-block
-                    img(src='../svg/id-card-svgrepo-com.svg' alt='')
-                  span Name
-              td
-                .table-head-td-block
-                  .svg-block
-                    img(src='../svg/id-card-svgrepo-com.svg' alt='')
-                  div(class-name='name-block')
-                    span Value(TL,USD)
-                    .table-total (3000)
-              td
-                .table-head-td-block
-                  .svg-block
-                    img(src='../svg/id-card-svgrepo-com.svg' alt='')
-                  div
-                    span Count
-                    .table-total (9)
-              td
-                .table-head-td-block
-                  .svg-block
-                    img(src='../svg/id-card-svgrepo-com.svg' alt='')
-                  span Weight
-              td
-                .table-head-td-block
-                  .svg-block
-                    img(src='../svg/id-card-svgrepo-com.svg' alt='')
-                  span Store url
-              td
-                .table-head-td-block
-                  .svg-block
-                    img(src='../svg/id-card-svgrepo-com.svg' alt='')
-                  span Require msds
-          tbody
-        .first-table-btn-links
-          a.first-table-btn-link.btn.btn-green-light(href='https://google.com') HAWB yazdir
-          a.first-table-btn-link.btn.btn-green-light(href='https://google.com') HAWB yazdir
-        table.table.table-second
-          thead
-            tr
-              td
-                .table-head-td-block
-                  .svg-block
-                    img(src='../svg/id-card-svgrepo-com.svg' alt='')
-                  span id
-              td
-                .table-head-td-block
-                  .svg-block
-                    img(src='../svg/id-card-svgrepo-com.svg' alt='')
-                  span track
-              td
-                .table-head-td-block
-                  .svg-block
-                    img(src='../svg/id-card-svgrepo-com.svg' alt='')
-                  span key
-              td
-                .table-head-td-block
-                  .svg-block
-                    img(src='../svg/id-card-svgrepo-com.svg' alt='')
-                  span key
-              td.hiddenable
-                .table-head-td-block
-                  .svg-block
-                    img(src='../svg/id-card-svgrepo-com.svg' alt='')
-                  span key
-              td.hiddenable
-                .table-head-td-block
-                  .svg-block
-                    img(src='../svg/id-card-svgrepo-com.svg' alt='')
-                  span key
-          tbody
-    smthng
+	head
+		meta(charset='UTF-8')
+		meta(http-equiv='X-UA-Compatible' content='IE=edge')
+		meta(name='viewport' content='width=device-width, initial-scale=1.0')
+		link(rel='stylesheet' href='../css/popup.css')
+		link(rel='stylesheet' href='../css/order.css')
+		link(rel='stylesheet' href='../css/table.css')
+		link(rel='stylesheet' href='../css/buttons.css')
+		link(rel='stylesheet' href='../css/inputs.css')
+		script(src='https://code.jquery.com/jquery-3.6.3.min.js' integrity='sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=' crossorigin='anonymous')
+		script(src='/static/js/order.js' defer='')
+		title Document
+	body
+		//- modal-window.create-new-post-modal-window(style='display:none;')
+			darking(style='display: none;')
+			content
+				span.cross
+				form.form(action='#' method='POST')
+					.form-section(section-num='1')
+						h3.form-section-title  Отправитель
+						.input-block
+							label Фамилия Имя:
+							input#new-shipment-sender-name-input(name='sender-name' type='text')
+						.input-block
+							label Полный адрес:
+							input#new-shipment-sender-address-input(name='sender-address' type='text')
+						.input-block
+							label Телефон:
+							input#new-shipment-sender-phone-number(name='sender-phone-number' type='text')
+						.input-block
+							label E-mail:
+							input#new-shipment-sender-email(name='sender-email' type='text')
+						.input-block
+							label Страна:
+							select#new-shipment-sender-country(name='sender-country')
+								option(value='Turkey') Turkey
+								option(value='Russia') Russia
+								option(value='Moldova') Moldova
+								option(value='Romania') Romania
+						.input-block
+							label Город:
+							select#new-shipment-sender-city(name='sender-city')
+								option(value='Istanbul') Istanbul
+								option(value='Istanbul') Istanbul
+								option(value='Istanbul') Istanbul
+								option(value='Istanbul') Istanbul
+								option(value='Istanbul') Istanbul
+								option(value='Istanbul') Istanbul
+								option(value='Istanbul') Istanbul
+								option(value='Istanbul') Istanbul
+								option(value='Istanbul') Istanbul
+						.input-block
+							label Офис приема:
+							input#new-shipment-receiving-office(name='sender-receiving-office' type='text')
+						.input-block
+							label Ikamet ID(9***):
+							input#new-shipment-ikamet-id(name='sender-ikamet-id' type='text')
+						.input-block
+							label Тип доставки:
+							select#new-shipment-delivery-type(name='delivery-type')
+								option(value='B2C') B2C
+								option(value='B2B') B2B
+								option(value='C2C') C2C
+					// ===============================================
+					.form-section(section-num='2')
+						h3.form-section-title  Получатель
+						.input-block
+							label Компания:
+							input#new-shipment-receiver-company(name='receiver-company' type='text')
+						.input-block
+							label Фамилия Имя:
+							input#new-shipment-receiver-name(name='receiver-name' type='text')
+						.input-block
+							label Полный адрес:
+							input#new-shipment-receiver-address(name='receiver-address' type='text')
+						.input-block
+							label Телефон:
+							input#new-shipment-receiver-phone-number(name='receiver-phone-number' type='text')
+						.input-block
+							label E-mail:
+							input#new-shipment-receiver-email(name='receiver-email' type='text')
+						.input-block
+							label Страна:
+							select#new-shipment-receiver-country(name='receiver-country')
+								option(value='Turkey') Turkey
+								option(value='Russia') Russia
+								option(value='Moldova') Moldova
+								option(value='Romania') Romania
+						.input-block
+							label Город:
+							select#new-shipment-receiver-city(name='receiver-city')
+								option(value='Istanbul') Istanbul
+								option(value='Istanbul') Istanbul
+								option(value='Istanbul') Istanbul
+								option(value='Istanbul') Istanbul
+								option(value='Istanbul') Istanbul
+								option(value='Istanbul') Istanbul
+								option(value='Istanbul') Istanbul
+								option(value='Istanbul') Istanbul
+								option(value='Istanbul') Istanbul
+						.input-block
+							label Описание для курьера:
+							textarea#new-shipment-description(name='description' cols='30' rows='5')
+				.form-buttons
+					button.btn.form-button.prev.
+						Назад
+					button.btn.form-button.next.active.
+						Дальше
+					button.btn.form-button.create(style='display:none;').
+						Создать
+		include ../components/new-shipment-popup.pug
+		modal-window.create-new-item-modal-window(style='display: none;')
+			darking(style='display: none;')
+			content
+				span.cross
+				form.form(action='#')
+					h3.form-section-title  Отправитель
+					.input-block
+						label Item Name
+						input#new-item-datalist-input.new-item-datalist-input(='' list='new-item-datalist' type='text' placeholder='Начните вводить название товара')
+						datalist#new-item-datalist.item-datalist
+					.input-block
+						label Tr-name:
+						input#new-item-tr-name(name='tr-name' type='text' placeholder='Автозаполнение')
+					.input-block
+						label Ro-name:
+						input#new-item-ro-name(name='ro-name' type='text' placeholder='Автозаполнение')
+					.input-block
+						label En-name:
+						input#new-item-en-name(name='en-name' type='text' placeholder='Автозаполнение')
+					.input-block
+						label GTIP kod:
+						input#new-item-gtip(name='gtip-code' type='text' placeholder='Автозаполнение')
+					.input-block
+						label Item kod:
+						input#new-item-code(name='item-code' type='text')
+					.input-block
+						label Weight:
+						input#new-item-weight(name='weight' type='text' placeholder='Приблизительный вес товара')
+					.input-block
+						label Item Link:
+						input#new-item-link(name='link' type='text')
+					.input-block
+						label Value TL:
+						input#new-item-value(name='value' type='text' placeholder='Цена в лирах')
+					.input-block(style='max-width: 100px')
+						label Count:
+						input#new-item-count(name='count' type='number' value='1' placeholder='Количество')
+					.input-block(style='max-width: 100px')
+						label Country code:
+						select#new-item-country-code(name='country-code')
+							option(value='TR') TR
+							option(value='RO') RO
+							option(value='RU') RU
+							option(value='MD') MD
+					.input-block(style='flex-direction: row')
+						label Warning:
+						input#new-item-warning(name='warning' type='checkbox' style='width: 18px; height:18px')
+				button#new-item-send-form-button.btn.form-button.create Создать
+		modal-window#edit-item-modal-window(style='display: none;')
+			darking(style='display: none;')
+			content
+				span.cross
+				form#edit-item-form(action='#')
+					h3.form-section-title  Отправитель
+					.input-block
+						label Item Name
+						input#edit-item-datalist-input.edit-item-datalist-input(list='edit-item-datalist' type='text' placeholder='Начните вводить название товара')
+						datalist#edit-item-datalist.item-datalist
+					.input-block
+						label Tr-name:
+						input#edit-item-tr-name(name='tr-name' type='text' placeholder='Автозаполнение')
+					.input-block
+						label Ro-name:
+						input#edit-item-ro-name(name='ro-name' type='text' placeholder='Автозаполнение')
+					.input-block
+						label En-name:
+						input#edit-item-en-name(name='en-name' type='text' placeholder='Автозаполнение')
+					.input-block
+						label GTIP kod:
+						input#edit-item-gtip-code(name='gtip-code' type='text' placeholder='Автозаполнение')
+					.input-block
+						label Item kod:
+						input#edit-item-code(name='item-code' type='text')
+					.input-block
+						label Weight:
+						input#edit-item-weight(name='item' type='text' placeholder='Приблизительный вес товара')
+					.input-block
+						label Item Link:
+						input#edit-item-link(name='item-link' type='text')
+					.input-block
+						label Value TL:
+						input#edit-item-value(name='value' type='text' placeholder='Цена в лирах')
+					.input-block(style='max-width: 200px')
+						label Count:
+						input#edit-item-count(name='count' type='number' value='1' placeholder='Количество')
+					.input-block(style='max-width: 200px')
+						label Country code:
+						select#edit-item-country-code(name='country-code')
+							option(value='TR') TR
+							option(value='RO') RO
+							option(value='RU') RU
+							option(value='MD') MD
+					.input-block(style='flex-direction: row')
+						label Warning:
+						input#edit-item-warning(name='warning' type='checkbox' style='width: 18px; height:18px')
+				button#edit-item-send-form-button.btn.form-button.create Сохранить
+
+		wrapper
+			header.header
+				section.header-inf-section
+					.header-inf-block
+						sapn.header-inf-title Pony express
+						span.header-inf-main Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe, repellat!
+				section.buttons-section
+					button.btn.btn-primary.create-new-post-btn Создать новый пост
+					a.btn.btn-danger(href='/web/shipments/') Вернуться к списку постов
+			main.main
+				section.main-upper-section
+					.track TRC2201902
+					button#edit-shipment-button.btn.btn-primary(data-enabled='false') Редактировать данный пост
+				section.orders
+					article.order
+						.order-part
+							header
+								h3.order-part-title
+									img(src='../svg/8f9ca05567ef7fe72a25480f95fbcf90.svg' alt='')
+									|                                 Отправитель
+							main(data-opened='false')
+								.order-field-block
+									.order-field-name
+										| Фамилия Имя:
+									.order-field-content
+										input#edit-shipment-sender-name-input.order-input(name='sender-name' type='text' value='Kuyujuklu Georgii')
+								.order-field-block
+									.order-field-name
+										| Полный адрес:
+									.order-field-content
+										input#edit-shipment-sender-address-input.order-input(name='sender-address' type='text' value='Gebizili mah. 1125 sokak. no 6 cinar apt. 1')
+								.order-field-block
+									.order-field-name
+										| Телефон:
+									.order-field-content
+										input#edit-shipment-sender-phone-number.order-input(name='sender-phone-number' type='text' value='+90 545 566 51 58')
+								.order-field-block
+									.order-field-name
+										| E-mail:
+									.order-field-content
+										input#edit-shipment-sender-email.order-input(name='sender-email' type='text' value='kuyukjkjlkdsf@gmail.com')
+								.order-field-block
+									.order-field-name
+										| Страна
+									.order-field-content
+										select#edit-shipment-sender-country.order-input(name='sender-country')
+											option(value='Turkey') Turkey
+											option(value='Russia') Russia
+											option(value='Moldova') Moldova
+											option(value='Romania') Romania
+								.order-field-block
+									.order-field-name
+										| Город
+									.order-field-content
+										select#edit-shipment-sender-city.order-input(name='sender-city')
+											option(value='Istanbul') Istanbul
+											option(value='Istanbul') Istanbul
+											option(value='Istanbul') Istanbul
+											option(value='Istanbul') Istanbul
+											option(value='Istanbul') Istanbul
+											option(value='Istanbul') Istanbul
+											option(value='Istanbul') Istanbul
+											option(value='Istanbul') Istanbul
+											option(value='Istanbul') Istanbul
+								.order-field-block
+									.order-field-name
+										| Офис приема:
+									.order-field-content
+										input#edit-shipment-receiving-office.order-input(name='sender-receiving-office' type='text' value='Caybasi Antalya')
+								.order-field-block
+									.order-field-name
+										| Ikamet ID(9***):
+									.order-field-content
+										input#edit-shipment-ikamet-id.order-input(name='sender-ikamet-id' type='text' value='938 234 645 12 32')
+								.order-field-block
+									.order-field-name
+										| Тип доставки
+									.order-field-content
+										select#edit-shipment-delivery-type.order-input(name='delivery-type')
+											option(value='B2C') B2C
+											option(value='B2B') B2B
+											option(value='C2C') C2C
+						.order-part
+							header
+								h3.order-part-title
+									img(src='../svg/8f9ca05567ef7fe72a25480f95fbcf90.svg' alt='')
+									|                                 Получатель
+							main(data-opened='false')
+								.order-field-block
+									.order-field-name
+										| Компания:
+									.order-field-content
+										input#edit-shipment-receiver-company.order-input(name='receiver-company' type='text' value='Gebizili mah. 1125 sokak. no 6 cinar apt. 1')
+								.order-field-block
+									.order-field-name
+										| Фамилия Имя:
+									.order-field-content
+										input#edit-shipment-receiver-name.order-input(name='receiver-name' type='text' value='Kuyujuklu Georgii')
+								.order-field-block
+									.order-field-name
+										| Полный адрес:
+									.order-field-content
+										input#edit-shipment-receiver-address.order-input(name='receiver-address' type='text' value='Gebizili mah. 1125 sokak. no 6 cinar apt. 1')
+								.order-field-block
+									.order-field-name
+										| Телефон:
+									.order-field-content
+										input#edit-shipment-receiver-phone-number.order-input(name='receiver-phone-number' type='text' value='+90 545 566 51 58')
+								.order-field-block
+									.order-field-name
+										| E-mail:
+									.order-field-content
+										input#edit-shipment-receiver-email.order-input(name='receiver-email' type='text' value='kuyukjkjlkdsf@gmail.com')
+								.order-field-block
+									.order-field-name
+										| Страна
+									.order-field-content
+										select#edit-shipment-receiver-country.order-input(name='receiver-country')
+											option(value='Turkey') Turkey
+											option(value='Russia') Russia
+											option(value='Moldova') Moldova
+											option(value='Romania') Romania
+								.order-field-block
+									.order-field-name
+										| Город
+									.order-field-content
+										select#edit-shipment-receiver-city.order-input(name='receiver-city')
+											option(value='Istanbul') Istanbul
+											option(value='Istanbul') Istanbul
+											option(value='Istanbul') Istanbul
+											option(value='Istanbul') Istanbul
+											option(value='Istanbul') Istanbul
+											option(value='Istanbul') Istanbul
+											option(value='Istanbul') Istanbul
+											option(value='Istanbul') Istanbul
+											option(value='Istanbul') Istanbul
+								.order-field-block
+									.order-field-name
+										| Описание для курьера:
+									.order-field-content
+										textarea#edit-shipment-description.order-input.resizable-input(name='description' type='text' value='kuyukjkjlkdsf@gmail.com')
+				section.table-upper-section
+					div
+						.table-upper-data total-weight: 1234
+						.table-upper-data total-weight: 1234
+					button.create-new-item-btn.btn.btn-primary
+						| + Добавить товар
+				table.table.table-first
+					thead
+						tr
+							td
+								.table-head-td-block
+									.svg-block
+										img(src='../svg/id-card-svgrepo-com.svg' alt='')
+									span Name
+							td
+								.table-head-td-block
+									.svg-block
+										img(src='../svg/id-card-svgrepo-com.svg' alt='')
+									div(class-name='name-block')
+										span Value(TL,USD)
+							td
+								.table-head-td-block
+									.svg-block
+										img(src='../svg/id-card-svgrepo-com.svg' alt='')
+									div
+										span Count
+							td
+								.table-head-td-block
+									.svg-block
+										img(src='../svg/id-card-svgrepo-com.svg' alt='')
+									span Weight
+							td
+								.table-head-td-block
+									.svg-block
+										img(src='../svg/id-card-svgrepo-com.svg' alt='')
+									span Store url
+							td
+								.table-head-td-block
+									.svg-block
+										img(src='../svg/id-card-svgrepo-com.svg' alt='')
+									span Require msds
+					tbody
+				.first-table-btn-links
+					a.first-table-btn-link.btn.btn-green-light(href='https://google.com') HAWB yazdir
+					a.first-table-btn-link.btn.btn-green-light(href='https://google.com') HAWB yazdir
+				table.table.table-second
+					thead
+						tr
+							td
+								.table-head-td-block
+									.svg-block
+										img(src='../svg/id-card-svgrepo-com.svg' alt='')
+									span id
+							td
+								.table-head-td-block
+									.svg-block
+										img(src='../svg/id-card-svgrepo-com.svg' alt='')
+									span Время
+							td.hiddenable
+								.table-head-td-block
+									.svg-block
+										img(src='../svg/id-card-svgrepo-com.svg' alt='')
+									span Откуда/Куда
+							td
+								.table-head-td-block
+									.svg-block
+										img(src='../svg/id-card-svgrepo-com.svg' alt='')
+									span Событие
+							td
+								.table-head-td-block
+									.svg-block
+										img(src='../svg/id-card-svgrepo-com.svg' alt='')
+									span Место события
+					tbody
+						//- tr
+						//- 	td
+						//- 		span id
+						//- 	td
+						//- 		span Время
+						//- 	td
+						//- 		span Откуда/Куда
+						//- 	td
+						//- 		span Событие
+						//- 	td.hiddenable
+						//- 		span Место события
+		

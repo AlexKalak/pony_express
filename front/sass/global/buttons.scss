@@ -28,6 +28,14 @@
     }
 }
 
+.btn-primary-light {
+    background: $blue-light;
+
+    &:hover,&:focus {
+        background: $blue-dark;
+    }
+}
+
 .btn-danger {
     background: $red;
 

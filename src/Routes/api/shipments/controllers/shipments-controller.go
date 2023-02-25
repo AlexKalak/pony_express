@@ -14,14 +14,18 @@ import (
 var shipmentService = services.New()
 
 func ShipmentController(router fiber.Router) {
+	router.Get("/:id<int>/items", GetShipmentItems)
+	router.Post("/:shipmentId<int>/items", CreateShipmentItem)
+	router.Put("/:shipmentId<int>/items/:shipmentItemId<int>", UpdateShipmentItem)
+
+	router.Get("/:shipmentId<int>/events", GetShipmentEvents)
+	router.Post("/:shipmentId<int>/events", CreateShipmentEvent)
+
 	router.Get("/", GetAllShipments)
 	router.Post("/", CreateShipment)
 	router.Get("/:id<int>", GetShipmentById)
 	router.Put("/:id<int>", UpdateShipment)
 
-	router.Get("/:id<int>/items", GetShipmentItems)
-	router.Post("/:shipmentId<int>/items", CreateShipmentItem)
-	router.Put("/:shipmentId<int>/items/:shipmentItemId<int>", UpdateShipmentItem)
 }
 
 func GetAllShipments(c *fiber.Ctx) error {
@@ -186,4 +190,51 @@ func UpdateShipmentItem(c *fiber.Ctx) error {
 	url := fmt.Sprintf("/web/shipment/%s", shipmentId)
 
 	return c.Redirect(url)
+}
+
+func GetShipmentEvents(c *fiber.Ctx) error {
+	fmt.Println("sjalkdf")
+	events, err := shipmentService.GetAllShipmentEvents(c)
+	if err != nil {
+		fmt.Println(err)
+		c.SendStatus(fiber.StatusInternalServerError)
+		return c.JSON(fiber.Map{
+			"ok":     false,
+			"events": events,
+		})
+	}
+
+	var serializedShipmentEvents = make([]models.SerializedShipmentEvent, len(*events))
+	for i := range *events {
+		serializedShipmentEvents[i] = (*events)[i].Serialize()
+	}
+
+	return c.JSON(fiber.Map{
+		"ok":     true,
+		"events": serializedShipmentEvents,
+	})
+}
+
+func CreateShipmentEvent(c *fiber.Ctx) error {
+	event, validationErrors, err := shipmentService.CreateShipmentEvent(c)
+	fmt.Println(err)
+	if err != nil {
+		c.SendStatus(fiber.StatusInternalServerError)
+		return c.JSON(fiber.Map{
+			"ok":  false,
+			"err": err,
+		})
+	}
+
+	if len(validationErrors) > 0 {
+		c.SendStatus(fiber.StatusBadRequest)
+		return c.JSON(fiber.Map{
+			"ok":                false,
+			"validation-errors": validationErrors,
+		})
+	}
+	return c.JSON(fiber.Map{
+		"ok":    true,
+		"event": event.Serialize(),
+	})
 }

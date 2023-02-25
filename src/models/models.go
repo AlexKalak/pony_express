@@ -22,22 +22,36 @@ type CountryCode struct {
 type Country struct {
 	ID            int         `gorm:"type:BIGINT" json:"-"`
 	Name          string      `gorm:"type:VARCHAR(255) NOT NULL" json:"name"`
-	CountryCodeID int         `gorm:"type:BIGINT NOT NULL" json:"-"`
-	CountryCode   CountryCode `json:"-"`
+	CountryCodeID int         ``
+	CountryCode   CountryCode `json:"country-code"`
+	RegionID      int         `gorm:"type:BIGINT" json:"region-id"`
 	Cities        []City      `json:"cities"`
-}
-
-type Region struct {
-	ID int `json:"id"`
 }
 
 type City struct {
 	ID        int     `gorm:"type:BIGINT" json:"-"`
-	Name      string  `gorm:"type:VARCHAR(255) NOT NULL" json:"name"`
+	Name      string  `gorm:"type:VARCHAR(255) NOT NULL" json:"name" validate:"required"`
 	Region    Region  `json:"region"`
 	RegionID  int     `json:"-"`
 	Country   Country `json:"country"`
 	CountryID int     `gorm:"type:BIGINT" json:"-"`
+}
+
+type Region struct {
+	ID   int    `gorm:"type:BIGINT" json:"id"`
+	Name string `gorm:"type:VARCHAR(255)" json:"name"`
+}
+
+type District struct {
+	ID     int `gorm:"type:BIGINT" json:"id"`
+	CityID int `gorm:"type:BIGINT"`
+}
+
+type CityPlace struct {
+	ID         int `gorm:"type:BIGINT" json:"id"`
+	DistrictID int `gorm:"type:BIGINT" json:"district-id"`
+	ZoneID     int `gorm:"type:BIGINT" json:"zone-id"`
+	CountryID  int `gorm:"type:BIGINT" json:"country-id"`
 }
 
 type Weight struct {

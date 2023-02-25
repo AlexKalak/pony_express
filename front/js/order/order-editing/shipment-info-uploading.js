@@ -14,7 +14,7 @@ export const shipmentInfoUploading = () => {
         }
         
         let shipmentInfo = response.shipment
-        console.log(shipmentInfo)
+        // console.log(shipmentInfo)
         if (!shipmentInfo) {
             return
         }

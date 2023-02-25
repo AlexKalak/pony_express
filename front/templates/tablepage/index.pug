@@ -10,7 +10,8 @@ html(lang='en')
 		script(src='https://code.jquery.com/jquery-3.6.3.min.js' integrity='sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=' crossorigin='anonymous')
 		title Document
 	body
-		content
+		include ../components/new-shipment-popup.pug
+		wrapper
 			header
 				.header-inf.text-responsive
 					.select-date
@@ -21,13 +22,16 @@ html(lang='en')
 							button.btn-small.btn.btn-green-light Listele
 				.text-responsive.header-warning
 					| Durumu SEVK EDİLMEDİ olan gönderileri CAPITAL'e teslim ettiğinizde SEVK EDİLDİ olarak güncelleyiniz. SEVK EDİLMEDİ olarak kalan gönderiler CAPITAL sistemlerinde görünmez.
+				
 			main
 				.content-upper.text-responsive
 					.content-upper-search
 						span Search
 						input(type='text')
-					.btn.btn-primary
-						span Seçili Satırları SEVK EDİLDİ Yap
+					.buttons
+						button.btn.btn-primary.create-new-post-btn Создать новый пост
+						button.btn.btn-primary
+							span Seçili Satırları SEVK EDİLDİ Yap
 				table.table.table-first
 					thead
 						tr

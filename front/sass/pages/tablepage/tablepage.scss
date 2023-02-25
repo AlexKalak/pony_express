@@ -1,10 +1,10 @@
+@import '../../global/standart-style.scss';
 @import '../../global/table.scss';
 @import '../../global/link.scss';
 @import '../../global/buttons.scss';
+@import '../../global/popup.scss';
+@import '../../global/inputs.scss';
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-}
 
 input[type="date"] {
     font-size: 0.6rem;
@@ -15,6 +15,11 @@ input[type="date"] {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+
+    &-search span {
+        margin-right: 10px;
+        @include text-responsive(1rem, 0.95rem, 0.9rem, 0.8rem) 
+    }
 }
 
 header {
@@ -46,14 +51,26 @@ main {
     background: rgb(239, 239, 239);
 }
 
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    button {
+        @media (max-width: 400px) {
+            padding: 5px 10px;
+        }
+    }
+}
+
 .table-column {
     text-align: center;
     word-break: break-all;
 }
 
-.table-column div {
-    /* margin-top: 5px; */
-}
+// .table-column div {
+//     /* margin-top: 5px; */
+// }
 
 .table-column .secondary {
     color: gray;
