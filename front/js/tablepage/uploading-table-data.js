@@ -34,6 +34,9 @@ const getRowTemplate = (shipment) => {
                 <div class="shipment-updated-time" class="secondary">${shipment["updated-time"]}</div>
             </td>
             <td class="table-column">
+                <button class="btn btn-green-light" id="watch-events-button" type="checkbox">events</button
+            </td>
+            <td class="table-column">
                 <input class="table-checkbox" type="checkbox">
             </td>
         </tr>`

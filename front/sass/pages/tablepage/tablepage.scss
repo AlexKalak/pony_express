@@ -5,6 +5,8 @@
 @import '../../global/popup.scss';
 @import '../../global/inputs.scss';
 
+@import '../../vendor/mixins.scss';
+
 
 input[type="date"] {
     font-size: 0.6rem;
@@ -95,6 +97,20 @@ main {
     display: inline;
     font-weight: 600;
     font-size: 1rem;
+}
+
+#watch-events-button {
+    
+    padding: 2px;
+    @include text-responsive(1rem, 0.9rem, 0.8rem, 0.7rem);
+
+    @media (min-width: 480px) {
+        padding: 5px;
+    }
+
+    @media (min-width: 768px) {
+        padding: 8px 10px;
+    }
 }
 
 @media (max-width: 768px) {

@@ -11,6 +11,54 @@ html(lang='en')
 		title Document
 	body
 		include ../components/new-shipment-popup.pug
+		modal-window#edit-item-modal-window(style='display: none;')
+			darking(style='display: none;')
+			content
+				span.cross
+				form#edit-item-form(action='#')
+					h3.form-section-title  Отправитель
+					.input-block
+						label Item Name
+						input#edit-item-datalist-input.edit-item-datalist-input(list='edit-item-datalist' type='text' placeholder='Начните вводить название товара')
+						datalist#edit-item-datalist.item-datalist
+					.input-block
+						label Tr-name:
+						input#edit-item-tr-name(name='tr-name' type='text' placeholder='Автозаполнение')
+					.input-block
+						label Ro-name:
+						input#edit-item-ro-name(name='ro-name' type='text' placeholder='Автозаполнение')
+					.input-block
+						label En-name:
+						input#edit-item-en-name(name='en-name' type='text' placeholder='Автозаполнение')
+					.input-block
+						label GTIP kod:
+						input#edit-item-gtip-code(name='gtip-code' type='text' placeholder='Автозаполнение')
+					.input-block
+						label Item kod:
+						input#edit-item-code(name='item-code' type='text')
+					.input-block
+						label Weight:
+						input#edit-item-weight(name='item' type='text' placeholder='Приблизительный вес товара')
+					.input-block
+						label Item Link:
+						input#edit-item-link(name='item-link' type='text')
+					.input-block
+						label Value TL:
+						input#edit-item-value(name='value' type='text' placeholder='Цена в лирах')
+					.input-block(style='max-width: 200px')
+						label Count:
+						input#edit-item-count(name='count' type='number' value='1' placeholder='Количество')
+					.input-block(style='max-width: 200px')
+						label Country code:
+						select#edit-item-country-code(name='country-code')
+							option(value='TR') TR
+							option(value='RO') RO
+							option(value='RU') RU
+							option(value='MD') MD
+					.input-block(style='flex-direction: row')
+						label Warning:
+						input#edit-item-warning(name='warning' type='checkbox' style='width: 18px; height:18px')
+				button#edit-item-send-form-button.btn.form-button.create Сохранить
 		wrapper
 			header
 				.header-inf.text-responsive
@@ -61,35 +109,8 @@ html(lang='en')
 										img(src='../svg/id-card-svgrepo-com.svg' alt='')
 									span key
 							td.table-head-checkbox
+								span watch events
+							td.table-head-checkbox
 								button#table-select-button.btn-green-light(data-selected='false') Select
 					tbody
-						tr
-							td.table-column
-								.shipment-id(href='#')
-									| 123123
-									.shipment-sender-name
-										| SenderName
-							td.table-column
-								a.shipment-trc.link(href='/shipments/0' style='width: fit-content;') TRC
-								.shipment-dleivery-type
-									| Delivery type
-							td.table-column
-								.shipment-price-usd
-									| price usd
-									.shipment-price-tl
-										| price tl
-							td.table-column
-								.shipment-receiver-coutry-code
-									| Receiver country
-									.shipment-receiver-city
-										| Receiver city
-										.shipment-receiver-name
-											| Receiver name
-							td.table-column.hiddenable
-								.shipment-created-time
-									| Created time
-									.shipment-updated-time
-										| Updated time
-							td.table-column
-								input.table-checkbox(type='checkbox')
 		script(src='/static/js/tablepage.js' defer='')

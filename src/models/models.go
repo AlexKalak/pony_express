@@ -80,6 +80,17 @@ type Price struct {
 	Price         int         `json:"price"`
 }
 
+type PriceOverMaxWeight struct {
+	ID            int         `json:"-"`
+	WeightID      int         `json:"-"`
+	Weight        Weight      `json:"weight"`
+	PackageTypeID int         `json:"-"`
+	PackageType   PackageType `json:"package-type"`
+	RegionID      int         `json:"-"`
+	Region        Region      `json:"region"`
+	Price         int         `json:"price"`
+}
+
 type Sender struct {
 	ID            int     `gorm:"type:BIGINT" json:"-"`
 	FullName      string  `gorm:"type:VARCHAR(255) NOT NULL" json:"full-name" validate:"required,min=10,only-letters-and-spaces"`

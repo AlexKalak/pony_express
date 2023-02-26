@@ -8,7 +8,7 @@ import (
 )
 
 func MigrateRegions() {
-	array := ReadCSV("/home/alexkalak/Desktop/countries/csv/regions.csv")
+	array := ReadCSV("/home/alexkalak/Desktop/pony_express/csvtables/regions.csv")
 
 	for _, entity := range array {
 		fmt.Println(entity)
@@ -19,6 +19,7 @@ func MigrateRegions() {
 func SaveIfNotExists(regionName string) {
 	database := db.GetDB()
 	var region models.Region
+	fmt.Println(regionName)
 	database.Find(&region, "name = ?", regionName)
 	if region.ID != 0 {
 		return
