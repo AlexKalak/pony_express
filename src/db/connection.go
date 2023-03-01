@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/alexkalak/pony_express/src/models"
+	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -14,11 +15,13 @@ import (
 var database *gorm.DB
 
 func Init() *gorm.DB {
+	godotenv.Load()
 	dbUser := os.Getenv("DB_USR")
 	dbPass := os.Getenv("DB_PASS")
 	dbServ := os.Getenv("DB_SERV")
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/pony_express_dev?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass, dbServ)
+	fmt.Println(dsn)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)

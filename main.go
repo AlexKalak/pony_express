@@ -7,7 +7,6 @@ import (
 	apiRouter "github.com/alexkalak/pony_express/src/Routes/api"
 	webRouter "github.com/alexkalak/pony_express/src/Routes/web"
 	currencyhelper "github.com/alexkalak/pony_express/src/currencyHelper"
-	"github.com/alexkalak/pony_express/src/db"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
@@ -17,7 +16,7 @@ func main() {
 	// if err != nil {
 	// 	panic(err)
 	// }
-	db.Init()
+	// db.Init()
 
 	go currencyhelper.StartGettingCurrencies(time.Hour * 24)
 
