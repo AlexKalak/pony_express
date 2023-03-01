@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"time"
 
 	apiRouter "github.com/alexkalak/pony_express/src/Routes/api"
@@ -29,8 +30,13 @@ func main() {
 		return c.SendString("Hello world")
 	})
 
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		port = "9999"
+	}
 	app.Route("/api", apiRouter.ApiRouter)
 	app.Route("/web", webRouter.WebRouter)
 
-	app.Listen("0.0.0.0:" + "3000")
+	app.Listen("0.0.0.0:" + port)
 }
