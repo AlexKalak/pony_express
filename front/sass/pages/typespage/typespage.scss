@@ -1,0 +1,71 @@
+@import '../../global/standart-style.scss';
+@import '../../global/buttons.scss';
+@import '../../global/table.scss';
+@import '../../global/link.scss';
+@import '../../global/popup.scss';
+@import '../../global/inputs.scss';
+
+
+.table input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+#create-new-type-button {
+    display: block;
+    width: 90%;
+    max-width: 630px;
+    margin: 10px;
+    font-size: 0.85rem;
+}
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+}
+
+.table td{
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    #create-new-type-button {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .table thead {
+        display: none;
+    }
+    .table tbody {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .table tr {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 10px;
+    }
+
+    .table td {
+        font-size: 0.75rem;
+        font-weight: 600;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-content: space-between;
+    }
+
+    .table td::before {
+        content: attr(prefix);
+        font-weight: 400;
+        text-transform: capiatlize;
+        font-size: 0.75rem;
+    }
+    #create-new-type-button {
+        font-size: 0.6rem;
+    }
+}

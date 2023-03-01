@@ -1,0 +1,50 @@
+@import '../vendor/variables.scss';
+
+.resizable-input {
+    box-sizing: border-box;
+}
+
+input[type="text"] {
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 8px 10px;
+    word-break: break-all;
+    // &:focus {
+    //     outline: 1px solid #666;
+    // }
+}
+
+input[type="checkbox"] {
+    // width: 20px;
+    // height: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+input[type="date"] {
+    font-size: 0.6rem;
+}
+
+select {
+    padding: 6px 10px;
+    border: 1px solid rgba(128, 128, 128, 0.322);
+    // &:focus {
+    //     outline: 1px solid #666;
+    // }
+}
+
+textarea {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 8px 10px;
+}
+
+.err {
+    font-size: 0.9rem;
+    font-family: $font-circe;
+    color: rgb(231, 54, 54);
+}
+.err::before {
+    content: "*";
+}

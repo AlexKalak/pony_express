@@ -1,0 +1,78 @@
+@import '../vendor/mixins.scss';
+@import '../vendor/variables.scss';
+
+.btn {
+    cursor: pointer;
+    padding: 8px 20px;
+    border: none;
+
+    color: white;
+    font-family: $font-circe;
+    font-weight: 700;
+    
+    border-radius: 3px;
+    @include text-responsive(0.85rem, 0.8rem,0.7rem,0.6rem);
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn-small {
+    padding: 5px 10px;
+}
+
+.btn-primary {
+    background: $blue;
+
+    &:hover,&:focus {
+        background: $blue-dark;
+    }
+}
+
+.btn-primary-light {
+    background: $blue-light;
+
+    &:hover,&:focus {
+        background: $blue-dark;
+    }
+}
+
+.btn-danger {
+    background: $red;
+
+    &:hover,&:focus {
+        background: $red-dark;
+    }
+}
+
+.btn-green {
+    background: $green;
+}
+
+.btn-green-light {
+    background: $green-light;
+}
+
+.edit-button {
+    padding: 10px;
+    min-width: 150px;
+}
+
+.edit-button[data-enabled="true"] {
+    background: $blue-dark;
+}
+
+.text-responsive {
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .text-responsive {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .text-responsive {
+        font-size: 0.6rem;
+    }
+}

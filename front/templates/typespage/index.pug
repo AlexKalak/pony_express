@@ -1,0 +1,96 @@
+doctype html
+html(lang='en')
+	head
+		meta(charset='UTF-8')
+		meta(http-equiv='X-UA-Compatible' content='IE=edge')
+		meta(name='viewport' content='width=device-width, initial-scale=1.0')
+		link(rel='stylesheet' href='../css/buttons.css')
+		link(rel='stylesheet' href='../css/table.css')
+		link(rel='stylesheet' href='../css/typespage.css')
+		link(rel='stylesheet' href='../css/popup.css')
+		link(rel='stylesheet' href='../css/inputs.css')
+		title Document
+		script(src='https://code.jquery.com/jquery-3.6.3.min.js' integrity='sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=' crossorigin='anonymous')
+	body
+		modal-window#create-new-type-popup(style='display:none')
+			darking(style='display:none')
+			content
+				span.cross
+				form(action='' method='POST')
+					section.form-section
+						.form-section-title Создать новый тип
+						.input-block
+							label(for='') En-name
+							input#new-type-en-name(type='text' name='en-name')
+						.input-block
+							label(for='') Tr-name
+							input#new-type-tr-name(type='text' name='tr-name')
+						.input-block
+							label(for='') Ro-name
+							input#new-type-ro-name(type='text' name='ro-name')
+						.input-block
+							label(for='') Gtip code
+							input#new-type-gtip-code(type='text' name='gtip-code')
+						.input-block
+							label(for='') Item code
+							input#new-type-item-code(type='text' name='item-code')
+						.input-block
+							label(for='') Near weight
+							input#new-type-near-weight(type='text' name='near-weight')
+						.input-block.row
+							label(for='') Warning
+							input#new-type-warning.checkbox(type='checkbox' name='near-weight')
+				.form-buttons
+					button#new-type-submit.btn.btn-green-light(type='submit') Создать
+		modal-window#edit-type-popup(style='display:none')
+			darking 
+			content
+				span.cross
+				form#edit-type-form.form(action='' method='POST')
+					.form-section-title Редактировать новый тип
+					.input-block
+						label(for='') En-name
+						input#edit-type-en-name(type='text' name='en-name')
+					.input-block
+						label(for='') Tr-name
+						input#edit-type-tr-name(type='text' name='tr-name')
+					.input-block
+						label(for='') Ro-name
+						input#edit-type-ro-name(type='text' name='ro-name')
+					.input-block
+						label(for='') Gtip code
+						input#edit-type-gtip-code(type='text' name='gtip-code')
+					.input-block
+						label(for='') Item code
+						input#edit-type-item-code(type='text' name='item-code')
+					.input-block
+						label(for='') Near weight
+						input#edit-type-near-weight(type='text' name='near-weight')
+					.input-block.row
+						label(for='') Warning
+						input#edit-type-warning.checkbox(type='checkbox' name='near-weight')
+				.form-buttons
+					button#edit-type-submit.btn.btn-green-light(type='submit') Сохранить
+		wrapper
+			header.header
+				h3 Types page
+			button#create-new-type-button.btn.btn-primary + Create new type
+			section.types-section
+				.type-block
+					table.table(cellspacing='0')
+						thead
+							tr
+								td(prefix='') tr-name
+								td(prefix='') en-name
+								td(prefix='') ro-name
+								td(prefix='') Gtip code
+								td(prefix='') Code of type
+								td(prefix='') Near weight(kg)
+								td(prefix='')
+									button#table-select-button.btn.btn-green-light Select
+						tbody
+		script(src='/static/js/typespage.js' defer='')
+		script(src='../js/popup.js' defer='')
+		script(src='../js/typespage/typespage-popup.js' defer='')
+		script(src='../js/typespage/types-uploading.js' defer='')
+		script(src='../js/typespage/select-all-inputs.js' defer='')

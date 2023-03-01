@@ -1,0 +1,36 @@
+package main
+
+import (
+	"time"
+
+	apiRouter "github.com/alexkalak/pony_express/src/Routes/api"
+	webRouter "github.com/alexkalak/pony_express/src/Routes/web"
+	currencyhelper "github.com/alexkalak/pony_express/src/currencyHelper"
+	"github.com/alexkalak/pony_express/src/db"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+)
+
+func main() {
+	// envMap, err := godotenv.Read(".env")
+	// if err != nil {
+	// 	panic(err)
+	// }
+	db.Init()
+
+	go currencyhelper.StartGettingCurrencies(time.Hour * 24)
+
+	app := fiber.New()
+
+	app.Use(cors.New())
+	app.Static("/static", "dist/static")
+
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("Hello world")
+	})
+
+	app.Route("/api", apiRouter.ApiRouter)
+	app.Route("/web", webRouter.WebRouter)
+
+	app.Listen("0.0.0.0:" + "3000")
+}
