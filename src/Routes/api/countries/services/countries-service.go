@@ -4,7 +4,6 @@ import (
 	"github.com/alexkalak/pony_express/src/db"
 	"github.com/alexkalak/pony_express/src/models"
 	"github.com/gofiber/fiber/v2"
-	"gorm.io/gorm/clause"
 )
 
 type CountriesService interface {
@@ -22,7 +21,7 @@ func (cs *countriesService) GetAllCountries(c *fiber.Ctx) (*[]models.Country, er
 	database := db.GetDB()
 
 	p_countries := new([]models.Country)
-	res := database.Preload("Cities." + clause.Associations).Find(p_countries)
+	res := database.Preload("Cities.District.Area").Find(p_countries)
 	if res.Error != nil {
 		return nil, res.Error
 	}

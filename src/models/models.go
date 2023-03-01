@@ -28,30 +28,47 @@ type Country struct {
 	Cities        []City      `json:"cities"`
 }
 
-type City struct {
+type Area struct {
 	ID        int     `gorm:"type:BIGINT" json:"-"`
 	Name      string  `gorm:"type:VARCHAR(255) NOT NULL" json:"name" validate:"required"`
-	Region    Region  `json:"region"`
-	RegionID  int     `json:"-"`
 	Country   Country `json:"country"`
 	CountryID int     `gorm:"type:BIGINT" json:"-"`
+}
+
+type District struct {
+	ID     int    `gorm:"type:BIGINT" json:"id"`
+	Name   string `gorm:"type:VARCHAR(255)" json:"name"`
+	AreaID int    `gorm:"type:BIGINT"`
+	Area   Area   `json:"area"`
+}
+
+type City struct {
+	ID         int      `gorm:"type:BIGINT" json:"-"`
+	Name       string   `gorm:"type:VARCHAR(255) NOT NULL" json:"name" validate:"required"`
+	Region     Region   `json:"region"`
+	RegionID   int      `json:"-"`
+	Country    Country  `json:"country"`
+	CountryID  int      `gorm:"type:BIGINT" json:"-"`
+	DistrictID *int     `gorm:"type:BIGINT"`
+	District   District `json:"district"`
+}
+
+type SenderCity struct {
+	ID   int    `gorm:"type:BIGINT" json:"-"`
+	Name string `gorm:"type:VARCHAR(255) NOT NULL" json:"name" validate:"required"`
+}
+
+type SenderRegion struct {
+	ID           int        `gorm:"type:BIGINT" json:"-"`
+	Name         string     `gorm:"type:VARCHAR(255) NOT NULL" json:"name" validate:"required"`
+	SenderCityID int        `grom:"type:BIGINT" json:"-"`
+	SenderCity   SenderCity `json:"sender-city"`
+	PriceForDoor int        `gorm:"type:BIGINT" json:"price-for-door"`
 }
 
 type Region struct {
 	ID   int    `gorm:"type:BIGINT" json:"id"`
 	Name string `gorm:"type:VARCHAR(255)" json:"name"`
-}
-
-type District struct {
-	ID     int `gorm:"type:BIGINT" json:"id"`
-	CityID int `gorm:"type:BIGINT"`
-}
-
-type CityPlace struct {
-	ID         int `gorm:"type:BIGINT" json:"id"`
-	DistrictID int `gorm:"type:BIGINT" json:"district-id"`
-	ZoneID     int `gorm:"type:BIGINT" json:"zone-id"`
-	CountryID  int `gorm:"type:BIGINT" json:"country-id"`
 }
 
 type Weight struct {
@@ -77,6 +94,8 @@ type Price struct {
 	Region        Region      `json:"region"`
 	PackageTypeID int         `json:"-"`
 	PackageType   PackageType `json:"package-type"`
+	SenderCityID  int         `json:"-"`
+	SenderCity    SenderCity  `json:"sender-city"`
 	Price         int         `json:"price"`
 }
 
@@ -88,6 +107,8 @@ type PriceOverMaxWeight struct {
 	PackageType   PackageType `json:"package-type"`
 	RegionID      int         `json:"-"`
 	Region        Region      `json:"region"`
+	SenderCityID  int         `json:"-"`
+	SenderCity    SenderCity  `json:"sender-city"`
 	Price         int         `json:"price"`
 }
 

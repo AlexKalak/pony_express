@@ -10,7 +10,7 @@ import (
 	"github.com/alexkalak/pony_express/src/models"
 )
 
-func GetPrice(weight float64, regionID int, packageTypeID int, packageType string) (int, error) {
+func GetPrice(weight float64, regionID int, packageTypeID int, packageType string, senderCityID int) (int, error) {
 	allWeightsOfPackage, err := GetAllWeightsOfPackage(regionID, packageTypeID)
 	if err != nil {
 		return 0, err
@@ -19,26 +19,39 @@ func GetPrice(weight float64, regionID int, packageTypeID int, packageType strin
 	maxWeight := GetMaxWeightFromArray(allWeightsOfPackage)
 	RoundUpWeight(&weight, allWeightsOfPackage, maxWeight)
 
+	if weight < maxWeight {
+		weightFromDB, err := weights_helper.GetWeightFromDB(weight)
+		if err != nil {
+			return 0, err
+		}
+
+		priceFromDB, err := price_helper.GetPriceFromDB(regionID, packageTypeID, weightFromDB.ID, senderCityID)
+		if err != nil {
+			return 0, err
+		}
+		return priceFromDB.Price, nil
+	}
+
 	p_maxWeightFromDB, err := weights_helper.GetWeightFromDB(maxWeight)
 	if err != nil {
 		return 0, err
 	}
 
-	maxPriceFromDB, err := price_helper.GetPriceFromDB(regionID, packageTypeID, p_maxWeightFromDB.ID)
+	maxPriceFromDB, err := price_helper.GetPriceFromDB(regionID, packageTypeID, p_maxWeightFromDB.ID, senderCityID)
 	if err != nil {
 		return 0, nil
 	}
 
-	overPrice, hasOverPrice := GetOverPrice(regionID, packageTypeID)
+	overPrice, hasOverPrice := GetOverPrice(regionID, packageTypeID, senderCityID)
 	if !hasOverPrice {
-		return GetPriceUsingMaxWeightAndReminder(weight, maxWeight, maxPriceFromDB)
+		return GetPriceUsingMaxWeightAndReminder(weight, maxWeight, maxPriceFromDB, senderCityID)
 	} else {
 		return GetPriceUsingOverPrice(weight, maxWeight, overPrice, maxPriceFromDB)
 	}
 
 }
 
-func GetPriceUsingMaxWeightAndReminder(weight float64, maxWeight float64, maxPriceFromDB *models.Price) (int, error) {
+func GetPriceUsingMaxWeightAndReminder(weight float64, maxWeight float64, maxPriceFromDB *models.Price, senderCityID int) (int, error) {
 	numOfMaxWeights := int(weight / maxWeight)
 	reminder := weight - float64(numOfMaxWeights)*maxWeight
 
@@ -47,7 +60,7 @@ func GetPriceUsingMaxWeightAndReminder(weight float64, maxWeight float64, maxPri
 
 	price := numOfMaxWeights * maxPriceFromDB.Price
 
-	err := addReminderToPrice(&price, reminder, maxPriceFromDB.RegionID, maxPriceFromDB.PackageTypeID)
+	err := addReminderToPrice(&price, reminder, maxPriceFromDB.RegionID, maxPriceFromDB.PackageTypeID, senderCityID)
 	if err != nil {
 		return 0, err
 	}
@@ -71,11 +84,11 @@ func GetPriceUsingOverPrice(weight float64, maxWeight float64, overPrice *models
 	return price, nil
 }
 
-func GetOverPrice(regionID int, packageTypeID int) (*models.PriceOverMaxWeight, bool) {
+func GetOverPrice(regionID int, packageTypeID int, senderCityID int) (*models.PriceOverMaxWeight, bool) {
 	database := db.GetDB()
 
 	var overPrice models.PriceOverMaxWeight
-	res := database.Preload("Weight").Find(&overPrice, "region_id = ? AND package_type_id = ?", regionID, packageTypeID)
+	res := database.Preload("Weight").Find(&overPrice, "region_id = ? AND package_type_id = ? AND sender_city_id = ?", regionID, packageTypeID, senderCityID)
 	if res.RowsAffected < 1 {
 		return nil, false
 	}
@@ -87,7 +100,7 @@ func GetOverPrice(regionID int, packageTypeID int) (*models.PriceOverMaxWeight, 
 	return &overPrice, true
 }
 
-func addReminderToPrice(price *int, reminder float64, regionID int, packageTypeID int) error {
+func addReminderToPrice(price *int, reminder float64, regionID int, packageTypeID int, senderCityID int) error {
 	if reminder > 0 {
 		p_reminderFromDB, err := weights_helper.GetWeightFromDB(reminder)
 		if err != nil {
@@ -95,7 +108,7 @@ func addReminderToPrice(price *int, reminder float64, regionID int, packageTypeI
 		}
 
 		//Finding price for reminder weight in db
-		reminderPriceFromDB, err := price_helper.GetPriceFromDB(regionID, packageTypeID, p_reminderFromDB.ID)
+		reminderPriceFromDB, err := price_helper.GetPriceFromDB(regionID, packageTypeID, p_reminderFromDB.ID, senderCityID)
 		if err != nil {
 			return err
 		}

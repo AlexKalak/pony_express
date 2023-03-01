@@ -14,9 +14,6 @@ const EditShipmentInputs = {
     "sender-email": {
         selector: SELECTORS.senderEmail,
     },
-    "sender-country": {
-        selector: SELECTORS.senderCountry,
-    },
     "sender-city": {
         selector: SELECTORS.senderCity,
     },

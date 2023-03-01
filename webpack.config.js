@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
     mode: 'development',
@@ -61,6 +62,12 @@ module.exports = {
             title: 'calculator',
             template: path.join(__dirname, 'front/templates/calculator/index.pug'),
             filename: '../../templates/calculator.html',
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                {from: path.resolve(__dirname, 'front/js/components'), to: path.resolve(__dirname, 'dist/static/js/components')},
+                {from: path.resolve(__dirname, 'front/svg'), to: path.resolve(__dirname, 'dist/static/svg')}
+            ]
         }),
     ],
     devServer: {

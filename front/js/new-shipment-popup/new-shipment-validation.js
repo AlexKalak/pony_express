@@ -148,7 +148,6 @@ export function addValidations() {
     //Receiver-Email
     AddValidationForInput(NewShipmentInputs[2]["receiver-email"], 
         [
-            NotEmptyValidator.bind(NewShipmentInputs[2]["receiver-email"]),
             IsEmailValidator.bind(NewShipmentInputs[2]["receiver-email"]),
         ]
     )

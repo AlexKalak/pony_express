@@ -9,6 +9,7 @@ import (
 	"github.com/alexkalak/pony_express/src/Routes/validation"
 	currencyhelper "github.com/alexkalak/pony_express/src/currencyHelper"
 	"github.com/alexkalak/pony_express/src/db"
+	"github.com/alexkalak/pony_express/src/helpers/city_helper"
 	"github.com/alexkalak/pony_express/src/models"
 	"github.com/alexkalak/pony_express/src/types"
 	"github.com/gofiber/fiber/v2"
@@ -93,6 +94,7 @@ func (s *shipmentsService) CreateShipment(c *fiber.Ctx) (*models.Shipment, []*ty
 	if err != nil {
 		return nil, nil, err
 	}
+
 	NewShipment.DeliveryType.ID, err = GetDeliveryTypeID(NewShipment.DeliveryType.Name)
 	if err != nil {
 		if errors.Is(err, l_custom_errors.ErrDeliveryTypeNotFound) {
@@ -108,27 +110,29 @@ func (s *shipmentsService) CreateShipment(c *fiber.Ctx) (*models.Shipment, []*ty
 
 		return nil, nil, err
 	}
+	//Getting SenderCityFromDB
+	var SenderCity *models.City
+	if NewShipment.Sender.City.District.Name != "" {
+		SenderCity, err = city_helper.GetCityByNameAndDistrict(NewShipment.Sender.City.Name, NewShipment.Sender.City.District.Name)
+	} else {
+		SenderCity, err = city_helper.GetCityByName(NewShipment.Sender.City.Name)
+	}
+	if err != nil {
+		return nil, nil, err
+	}
+	NewShipment.Sender.City = *SenderCity
 
-	NewShipment.Receiver.Country.ID, err = GetCountryId(NewShipment.Receiver.Country.Name)
+	//Getting SenderCityFromDB
+	var ReceiverCity *models.City
+	if NewShipment.Receiver.City.District.Name != "" {
+		ReceiverCity, err = city_helper.GetCityByNameAndDistrict(NewShipment.Receiver.City.Name, NewShipment.Receiver.City.District.Name)
+	} else {
+		ReceiverCity, err = city_helper.GetCityByName(NewShipment.Receiver.City.Name)
+	}
 	if err != nil {
-		fmt.Println(err)
 		return nil, nil, err
 	}
-	NewShipment.Sender.Country.ID, err = GetCountryId(NewShipment.Sender.Country.Name)
-	if err != nil {
-		fmt.Println(err)
-		return nil, nil, err
-	}
-	NewShipment.Receiver.City.ID, err = GetCityId(NewShipment.Receiver.City.Name)
-	if err != nil {
-		fmt.Println(err)
-		return nil, nil, err
-	}
-	NewShipment.Sender.City.ID, err = GetCityId(NewShipment.Sender.City.Name)
-	if err != nil {
-		fmt.Println(err)
-		return nil, nil, err
-	}
+	NewShipment.Receiver.City = *ReceiverCity
 
 	NewShipment.PriceUSD = 0
 	NewShipment.PriceTRY = 0

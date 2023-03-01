@@ -4,13 +4,15 @@ import { getValue } from "../get-value-functions"
 import { SELECTORS } from "./selectors"
 
 import { blocksNum, blockSelectorStart } from "./create-new-place-block"
+import { cities } from '../countriesUploading/cities-datalist'
 
 export const getValues = () => {
-    let receiverCityInputValue = getValue(SELECTORS.receiverCountry)
-    let selectedCity = $(`${SELECTORS.datalist} option[value="${receiverCityInputValue}"]`).attr("city")
-
+    let receiverInf = getReceiverInf()
     let data = {
-        "receiver-city": selectedCity,
+        "sender-city": getValue(SELECTORS.senderCity),
+        "receiver-city": receiverInf.city,
+        "receiver-district": receiverInf.district,
+        "receiver-area": receiverInf.area, 
         "delivery-type": getValue(SELECTORS.deliveryType),
         "package-type": getValue(SELECTORS.packageType),
         "cost": +getValue(SELECTORS.cost),
@@ -36,4 +38,18 @@ function getPlacesValues() {
         })
     })
     return placesArray
+}
+
+function getReceiverInf() {
+    let selectedCity = getValue(SELECTORS.receiverCity)
+    console.log(selectedCity)
+    let cityFromDB = cities.find(city => city.value === selectedCity)
+    if(cityFromDB.length < 1) {
+        return false
+    }
+    return {
+        city: cityFromDB.city,
+        district: cityFromDB.district,
+        area: cityFromDB.area,
+    }
 }

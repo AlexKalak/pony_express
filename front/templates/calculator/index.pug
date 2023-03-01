@@ -36,11 +36,13 @@ html(lang='en')
 							input#package-type-B2B(type='radio' name='package-type' value='B2B')
 				section.upper-inputs-block
 					.input-block
-						input#sender-country(list='cities-list' placeholder='Откуда' type='text' value='Istanbul' disabled='')
+						select#sender-city
+							option Istanbul
+							option Antalya
 					div
-						img(src='/static/right-arrow-svgrepo-com.svg' height='25px' width='25px' alt='')
+						img(src='/static/svg/right-arrow-svgrepo-com.svg' height='25px' width='25px' alt='')
 					.input-block
-						input#receiver-country(list='cities-list' placeholder='Куда' type='text')
+						include ../components/cities-datalist.pug
 				section.central-inputs-block
 					.places-block
 						#place-block-1.place-block

@@ -13,103 +13,6 @@ html(lang='en')
 		script(src='/static/js/order.js' defer='')
 		title Document
 	body
-		//- modal-window.create-new-post-modal-window(style='display:none;')
-			darking(style='display: none;')
-			content
-				span.cross
-				form.form(action='#' method='POST')
-					.form-section(section-num='1')
-						h3.form-section-title  Отправитель
-						.input-block
-							label Фамилия Имя:
-							input#new-shipment-sender-name-input(name='sender-name' type='text')
-						.input-block
-							label Полный адрес:
-							input#new-shipment-sender-address-input(name='sender-address' type='text')
-						.input-block
-							label Телефон:
-							input#new-shipment-sender-phone-number(name='sender-phone-number' type='text')
-						.input-block
-							label E-mail:
-							input#new-shipment-sender-email(name='sender-email' type='text')
-						.input-block
-							label Страна:
-							select#new-shipment-sender-country(name='sender-country')
-								option(value='Turkey') Turkey
-								option(value='Russia') Russia
-								option(value='Moldova') Moldova
-								option(value='Romania') Romania
-						.input-block
-							label Город:
-							select#new-shipment-sender-city(name='sender-city')
-								option(value='Istanbul') Istanbul
-								option(value='Istanbul') Istanbul
-								option(value='Istanbul') Istanbul
-								option(value='Istanbul') Istanbul
-								option(value='Istanbul') Istanbul
-								option(value='Istanbul') Istanbul
-								option(value='Istanbul') Istanbul
-								option(value='Istanbul') Istanbul
-								option(value='Istanbul') Istanbul
-						.input-block
-							label Офис приема:
-							input#new-shipment-receiving-office(name='sender-receiving-office' type='text')
-						.input-block
-							label Ikamet ID(9***):
-							input#new-shipment-ikamet-id(name='sender-ikamet-id' type='text')
-						.input-block
-							label Тип доставки:
-							select#new-shipment-delivery-type(name='delivery-type')
-								option(value='B2C') B2C
-								option(value='B2B') B2B
-								option(value='C2C') C2C
-					// ===============================================
-					.form-section(section-num='2')
-						h3.form-section-title  Получатель
-						.input-block
-							label Компания:
-							input#new-shipment-receiver-company(name='receiver-company' type='text')
-						.input-block
-							label Фамилия Имя:
-							input#new-shipment-receiver-name(name='receiver-name' type='text')
-						.input-block
-							label Полный адрес:
-							input#new-shipment-receiver-address(name='receiver-address' type='text')
-						.input-block
-							label Телефон:
-							input#new-shipment-receiver-phone-number(name='receiver-phone-number' type='text')
-						.input-block
-							label E-mail:
-							input#new-shipment-receiver-email(name='receiver-email' type='text')
-						.input-block
-							label Страна:
-							select#new-shipment-receiver-country(name='receiver-country')
-								option(value='Turkey') Turkey
-								option(value='Russia') Russia
-								option(value='Moldova') Moldova
-								option(value='Romania') Romania
-						.input-block
-							label Город:
-							select#new-shipment-receiver-city(name='receiver-city')
-								option(value='Istanbul') Istanbul
-								option(value='Istanbul') Istanbul
-								option(value='Istanbul') Istanbul
-								option(value='Istanbul') Istanbul
-								option(value='Istanbul') Istanbul
-								option(value='Istanbul') Istanbul
-								option(value='Istanbul') Istanbul
-								option(value='Istanbul') Istanbul
-								option(value='Istanbul') Istanbul
-						.input-block
-							label Описание для курьера:
-							textarea#new-shipment-description(name='description' cols='30' rows='5')
-				.form-buttons
-					button.btn.form-button.prev.
-						Назад
-					button.btn.form-button.next.active.
-						Дальше
-					button.btn.form-button.create(style='display:none;').
-						Создать
 		include ../components/new-shipment-popup.pug
 		modal-window.create-new-item-modal-window(style='display: none;')
 			darking(style='display: none;')
@@ -253,25 +156,8 @@ html(lang='en')
 									.order-field-name
 										| Страна
 									.order-field-content
-										select#edit-shipment-sender-country.order-input(name='sender-country')
-											option(value='Turkey') Turkey
-											option(value='Russia') Russia
-											option(value='Moldova') Moldova
-											option(value='Romania') Romania
-								.order-field-block
-									.order-field-name
-										| Город
-									.order-field-content
-										select#edit-shipment-sender-city.order-input(name='sender-city')
-											option(value='Istanbul') Istanbul
-											option(value='Istanbul') Istanbul
-											option(value='Istanbul') Istanbul
-											option(value='Istanbul') Istanbul
-											option(value='Istanbul') Istanbul
-											option(value='Istanbul') Istanbul
-											option(value='Istanbul') Istanbul
-											option(value='Istanbul') Istanbul
-											option(value='Istanbul') Istanbul
+										include ../components/cities-datalist.pug
+										+datalist-input("Название города", "order-input", "#edit-shipment-sender-city")
 								.order-field-block
 									.order-field-name
 										| Офис приема:

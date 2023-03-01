@@ -35,6 +35,8 @@ func Init() *gorm.DB {
 		&models.Weight{},
 		&models.Price{},
 		&models.PriceOverMaxWeight{},
+		&models.SenderCity{},
+		&models.SenderRegion{},
 	)
 	return db
 }

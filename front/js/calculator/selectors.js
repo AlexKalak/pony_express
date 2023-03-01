@@ -1,6 +1,6 @@
 export const SELECTORS = {
-    datalist: "#cities-list",
-    receiverCountry: "#receiver-country",
+    senderCity: "#sender-city",
+    receiverCity: ".datalist-input input",
     weight: "#place-block-1 .weight",
     length: "#place-block-1 .length",
     height: "#place-block-1 .height",

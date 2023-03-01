@@ -1,0 +1,40 @@
+mixin datalist-input(placeholder, inputClass, inputId)
+    style.
+        .datalist-container {
+            display:none;
+            position: relative;
+        }
+        .datalist-input[active=true] .datalist-container{
+            display: block;
+        }
+        .datalist-block {
+            position: absolute;
+            background: #fff;
+            width: 100%;
+            max-height: 30vh;
+            overflow: auto;
+        }
+        .datalist-option {
+            font-size: 0.9rem;
+        }
+        .datalist-option:hover {
+            background: #ddd;
+        }
+
+        @media (max-width: 768px) {
+            .datalist-option {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .datalist-option {
+                font-size: 0.65rem;
+            }
+        }
+
+    .datalist-input(active="false")
+        input.cities-input(class=inputClass id=inputId placeholder='Название города' type='text')
+        .datalist-container
+            .datalist-block
+    script(src="/static/js/components/datalist.js") 
