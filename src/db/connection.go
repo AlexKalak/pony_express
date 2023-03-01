@@ -3,6 +3,7 @@ package db
 import (
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/alexkalak/pony_express/src/models"
@@ -13,7 +14,11 @@ import (
 var database *gorm.DB
 
 func Init() *gorm.DB {
-	dsn := "root:rootroot@tcp(localhost:3306)/pony_express_dev?charset=utf8mb4&parseTime=True&loc=Local"
+	dbUser := os.Getenv("DB_USR")
+	dbPass := os.Getenv("DB_PASS")
+	dbServ := os.Getenv("DB_SERV")
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/pony_express_dev?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass, dbServ)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)

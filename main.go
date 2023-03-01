@@ -12,6 +12,10 @@ import (
 )
 
 func main() {
+	// envMap, err := godotenv.Read(".env")
+	// if err != nil {
+	// 	panic(err)
+	// }
 	db.Init()
 
 	go currencyhelper.StartGettingCurrencies(time.Hour * 24)
@@ -28,5 +32,5 @@ func main() {
 	app.Route("/api", apiRouter.ApiRouter)
 	app.Route("/web", webRouter.WebRouter)
 
-	app.Listen(":9999")
+	app.Listen("0.0.0.0:" + "3000")
 }
