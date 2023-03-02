@@ -21,8 +21,9 @@ func Init() *gorm.DB {
 	dbServ := os.Getenv("DB_SERV")
 	dbPort := os.Getenv("DB_PORT")
 	dbName := os.Getenv("DB_NAME")
+	dbFullHost := dbServ + ":" + dbPort
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass, dbFullHost, dbName)
 
-	dsn := fmt.Sprintf("%s:%s@tcp(%s, %s)/%s?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass, dbServ, dbPort, dbName)
 	fmt.Println(dsn)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
