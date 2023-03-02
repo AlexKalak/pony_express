@@ -3,6 +3,7 @@ package services
 import (
 	"encoding/json"
 	"fmt"
+	"math"
 
 	"github.com/alexkalak/pony_express/src/Routes/validation"
 	currencyhelper "github.com/alexkalak/pony_express/src/currencyHelper"
@@ -33,11 +34,9 @@ type Place struct {
 }
 
 type CalculateRequestBody struct {
-	ReceiverCity     string  `json:"receiver-city" validate:"required"`
-	ReceiverDistrict string  `json:"receiver-distrtice"`
-	SenderRegion     string  `json:"sender-city" validate:"required"`
-	Places           []Place `json:"places" validate:"required,dive"`
-	PackageType      string  `json:"package-type" validate:"required"`
+	SenderRegion string  `json:"sender-city" validate:"required"`
+	Places       []Place `json:"places" validate:"required,dive"`
+	PackageType  string  `json:"package-type" validate:"required"`
 }
 
 type ResponsePrices struct {
@@ -65,24 +64,8 @@ func (cs *calculatorService) Calculate(c *fiber.Ctx) (*ResponsePrices, bool, []*
 	}
 	senderCityFromDB := senderRegionFromDB.SenderCity
 
-	//Getting from database receiver city
-	var receiverCityFromDB *models.City
-	if reqBody.ReceiverDistrict != "" {
-		receiverCityFromDB, err = city_helper.GetCityByNameAndDistrict(reqBody.ReceiverCity, reqBody.ReceiverDistrict)
-	} else {
-		receiverCityFromDB, err = city_helper.GetCityByName(reqBody.ReceiverCity)
-	}
-	if err != nil {
-		return nil, false, nil, fmt.Errorf("receiver-city not found")
-	}
-
-	//Checking if receiver area is Moscow of Saint_Petersburg
-	switch receiverCityFromDB.District.Area.Name {
-	case "Московская":
-		receiverCityFromDB, err = city_helper.GetCityByName("Москва")
-	case "Санкт-Петербург":
-		receiverCityFromDB, err = city_helper.GetCityByName("Санкт-Петербург")
-	}
+	//Getting region_id
+	receiverRegionID, err := getRegionID(c)
 	if err != nil {
 		return nil, false, nil, err
 	}
@@ -99,7 +82,7 @@ func (cs *calculatorService) Calculate(c *fiber.Ctx) (*ResponsePrices, bool, []*
 		return nil, false, nil, err
 	}
 
-	price, err := GetPrice(weight, receiverCityFromDB.RegionID, packageTypeFromDB.ID, packageTypeFromDB.Name, senderCityFromDB.ID)
+	price, err := GetPrice(weight, receiverRegionID, packageTypeFromDB.ID, packageTypeFromDB.Name, senderCityFromDB.ID)
 	if err != nil {
 		return nil, false, nil, err
 	}
@@ -107,11 +90,13 @@ func (cs *calculatorService) Calculate(c *fiber.Ctx) (*ResponsePrices, bool, []*
 	floatedOfficePrice := currencyhelper.ConvertIntValueToFloat(price)
 	floatedDoorPrice := currencyhelper.ConvertIntValueToFloat(senderRegionFromDB.PriceForDoor)
 
+	fmt.Println("floated door price", floatedDoorPrice)
+
 	ResponsePrices := ResponsePrices{
 		OfficeOffice: floatedOfficePrice,
 		OfficeDoor:   floatedOfficePrice,
-		DoorDoor:     floatedOfficePrice + floatedDoorPrice,
-		DoorOffice:   floatedOfficePrice + floatedDoorPrice,
+		DoorDoor:     roundFloat(floatedOfficePrice+floatedDoorPrice, 2),
+		DoorOffice:   roundFloat(floatedOfficePrice+floatedDoorPrice, 2),
 	}
 
 	return &ResponsePrices, usedVolumeWeights, nil, nil
@@ -145,4 +130,66 @@ func handleRequest(c *fiber.Ctx) (*CalculateRequestBody, []*types.ErrorResponse,
 	}
 
 	return &reqBody, nil, nil
+}
+
+func getRegionID(c *fiber.Ctx) (int, error) {
+	database := db.GetDB()
+	var usrInput struct {
+		ReceiverCountry  string `json:"receiver-country"`
+		ReceiverCity     string `json:"receiver-city"`
+		ReceiverDistrict string `json:"receiver-distrtice"`
+	}
+
+	err := c.BodyParser(&usrInput)
+	if err != nil {
+		return 0, err
+	}
+
+	if usrInput.ReceiverCountry == "" {
+		return 0, fmt.Errorf("receiver country is required")
+	}
+
+	var country *models.Country
+	res := database.First(&country, "name = ?", usrInput.ReceiverCountry)
+	if res.Error != nil {
+		return 0, fmt.Errorf("country not found")
+	}
+
+	if country.RegionID != 0 {
+		return country.RegionID, nil
+	}
+
+	if usrInput.ReceiverCity == "" {
+		return 0, fmt.Errorf("country doesn't have price itself, so city name is requred")
+	}
+
+	var receiverCityFromDB *models.City
+	if usrInput.ReceiverDistrict != "" {
+		receiverCityFromDB, err = city_helper.
+			GetCityByCityNameCountryAndDistrict(usrInput.ReceiverCity, usrInput.ReceiverDistrict, usrInput.ReceiverCountry)
+	} else {
+		receiverCityFromDB, err = city_helper.
+			GetCityByCityNameAndCountry(usrInput.ReceiverCity, usrInput.ReceiverCountry)
+	}
+	if err != nil {
+		return 0, fmt.Errorf("receiver-city not found")
+	}
+
+	//Checking if receiver area is Moscow of Saint_Petersburg
+	switch receiverCityFromDB.District.Area.Name {
+	case "Московская":
+		receiverCityFromDB, err = city_helper.GetCityByName("Москва")
+	case "Санкт-Петербург":
+		receiverCityFromDB, err = city_helper.GetCityByName("Санкт-Петербург")
+	}
+	if err != nil {
+		return 0, fmt.Errorf("error occured")
+	}
+
+	return receiverCityFromDB.RegionID, nil
+}
+
+func roundFloat(number float64, precision int) float64 {
+	ratio := math.Pow10(precision)
+	return math.Round(number*ratio) / ratio
 }

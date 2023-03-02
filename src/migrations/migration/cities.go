@@ -19,6 +19,7 @@ func MigrateCities() {
 	database.Find(&UkraineFromDB, "name = ?", "Ukrayna")
 
 	MigrateSenderCities()
+	MigrateSenderRegions()
 
 	MigrateAreas(&RussiaFromDB)
 	MigrateDistricts(&RussiaFromDB)
@@ -41,22 +42,37 @@ func MigrateSenderRegions() {
 		panic(res.Error)
 	}
 
-	AsianIstanbulReg := models.SenderRegion{
+	AsianIstanbulReg1 := models.SenderRegion{
+		Name:       "Азиатская часть Стамбула",
+		SenderCity: Istanbul,
+	}
+	EuropeIstanbulReg1 := models.SenderRegion{
+		Name:       "Европейская часть Стамбула",
+		SenderCity: Istanbul,
+	}
+	AsianIstanbulReg2 := models.SenderRegion{
 		Name:       "Asian part of Istanbul",
 		SenderCity: Istanbul,
 	}
-	EuropeIstanbulReg := models.SenderRegion{
+	EuropeIstanbulReg2 := models.SenderRegion{
 		Name:       "Europe part of Istanbul",
 		SenderCity: Istanbul,
 	}
-	AntalyaReg := models.SenderRegion{
+	AntalyaReg1 := models.SenderRegion{
+		Name:       "Анталия",
+		SenderCity: Antalya,
+	}
+	AntalyaReg2 := models.SenderRegion{
 		Name:       "Antalya",
 		SenderCity: Antalya,
 	}
 
-	database.Create(&AsianIstanbulReg)
-	database.Create(&EuropeIstanbulReg)
-	database.Create(&AntalyaReg)
+	database.Create(&AsianIstanbulReg1)
+	database.Create(&EuropeIstanbulReg1)
+	database.Create(&AntalyaReg1)
+	database.Create(&AsianIstanbulReg2)
+	database.Create(&EuropeIstanbulReg2)
+	database.Create(&AntalyaReg2)
 }
 
 func MigrateSenderCities() {

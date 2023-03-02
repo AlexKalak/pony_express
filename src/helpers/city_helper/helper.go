@@ -16,7 +16,7 @@ func GetCityByName(name string) (*models.City, error) {
 	return &city, nil
 }
 
-func GetCityByNameAndDistrict(name string, districtName string) (*models.City, error) {
+func GetCityByCityNameCountryAndDistrict(name string, countryName, districtName string) (*models.City, error) {
 	database := db.GetDB()
 
 	districtFromDB, err := GetDistrictByName(districtName)
@@ -24,13 +24,39 @@ func GetCityByNameAndDistrict(name string, districtName string) (*models.City, e
 		return nil, err
 	}
 
+	countryFromDB, err := GetCountryByName(districtName)
+	if err != nil {
+		return nil, err
+	}
+
 	var city models.City
-	res := database.Model(&models.City{}).Preload("District.Area").Where("name = ? AND district_id", name, districtFromDB.ID).First(&city)
+	res := database.
+		Model(&models.City{}).
+		Preload("District.Area").
+		Where("name = ? AND district_id = ? AND county_id", name, districtFromDB.ID, countryFromDB.ID).
+		First(&city)
+
 	if res.Error != nil {
 		return nil, res.Error
 	}
 
 	return &city, nil
+}
+func GetCityByCityNameAndCountry(name string, countryName string) (*models.City, error) {
+	database := db.GetDB()
+
+	countryFromDB, err := GetCountryByName(countryName)
+	if err != nil {
+		return nil, err
+	}
+
+	var City models.City
+	res := database.First(&City, "name = ? and country_id = ?", name, countryFromDB.ID)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	return &City, nil
 }
 
 func GetSenderCityByName(name string) (*models.SenderCity, error) {
@@ -53,4 +79,15 @@ func GetDistrictByName(name string) (*models.District, error) {
 	}
 
 	return &district, nil
+}
+
+func GetCountryByName(name string) (*models.Country, error) {
+	database := db.GetDB()
+	var country models.Country
+	res := database.First(&country, "name = ?", name)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	return &country, nil
 }

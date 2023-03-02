@@ -22,8 +22,9 @@ func Init() *gorm.DB {
 	dbPort := os.Getenv("DB_PORT")
 	dbName := os.Getenv("DB_NAME")
 	dbFullHost := dbServ + ":" + dbPort
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass, dbFullHost, dbName)
 
+	// dsn := fmt.Sprintf("root:rootroot@tcp(localhost:3306)/pony_express_dev?charset=utf8mb4&parseTime=True&loc=Local")
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass, dbFullHost, dbName)
 	fmt.Println(dsn)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
