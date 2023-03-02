@@ -19,8 +19,9 @@ func Init() *gorm.DB {
 	dbUser := os.Getenv("DB_USR")
 	dbPass := os.Getenv("DB_PASS")
 	dbServ := os.Getenv("DB_SERV")
+	dbPort := os.Getenv("DB_PORT")
 
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/pony_express_dev?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass, dbServ)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/pony_express_dev?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass, dbServ, dbPort)
 	fmt.Println(dsn)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
