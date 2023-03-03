@@ -16,6 +16,7 @@ func Migrate() {
 	database.Migrator().DropTable("areas")
 	database.Migrator().DropTable("districts")
 	database.Migrator().DropTable("sender_cities")
+	database.Migrator().DropTable("sender_regions")
 	database.Migrator().AutoMigrate(
 		&models.CountryCode{},
 		&models.Country{},
@@ -24,6 +25,7 @@ func Migrate() {
 		&models.Area{},
 		&models.District{},
 		&models.SenderCity{},
+		&models.SenderRegion{},
 	)
 
 	MigrateRegions()

@@ -137,13 +137,17 @@ func getRegionID(c *fiber.Ctx) (int, error) {
 	var usrInput struct {
 		ReceiverCountry  string `json:"receiver-country"`
 		ReceiverCity     string `json:"receiver-city"`
-		ReceiverDistrict string `json:"receiver-distrtice"`
+		ReceiverDistrict string `json:"receiver-district"`
+		ReceiverArea     string `json:"receiver-area"`
 	}
 
 	err := c.BodyParser(&usrInput)
 	if err != nil {
 		return 0, err
 	}
+
+	str, _ := json.MarshalIndent(usrInput, "", "\t")
+	fmt.Println(string(str))
 
 	if usrInput.ReceiverCountry == "" {
 		return 0, fmt.Errorf("receiver country is required")
@@ -154,23 +158,20 @@ func getRegionID(c *fiber.Ctx) (int, error) {
 	if res.Error != nil {
 		return 0, fmt.Errorf("country not found")
 	}
-
+	fmt.Println("Country: ", country)
 	if country.RegionID != 0 {
 		return country.RegionID, nil
 	}
 
 	if usrInput.ReceiverCity == "" {
-		return 0, fmt.Errorf("country doesn't have price itself, so city name is requred")
+		return 0, fmt.Errorf("country doesn't have price itself, so city name is required")
 	}
 
 	var receiverCityFromDB *models.City
-	if usrInput.ReceiverDistrict != "" {
-		receiverCityFromDB, err = city_helper.
-			GetCityByCityNameCountryAndDistrict(usrInput.ReceiverCity, usrInput.ReceiverDistrict, usrInput.ReceiverCountry)
-	} else {
-		receiverCityFromDB, err = city_helper.
-			GetCityByCityNameAndCountry(usrInput.ReceiverCity, usrInput.ReceiverCountry)
-	}
+
+	receiverCityFromDB, err = city_helper.
+		GetCityByCityNameCountryDistrictAndArea(usrInput.ReceiverCity, usrInput.ReceiverCountry, usrInput.ReceiverDistrict, usrInput.ReceiverArea)
+
 	if err != nil {
 		return 0, fmt.Errorf("receiver-city not found")
 	}

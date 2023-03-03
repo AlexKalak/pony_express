@@ -39,6 +39,9 @@ func main() {
 	AddPrices("/home/alexkalak/Desktop/pony_express/csvtables/whole-world/documents-AntalyaIstanbul.csv", "documents", Istanbul, 1)
 
 	AddPrices("/home/alexkalak/Desktop/pony_express/csvtables/whole-world/B2B-B2C-AntalyaIstanbul.csv", "standart", Antalya, 1)
+	AddPrices("/home/alexkalak/Desktop/pony_express/csvtables/whole-world/B2B-B2C-AntalyaIstanbul.csv", "standart", Istanbul, 1)
+
+	AddPrices("/home/alexkalak/Desktop/pony_express/csvtables/whole-world/B2B-B2C-AntalyaIstanbul.csv", "B2B", Antalya, 1)
 	AddPrices("/home/alexkalak/Desktop/pony_express/csvtables/whole-world/B2B-B2C-AntalyaIstanbul.csv", "B2B", Istanbul, 1)
 
 	//Russia

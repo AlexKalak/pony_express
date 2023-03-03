@@ -115,7 +115,7 @@ func (s *shipmentsService) CreateShipment(c *fiber.Ctx) (*models.Shipment, []*ty
 	var SenderCity *models.City
 	if NewShipment.Sender.City.District.Name != "" {
 		SenderCity, err = city_helper.
-			GetCityByCityNameCountryAndDistrict(NewShipment.Sender.City.Name, NewShipment.Sender.City.District.Name, NewShipment.Sender.Country.Name)
+			GetCityByCityNameCountryDistrictAndArea(NewShipment.Sender.City.Name, NewShipment.Sender.City.District.Name, NewShipment.Sender.Country.Name, "")
 	} else {
 		SenderCity, err = city_helper.GetCityByName(NewShipment.Sender.City.Name)
 	}
@@ -128,7 +128,7 @@ func (s *shipmentsService) CreateShipment(c *fiber.Ctx) (*models.Shipment, []*ty
 	var ReceiverCity *models.City
 	if NewShipment.Receiver.City.District.Name != "" {
 		ReceiverCity, err = city_helper.
-			GetCityByCityNameCountryAndDistrict(NewShipment.Receiver.City.Name, NewShipment.Receiver.City.District.Name, NewShipment.Sender.Country.Name)
+			GetCityByCityNameCountryDistrictAndArea(NewShipment.Receiver.City.Name, NewShipment.Receiver.City.District.Name, NewShipment.Sender.Country.Name, "")
 	} else {
 		ReceiverCity, err = city_helper.GetCityByName(NewShipment.Receiver.City.Name)
 	}

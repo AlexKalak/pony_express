@@ -51,6 +51,8 @@ type City struct {
 	CountryID  int      `gorm:"type:BIGINT" json:"-"`
 	DistrictID *int     `gorm:"type:BIGINT"`
 	District   District `json:"district"`
+	AreaID     *int     `gorm:"type:BIGINT" json:""`
+	Area       Area     `json:"area"`
 }
 
 type SenderCity struct {
