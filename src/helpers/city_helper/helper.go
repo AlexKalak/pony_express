@@ -27,7 +27,18 @@ func GetCityByCityNameCountryDistrictAndArea(name string, countryName, districtN
 	conditions := make([]string, 0, 4)
 	conditions = append(conditions, fmt.Sprintf("name = '%s'", name))
 
-	districtFromDB, err := GetDistrictByName(districtName)
+	areaFromDB, err := GetAreaByName(areaName)
+	if err != nil {
+		return nil, err
+	}
+
+	if areaFromDB != nil {
+		conditions = append(conditions, "area_id = "+strconv.Itoa(areaFromDB.ID))
+	} else {
+		conditions = append(conditions, "area_id is NULL")
+	}
+
+	districtFromDB, err := GetDistrictByNameAndArea(districtName, areaName)
 	if err != nil {
 		return nil, err
 	}
@@ -47,17 +58,6 @@ func GetCityByCityNameCountryDistrictAndArea(name string, countryName, districtN
 		conditions = append(conditions, "country_id = "+strconv.Itoa(countryFromDB.ID))
 	} else {
 		conditions = append(conditions, "country_id is NULL")
-	}
-
-	areaFromDB, err := GetAreaByName(areaName)
-	if err != nil {
-		return nil, err
-	}
-
-	if areaFromDB != nil {
-		conditions = append(conditions, "area_id = "+strconv.Itoa(areaFromDB.ID))
-	} else {
-		conditions = append(conditions, "area_id is NULL")
 	}
 
 	var city models.City
@@ -139,14 +139,30 @@ func GetAreaByName(name string) (*models.Area, error) {
 	return &area, nil
 }
 
-func GetDistrictByName(name string) (*models.District, error) {
+func GetDistrictByNameAndArea(name string, areaName string) (*models.District, error) {
 	database := db.GetDB()
 	if name == "" {
 		return nil, nil
 	}
 
+	var condition string
+	areaFromDB, err := GetAreaByName(areaName)
+	if err != nil {
+		return nil, err
+	}
+	if areaFromDB == nil {
+		condition = "area_id IS NULL"
+	} else {
+		condition = fmt.Sprintf("area_id = %d", areaFromDB.ID)
+	}
+
+	fmt.Println("condition: ", condition)
+
 	var district models.District
-	res := database.First(&district, "name = ?", name)
+	res := database.
+		Where(condition).
+		First(&district, "name = ?", name)
+
 	if res.Error != nil {
 		return nil, res.Error
 	}
