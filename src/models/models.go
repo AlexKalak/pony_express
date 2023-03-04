@@ -38,7 +38,7 @@ type Area struct {
 type District struct {
 	ID     int    `gorm:"type:BIGINT" json:"id"`
 	Name   string `gorm:"type:VARCHAR(255)" json:"name"`
-	AreaID int    `gorm:"type:BIGINT"`
+	AreaID int    `gorm:"type:BIGINT" json:"-"`
 	Area   Area   `json:"area"`
 }
 
@@ -49,9 +49,9 @@ type City struct {
 	RegionID   int      `json:"-"`
 	Country    Country  `json:"country"`
 	CountryID  int      `gorm:"type:BIGINT" json:"-"`
-	DistrictID *int     `gorm:"type:BIGINT"`
+	DistrictID *int     `gorm:"type:BIGINT" json:"-"`
 	District   District `json:"district"`
-	AreaID     *int     `gorm:"type:BIGINT" json:""`
+	AreaID     *int     `gorm:"type:BIGINT" json:"-"`
 	Area       Area     `json:"area"`
 }
 

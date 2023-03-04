@@ -180,7 +180,7 @@ func getRegionID(c *fiber.Ctx) (int, error) {
 	switch receiverCityFromDB.District.Area.Name {
 	case "Московская":
 		receiverCityFromDB, err = city_helper.GetCityByName("Москва")
-	case "Санкт-Петербург":
+	case "Ленинградская":
 		receiverCityFromDB, err = city_helper.GetCityByName("Санкт-Петербург")
 	}
 	if err != nil {
