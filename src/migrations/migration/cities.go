@@ -217,7 +217,16 @@ func MigrateMoldovaCities(countryFromDB *models.Country) {
 	for _, entity := range arr {
 		l_reg_id, _ := strconv.Atoi(entity[1])
 		regionID := l_reg_id + 17
-		SaveIfNotExistCity(entity[0], regionID, countryFromDB, nil, nil)
+		area_id, err := strconv.Atoi(entity[2])
+		if err != nil {
+			panic(err)
+		}
+
+		if area_id != 0 {
+			SaveIfNotExistCity(entity[0], regionID, countryFromDB, nil, &area_id)
+		} else {
+			SaveIfNotExistCity(entity[0], regionID, countryFromDB, nil, nil)
+		}
 	}
 }
 

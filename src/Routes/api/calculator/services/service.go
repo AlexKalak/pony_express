@@ -158,7 +158,7 @@ func getRegionID(c *fiber.Ctx) (int, error) {
 	if res.Error != nil {
 		return 0, fmt.Errorf("country not found")
 	}
-	fmt.Println("Country: ", country)
+
 	if country.RegionID != 0 {
 		return country.RegionID, nil
 	}
@@ -168,7 +168,6 @@ func getRegionID(c *fiber.Ctx) (int, error) {
 	}
 
 	var receiverCityFromDB *models.City
-
 	receiverCityFromDB, err = city_helper.
 		GetCityByCityNameCountryDistrictAndArea(usrInput.ReceiverCity, usrInput.ReceiverCountry, usrInput.ReceiverDistrict, usrInput.ReceiverArea)
 
@@ -177,7 +176,7 @@ func getRegionID(c *fiber.Ctx) (int, error) {
 	}
 
 	//Checking if receiver area is Moscow of Saint_Petersburg
-	switch receiverCityFromDB.District.Area.Name {
+	switch receiverCityFromDB.Area.Name {
 	case "Московская":
 		receiverCityFromDB, err = city_helper.GetCityByName("Москва")
 	case "Ленинградская":

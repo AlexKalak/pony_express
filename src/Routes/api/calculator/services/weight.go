@@ -72,9 +72,7 @@ func GetMaxWeights(places []Place) ([]float64, bool, error) {
 
 // rounding weight
 func RoundUpWeight(weight *float64, weights []float64, maxWeight float64) {
-	fmt.Println("Begore: ", weights)
 	sort.Float64s(weights)
-	fmt.Println("After: ", weights)
 
 	numOfMaxWeights := int(*weight / maxWeight)
 	reminder := *weight - float64(numOfMaxWeights)*maxWeight

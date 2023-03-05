@@ -1,7 +1,6 @@
 package city_helper
 
 import (
-	"encoding/json"
 	"fmt"
 	"strconv"
 	"strings"
@@ -66,15 +65,16 @@ func GetCityByCityNameCountryDistrictAndArea(name string, countryName, districtN
 
 	res := database.
 		Model(&models.City{}).
-		Preload("District.Area").
+		Preload("District").
+		Preload("Area").
 		Where(queryConditionsStr).
 		First(&city)
 
 	if res.Error != nil {
 		return nil, res.Error
 	}
-	str, _ := json.MarshalIndent(city, "", "\t")
-	fmt.Println(string(str))
+	// str, _ := json.MarshalIndent(city, "", "\t")
+	// fmt.Println(string(str))
 
 	return &city, nil
 }
@@ -126,6 +126,7 @@ func GetSenderCityByName(name string) (*models.SenderCity, error) {
 
 func GetAreaByName(name string) (*models.Area, error) {
 	database := db.GetDB()
+
 	if name == "" {
 		return nil, nil
 	}
